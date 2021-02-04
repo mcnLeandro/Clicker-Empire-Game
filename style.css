@@ -4,15 +4,21 @@
     box-sizing: border-box;
 }
 
-.box1{
-    height: 100px;
-
+body{
+    width: 100vw;
+    height: 100vh;
 }
-.box2{
-    height: 600px;
-
+h2{
+    font-size: 3vw;
 }
-.box3{
-    height: 500px;
-
+.ultra-large{
+    font-size: 10vw;
 }
+.text-2vw{
+    font-size: 2vw;
+}
+.custom-select ,.form-control{
+    height: 100%;
+}
+
+.white{color: white;}
