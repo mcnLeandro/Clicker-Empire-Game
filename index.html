@@ -6,37 +6,165 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/c0bdf2d7a0.js" crossorigin="anonymous"></script>
     <title>Clicker Empire Game</title>
 </head>
-<body id="body" class="d-flex flex-column">
-    <header class="p-2 bg-dark">
+<body id="body" class="d-flex flex-column bg-dark">
+    <header class="p-2 d-flex justify-content-between bg-dark shadow">
         <h2 class="white" >Clicker Empire Game</h2>
+
+            <!-- 
+            //=============================================
+            // option
+            //=============================================
+             -->
+        <div id="option_frame">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active white text-2vw" href="#">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active white text-2vw" href="#">Sign in</a>
+                </li>
+            </ul>
+        </div>
     </header>
-    <div id="main" class="container-fliud bg-dark h-100">
-        <div  class="col-md-6 col-12 bg-danger p-3 float-md-right">
+    <div id="main" class="container-fliud bg-dark ">
+        <div  class="col-md-7 col-12 bg-danger p-3 float-md-right user-info-section">
+            <!-- 
+            //=============================================
+            // user_info
+            //=============================================
+            -->
             <div id="user_info_frame">
-
+                <div class="row mx-1 px-2 justify-content-center bg-info rounded">
+                    <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-white rounded">Leandro</div>
+                    <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-white rounded">19 yrs old</div>
+                    <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-white rounded">1800days</div>
+                    <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-white rounded">$14928349930</div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6 col-12 bg-primary p-3 float-md-left box2">
-            <div id="iproduct_info_frame">
 
-            </div>
+
         </div>
-        <div class="col-md-6 col-12 bg-success p-3 float-md-right box3">
+        <div class="col-md-5 col-12 bg-primary p-3 float-md-left product-info-section">
+            <!-- 
+            //=============================================
+            // product_info
+            //=============================================
+            -->
+            <div id="product_info_frame">
+                <div class="row  mx-2 justify-content-center bg-dark rounded ">
+                    <div class="col-11 my-3 bg-secondary rounded">
+                        <div class="text-center p-2 white">1,000 burgers</div>
+                        <div class="text-center p-2 white">$25 per second </div>
+                    </div>
+                    <div class="col-11 my-2 bg-dark d-flex justify-content-center">
+                        <div class="d-flex justify-content-center">
+                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="70%">
+                        </div>
+                        <div class="d-flex justify-content-center white">
+                        </div>
+                    </div>
+                    <div class="col-11 my-5 bg-dark row justify-content-center ">
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                        <i class="fas fa-user fa-2x white up_down"></i>
+                    </div>
+                    <div class="col-11 my-2 bg-dark mt-auto">
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-light"><</button>
+                            <button class="btn btn-light">></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-7 col-12 bg-success p-3 float-md-right">
+            <!-- 
+            //=============================================
+            // item_info
+            //=============================================
+             -->
             <div id="item_info_frame">
+                <div class="row mx-1 px-2 justify-content-center bg-info rounded">
 
-            </div>
-            <div id="option_frame">
+                    <section id="sec1" class="mt-2 p-2 rounded ">
+                        <div class="m-2 p-2 d-flex shadow bg-white rounded">
+                            <div class="col-3">
+                                <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                            </div>
+                            <div class="p-2 col-6">
+                                <h4>bark</h4>
+                                <p>its ok sometimes , cause it isn't human, but it's dog ,so you have to be careful with dog when you are with dog.</p>
+                            </div>
+                            <div class="mt-auto mb-auto col-3">
+                                <button class="btn btn-primary w-100">show</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="sec1" class="mt-2 p-2 rounded ">
+                        <div class="m-2 p-2 d-flex shadow bg-white rounded ">
+                            <div class="col-3">
+                                <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                            </div>
+                            <div class="p-2 col-6">
+                                <h4>bark</h4>
+                                <p>its ok sometimes , cause it isn't human, but it's dog ,so you have to be careful with dog when you are with dog.</p>
+                            </div>
+                            <div class="mt-auto mb-auto col-3">
+                                <button class="btn btn-primary w-100">show</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="sec1" class="mt-2 p-2 rounded ">
+                        <div class="m-2 p-2 d-flex shadow bg-white rounded ">
+                            <div class="col-3">
+                                <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                            </div>
+                            <div class="p-2 col-6">
+                                <h4>bark</h4>
+                                <p>its ok sometimes , cause it isn't human, but it's dog ,so you have to be careful with dog when you are with dog.</p>
+                            </div>
+                            <div class="mt-auto mb-auto col-3">
+                                <button class="btn btn-primary w-100">show</button>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="sec1" class="mt-2 p-2 rounded ">
+                        <div class="m-2 p-2 d-flex shadow bg-white rounded ">
+                            <div class="col-3">
+                                <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                            </div>
+                            <div class="p-2 col-6">
+                                <h4>bark</h4>
+                                <p>its ok sometimes , cause it isn't human, but it's dog ,so you have to be careful with dog when you are with dog.</p>
+                            </div>
+                            <div class="mt-auto mb-auto col-3">
+                                <button class="btn btn-primary w-100">show</button>
+                            </div>
+                        </div>
+                    </section>
 
+                </div>
             </div>
+
+
         </div>
     </div>
-    <footer class="mt-md-auto mb-5 p-3">
+    <footer class="mt-md-auto mb-5 p-3 bg-dark">
         <div class="d-flex justify-content-center">
-            <small>Copyright ©️ <a href="https://twitter.com/leandro83g" target="_blank">Leandro,inc</a>　All <a href="https://github.com/mcnLeandro/Clicker-Empire-Game" target="_blank">Rights</a> Unreserved</small>
+            <small class="white">Copyright ©️ <a href="https://twitter.com/leandro83g" target="_blank">Leandro,inc</a>　All <a href="https://github.com/mcnLeandro/Clicker-Empire-Game" target="_blank">Rights</a> Unreserved</small>
         </div>
     </footer>
 </body>
 </html>
-!

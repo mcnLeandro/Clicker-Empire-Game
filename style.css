@@ -4,10 +4,18 @@
     box-sizing: border-box;
 }
 
-body{
-    width: 100vw;
-    height: 100vh;
+
+header{
+    position: sticky;
+    top: 0;
+    z-index: 1071;
+    min-height: 4rem;
 }
+footer{
+    min-height: 4rem;
+}
+
+
 h2{
     font-size: 3vw;
 }
@@ -17,8 +25,34 @@ h2{
 .text-2vw{
     font-size: 2vw;
 }
-.custom-select ,.form-control{
-    height: 100%;
+.up_down{
+    animation: 1s ease-in-out 1s infinite alternate up-down;
 }
 
 .white{color: white;}
+
+
+@keyframes up-down {
+    0% {
+        transform: translate(0,0px);
+    }
+
+    100% {
+        transform: translate(0,-50px)
+    }
+}
+
+@media screen and (min-width:766px) {
+    .product-info-section{
+        position: sticky;
+        top: 4rem;
+        z-index: 1000;
+        height: calc(100vh - 4rem);
+    }
+    .user-info-section{
+        position: sticky;
+        top: 4rem;
+        z-index: 1000;
+
+    }
+}
