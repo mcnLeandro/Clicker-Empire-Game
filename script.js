@@ -249,13 +249,13 @@ class BoughtItem extends DB {
     }
 }
 class Product extends DB {
-    constructor(id,user_id, item_id, amount, price, makerAmount){
+    constructor(id,user_id, item_id, amount, earning, makerAmount){
         super(id)
 
         this.user_id = user_id
         this.item_id = item_id
         this.amount  = amount
-        this.price   = price
+        this.earning   = earning
         this.makerAmount = makerAmount
 
         super.belongsTo(User)
