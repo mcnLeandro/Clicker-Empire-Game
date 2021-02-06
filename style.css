@@ -10,11 +10,13 @@
 header{
     position: sticky;
     top: 0;
-    z-index: 1071;
-    min-height: 4rem;
+    left: 0;
+    z-index: 2;
+    height: 5rem;
 }
 footer{
-    min-height: 4rem;
+    height: 5rem;
+    z-index: 2;
 }
 
 a:hover{
@@ -36,11 +38,6 @@ h2{
 
 .white{color: white;}
 
-.bg-avocado       {background-color: #258039;}
-.bg-yellow-pepper {background-color: #f5be41;}
-.bg-aqua-blue     {background-color: #31a9b8;}
-.bg-tomato        {background-color: #cf3721;}
-
 .bg-light-gray {background-color: rgb(75,88,114);}
 .bg-heavy-gray  {background-color: rgb(37,46,58	);}
 
@@ -55,20 +52,10 @@ h2{
 }
 
 @media screen and (min-width:766px) {
-    .product-info-section{
-        position: sticky;
-        top: 4rem;
-        z-index: 1000;
-        height: calc(100vh - 4rem);
-    }
-    .user-info-section{
-        position: sticky;
-        top: 4rem;
-        z-index: 1000;
 
+    .product-info-section, .user-info-section{
+        position: sticky;
+        top: 5rem;
+        z-index: 1;
     }
-}
-
-@media screen and (min-width:766px){
-    
 }
