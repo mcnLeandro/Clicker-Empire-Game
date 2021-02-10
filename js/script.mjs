@@ -302,7 +302,7 @@ class Type extends DB {
 
         this.name = name
         this.effection = () => effection
-        console.log(typeof( () => effection))
+
         super.hasmany(Item)
     }
 }
@@ -334,7 +334,7 @@ class ModelHelper{
     static productTypeEffection(user_id,item_id, productEarning){
 
         ModelHelper.BoughtItemAddtionProcess(user_id,item_id);
-        
+
         let itemName = Item.find(item_id).name
         let newProduct = new Product(null, user_id, item_id, itemName, 0 ,productEarning, 0);
         Product.add(newProduct);
