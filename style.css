@@ -2,8 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-weight: bolder;
     color: white;
+    font-size: 20px;
 }
 
 
@@ -12,25 +12,25 @@ header{
     top: 0;
     left: 0;
     z-index: 2;
-    height: 5rem;
+    min-height: 5rem;
 }
 footer{
     height: 5rem;
     z-index: 2;
 }
 
-a:hover{
+.click-object:hover{
     color: #aaa;
 }
 
-h2{
-    font-size: 3vw;
-}
 .ultra-lg{
     font-size: 10vw;
 }
 .text-2vw{
     font-size: 2vw;
+}
+.text-3vw{
+    font-size: 3vw;
 }
 .up_down{
     animation: 1s ease-in-out 1s infinite alternate up-down;
@@ -52,7 +52,9 @@ h2{
 }
 
 @media screen and (min-width:766px) {
-
+    *{
+        font-size: 25px;
+    }
     .product-info-section, .user-info-section{
         position: sticky;
         top: 5rem;
