@@ -383,18 +383,6 @@ class ModelHelper{
         user.earningPerDay += additionalReturn;
 
     }
-    getAsMoneyStringHelper(numString,start,totalComma){
-        if(totalComma <= 0)return ""
-        return "," + numString.substring(start,start+3) + getAsMoneyStringHelper(numString,start+3,totalComma-1);
-    }
-    static getAsMoneyString(num){
-        let numString = String(num)
-        let firstCommaindex = numString.length % 3;
-        let totalComma = (numString.length - firstCommaindex) / 3;
-    
-        return numString.substring(0,firstCommaindex)+ getAsMoneyStringHelper(numString,firstCommaindex,totalComma-1)
-    }
-    
 }
 
 //==============================================
