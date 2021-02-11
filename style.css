@@ -19,10 +19,6 @@ footer{
     z-index: 2;
 }
 
-.click-object:hover{
-    color: #aaa;
-}
-
 .ultra-lg{
     font-size: 10vw;
 }
@@ -34,6 +30,10 @@ footer{
 }
 .up_down{
     animation: 1s ease-in-out 1s infinite alternate up-down;
+}
+
+.click-object:hover{
+    color: #aaa;
 }
 
 .white{color: white;}
