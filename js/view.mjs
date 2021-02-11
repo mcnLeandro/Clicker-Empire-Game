@@ -70,13 +70,13 @@ export class View {
             </div>
         `
     }
-    static userInfo(){
+    static userInfo(user){
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded" value="${user_id}">${Leandro}</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${18} yrs old</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${123} days</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${412414182094} yen</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded" id="${user.id}">${user.name}</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
             </div>
         `
     }
@@ -139,7 +139,7 @@ export class View {
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${items.foreach(Viewitem())}
+                ${Viewitem()}
                 
             </div>
         `
