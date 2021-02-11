@@ -2,20 +2,26 @@ export class View {
     static base(){
         return `
             <header class="p-2 d-flex justify-content-between bg-dark">
-                <h2 class="white" >Clicker Empire Game</h2>
-    
+                <h2 class="white text-3vw" >Clicker Empire Game</h2>
+
                     <!-- 
                     //=============================================
                     // option
                     //=============================================
                     -->
-                <div id="option_frame">
+                <div id="optionFrame">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a id="logout" class="nav-link active white text-2vw" href="#">Logout</a>
+                            <a id="signIn" class="nav-link active white text-2vw click-object" href="#">
+                                <i class="fas fa-sign-in-alt text-2vw"></i>
+                                Sign in
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a id="sign_in" class="nav-link active white text-2vw" href="#">Sign in</a>
+                            <a id="logout" class="nav-link active white text-2vw click-object" href="#">
+                                <i class="fas fa-sign-out-alt text-2vw"></i>
+                                Logout
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -35,36 +41,36 @@ export class View {
             <div  class="col-md-7 col-12 bg-light-gray p-3 float-md-right user-info-section">
                 <!-- 
                 //=============================================
-                // user_info
+                // userInfo
                 //=============================================
                 -->
-                <div id="user_info_frame">
+                <div id="userInfoFrame">
             
                 </div>
             </div>
             <div class="col-md-5 col-12 bg-light-gray p-3 float-md-left product-info-section">
                 <!-- 
                 //=============================================
-                // product_info
+                // productInfo
                 //=============================================
                 -->
-                <div id="product_info_frame">
+                <div id="productInfoFrame">
             
                 </div>
             </div>
             <div class="col-md-7 col-12 bg-light-gray p-3 float-md-right">
                 <!-- 
                 //=============================================
-                // item_info
+                // itemInfo
                 //=============================================
                 -->
-                <div id="item_info_frame">
+                <div id="itemInfoFrame">
             
                 </div>
             </div>
         `
     }
-    static user_info(){
+    static userInfo(){
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded" value="${user_id}">${Leandro}</div>
@@ -75,7 +81,7 @@ export class View {
         `
     }
     //slider問題
-    static product_info(){
+    static productInfo(){
         return `
             <div class="row  mx-2 justify-content-center bg-heavy-gray rounded ">
                 <div class="col-11 my-3 bg-light-gray rounded">
@@ -83,10 +89,10 @@ export class View {
                     <div class="text-center p-2 white">${25} yen per day </div>
                 </div>
                 <div class="col-11 my-2  d-flex justify-content-center">
-                    <div id="slide_main" class="d-flex justify-content-center">
+                    <div id="slideMain" class="d-flex justify-content-center">
                         <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="70%">
                     </div>
-                    <div id="slide_extra" class="d-flex justify-content-center">
+                    <div id="slideExtra" class="d-flex justify-content-center">
                     </div>
                 </div>
                 <div class="col-11 my-5 row justify-content-center">
@@ -103,99 +109,73 @@ export class View {
                 </div>
                 <div class="col-11 my-2 mt-auto">
                     <div class="d-flex justify-content-center mt-2">
-                        <button id="slide_left_btn" class="btn btn-light"><</button>
-                        <button id="slide_right_btn" class="btn btn-light">></button>
+                        <button id="slideLeftBtn" class="btn btn-light"><</button>
+                        <button id="slideRightBtn" class="btn btn-light">></button>
                     </div>
                 </div>
             </div>
         `
     }
-    static item_index(){
+    static item(){
+        return `
+            <section id="item${1}"  value="${1}" class="mt-2 p-2 rounded ">
+                <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
+                    <div class="col-3 p-3">
+                        <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                    </div>
+                    <div class="p-3 col-6 ">
+                        <h2>House</h2>
+                        <p class="mt-3">Owning : ${10}</p>
+                        <p>Price : ${90319} yen</p>
+                    </div>
+                    <div class="mt-auto mb-auto col-3">
+                        <button id="itemShowBtn" class="btn btn-primary w-100">show</button>
+                    </div>
+                </div>
+            </section>
+        `
+    }
+    static itemIndex(){
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                <section id="item_${1}"  value="${1}" class="mt-2 p-2 rounded ">
-                    <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
-                        <div class="col-3">
-                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
-                        </div>
-                        <div class="p-2 col-6 ">
-                            <p>${bark}</p>
-                            <p>owning : ${10}</p>
-                            <p>${90319} yen</p>
-                        </div>
-                        <div class="mt-auto mb-auto col-3">
-                            <button id="item_show_btn" class="btn btn-primary w-100">show</button>
-                        </div>
-                    </div>
-                </section>
-                <section id="item_${1}"  value="${1}" class="mt-2 p-2 rounded ">
-                    <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
-                        <div class="col-3">
-                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
-                        </div>
-                        <div class="p-2 col-6 ">
-                            <p>${bark}</p>
-                            <p>owning : ${10}</p>
-                            <p>${90319} yen</p>
-                        </div>
-                        <div class="mt-auto mb-auto col-3">
-                            <button id="item_show_btn" class="btn btn-primary w-100">show</button>
-                        </div>
-                    </div>
-                </section>
-                <section id="item_${1}"  value="${1}" class="mt-2 p-2 rounded ">
-                    <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
-                        <div class="col-3">
-                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
-                        </div>
-                        <div class="p-2 col-6 ">
-                            <p>${bark}</p>
-                            <p>owning : ${10}</p>
-                            <p>${90319} yen</p>
-                        </div>
-                        <div class="mt-auto mb-auto col-3">
-                            <button id="item_show_btn" class="btn btn-primary w-100">show</button>
-                        </div>
-                    </div>
-                </section>
-                <section id="item_${1}"  value="${1}" class="mt-2 p-2 rounded ">
-                    <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
-                        <div class="col-3">
-                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
-                        </div>
-                        <div class="p-2 col-6 ">
-                            <p>${bark}</p>
-                            <p>owning : ${10}</p>
-                            <p>${90319} yen</p>
-                        </div>
-                        <div class="mt-auto mb-auto col-3">
-                            <button id="item_show_btn" class="btn btn-primary w-100">show</button>
-                        </div>
-                    </div>
-                </section>
-                <section id="item_${1}"  value="${1}" class="mt-2 p-2 rounded ">
-                    <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
-                        <div class="col-3">
-                            <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
-                        </div>
-                        <div class="p-2 col-6 ">
-                            <p>${bark}</p>
-                            <p>owning : ${10}</p>
-                            <p>${90319} yen</p>
-                        </div>
-                        <div class="mt-auto mb-auto col-3">
-                            <button id="item_show_btn" class="btn btn-primary w-100">show</button>
-                        </div>
-                    </div>
-                </section>
-
+                ${items.foreach(Viewitem())}
+                
             </div>
         `
     }
+    static itemShow(){
+        return `
+        <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-    static item_show(){
-        
+            <section class="mt-2 p-2 rounded">
+                <div class="m-2 p-5 shadow bg-light-gray rounded">
+                    <div>
+                        <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
+                    </div>
+                    <div class="col-12 col-md-3 ml-md-auto float-md-right">
+                        <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                    </div>
+                    <div class="p-2 col-7 ">
+                        <h2>House</h2>
+                        <p>Max Purchases : ${100}</p>
+                        <p>Price : ${10}</p>
+                        <h3>Effection</h3>
+                        <p>${"Get 32,000 extra yen per second"}</p>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-end ">
+                        <div class="col-12 col-md-5 p-0 text-right">
+                            <p>How many would you like to purchse?</p>
+                            <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2">
+                            <p class="border-bottom">Total : ${100,000,000}</p>
+                            <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        `
     }
 
 }
