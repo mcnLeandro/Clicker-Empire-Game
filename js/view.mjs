@@ -1,3 +1,5 @@
+import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
+
 //==============================================
 //HTMLElementの構成
 //==============================================
