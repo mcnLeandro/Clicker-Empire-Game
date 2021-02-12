@@ -16,6 +16,11 @@ export class User extends DB {
         super.hasmany(Product)
         super.hasmany(BoughtItem)
     }
+
+    static currentUser(){
+        let user_id = parseInt(document.querySelector("#userInfoFrame div").getAttribute("userId"))
+        return User.find(user_id)
+    }
 }
 export class Time extends DB {
     constructor(id, user_id, day){

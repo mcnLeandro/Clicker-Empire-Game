@@ -14,6 +14,7 @@
 //         - "#logInBtn"
 //     - "#main"(game)
 //         - "#userInfoFrame"
+//             - "#userNameDiv"
 //         - "#productInfoFrame"
 //             - "#slideMain"
 //                 - "#slideLeftBtn" 
@@ -126,8 +127,8 @@ export class View {
     }
     static userInfo(user){
         return `
-            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded" userId="${user.id}">${user.name}</div>
+            <div  userId="${user.id}" class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
