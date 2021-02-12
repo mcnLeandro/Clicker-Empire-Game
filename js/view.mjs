@@ -55,7 +55,8 @@ export class View {
                 //=============================================
                 -->
                 <div id="productInfoFrame">
-            
+                    <div id="slideMain"><div>
+                    <div id="slideExtra"><div>
                 </div>
             </div>
             <div class="col-md-7 col-12 bg-light-gray p-3 float-md-right">
@@ -89,10 +90,8 @@ export class View {
                     <div class="text-center p-2 white">${25} yen per day </div>
                 </div>
                 <div class="col-11 my-2  d-flex justify-content-center">
-                    <div id="slideMain" class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center">
                         <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="70%">
-                    </div>
-                    <div id="slideExtra" class="d-flex justify-content-center">
                     </div>
                 </div>
                 <div class="col-11 my-5 row justify-content-center">
