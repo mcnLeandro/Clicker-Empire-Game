@@ -1,4 +1,30 @@
-export class View {
+//==============================================
+//HTMLElementの構成
+//==============================================
+// - "#body"
+//     - "header"
+//         - "#optionFrame"
+//             - "#signIn"
+//             - "#logout"
+//     - "#main"
+//         - "#userInfoFrame"
+//         - "#productInfoFrame"
+//             - "#slideMain"
+//                 - "#slideLeftBtn" 
+//                 - "#slideRightBtn" 
+//             - "#slideExtra" 
+//                 - "#slideLeftBtn" 
+//                 - "#slideRightBtn"
+//             - "#itemInfoFrame"
+//                 - "#item${item.id}"
+//                 - "#itemShowBtn"
+//                 - "#goBackIcon"
+//                 - "#itemQuantityInput"
+//                 - "#purchaseBtn"
+//     - "footer"
+
+
+export class View { 
     static base(){
         return `
             <header class="p-2 d-flex justify-content-between bg-dark">
@@ -86,7 +112,7 @@ export class View {
         return `
             <div class="row  mx-2 justify-content-center bg-heavy-gray rounded ">
                 <div class="col-11 my-3 bg-light-gray rounded">
-                    <div class="text-center p-2 white">${1,000} burgers</div>
+                    <div class="text-center p-2 white">${1000} burgers</div>
                     <div class="text-center p-2 white">${25} yen per day </div>
                 </div>
                 <div class="col-11 my-2  d-flex justify-content-center">
@@ -166,7 +192,7 @@ export class View {
                         <div class="col-12 col-md-5 p-0 text-right">
                             <p>How many would you like to purchse?</p>
                             <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2">
-                            <p class="border-bottom">Total : ${100,000,000}</p>
+                            <p class="border-bottom">Total : ${100000000}</p>
                             <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
                         </div>
                     </div>
