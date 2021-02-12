@@ -4,9 +4,12 @@
 // - "#body"
 //     - "header"
 //         - "#optionFrame"
-//             - "#signIn"
+//             - "#logIn"
 //             - "#logout"
-//     - "#main"
+//     - "#main"(top)
+//         - "#newGameBtn"
+//         - "#logInBtn"
+//     - "#main"(game)
 //         - "#userInfoFrame"
 //         - "#productInfoFrame"
 //             - "#slideMain"
@@ -38,9 +41,9 @@ export class View {
                 <div id="optionFrame">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a id="signIn" class="nav-link active white text-2vw click-object" href="#">
+                            <a id="logIn" class="nav-link active white text-2vw click-object" href="#">
                                 <i class="fas fa-sign-in-alt text-2vw"></i>
-                                Sign in
+                                Log in
                             </a>
                         </li>
                         <li class="nav-item">
@@ -60,6 +63,16 @@ export class View {
                     <small class="white">Copyright ©️ <a href="https://twitter.com/leandro83g" target="_blank">Leandro,inc</a>　All <a href="https://github.com/mcnLeandro/Clicker-Empire-Game" target="_blank">Rights</a> Unreserved</small>
                 </div>
             </footer>
+        `
+    }
+    static top(){
+        return `
+        <div class="d-flex justify-content-center h-90vh">
+            <div class="col-6 mt-auto mb-auto">
+                <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
+                <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
+            </div>
+        </div>
         `
     }
     static frames(){
