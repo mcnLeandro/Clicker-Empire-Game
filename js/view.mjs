@@ -7,6 +7,9 @@
 //             - "#logIn"
 //             - "#logout"
 //     - "#main"(top)
+//         - "#nameInput"
+//         - "#startGameBtn"
+//     - "#main"(top)
 //         - "#newGameBtn"
 //         - "#logInBtn"
 //     - "#main"(game)
@@ -67,12 +70,23 @@ export class View {
     }
     static top(){
         return `
-        <div class="d-flex justify-content-center h-90vh">
-            <div class="col-6 mt-auto mb-auto">
-                <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
-                <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
+            <div class="d-flex justify-content-center h-90vh">
+                <div class="col-6 mt-auto mb-auto">
+                    <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
+                    <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
+                </div>
             </div>
-        </div>
+        `
+    }
+    static registlation(){
+        return `
+            <div class="d-flex justify-content-center h-90vh">
+                <div class="col-6 mt-auto mb-auto">
+                    <h2>What's your Name ?</h2>
+                    <input id="namInput" type="text" class="form-control m-3">
+                    <button id="startGameBtn" class="btn btn-primary w-100 m-3">Start Game</button>
+                </div>
+            </div>
         `
     }
     static frames(){
