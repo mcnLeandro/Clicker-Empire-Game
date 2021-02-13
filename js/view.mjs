@@ -1,3 +1,4 @@
+import { DB } from './db.mjs'
 import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 
 //==============================================
@@ -24,7 +25,7 @@ import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 //             - "#slideExtra" 
 //                 - "#slideLeftBtn" 
 //                 - "#slideRightBtn"
-//             - "#itemInfoFrame"
+//         - "#itemInfoFrame"
 //                 - "#item${item.id}"
 //                 - "#itemShowBtn"
 //                 - "#goBackIcon"
@@ -142,7 +143,7 @@ export class View {
             <div  userId="${user.id}" class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name} days</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
             </div>
         `

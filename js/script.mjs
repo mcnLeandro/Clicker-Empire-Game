@@ -67,7 +67,7 @@ import { ModelHelper } from './model.mjs'
 //             - "#slideExtra" 
 //                 - "#slideLeftBtn" 
 //                 - "#slideRightBtn"
-//             - "#itemInfoFrame"
+//         - "#itemInfoFrame"
 //                 - "#item${item.id}"
 //                 - "#itemShowBtn"
 //                 - "#goBackIcon"
@@ -124,13 +124,22 @@ class Controller {
     static registration(){
         Ele.get("#main").innerHTML = View.registration()
 
-        Ele.get("#main  startGameBtn").addEventListener("click",()=>{
-            
+        Ele.get("#main  #startGameBtn").addEventListener("click",()=>{
+            Controller.startGame()
         })
     }
-    static game(){
-        
+    static startGame(){
+        Ele.get("#navFrame").innerHTML = View.nav()
+
+        Ele.get("#main").innerHTML = View.frames()
+
+        let damyUser = new User(null,"leandro",1,1,231)
+
+        Ele.get("#main #userInfoFrame").innerHTML = View.userInfo(damyUser)
+        Ele.get("#main #productInfoFrame").innerHTML  = View.productInfo()
+        Ele.get("#main #itemInfoFrame").innerHTML = View.itemIndex()
     }
 }
 
 Controller.top()
+////////////////DBのsuper(null)
