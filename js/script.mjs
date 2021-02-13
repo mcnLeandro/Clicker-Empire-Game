@@ -77,8 +77,11 @@ console.log(DB.showDB())
 //                 - "#purchaseBtn"
 //     - "footer"
 
-const connfig = {
-    
+const config = {
+    timePerDayMS      : 1000,
+    userAge           : 20,
+    userTotalMoney    : 50000,
+    userEarningPerDay : 0
 }
 class Ele{
     static get(string){
@@ -108,5 +111,8 @@ class Controller {
         Ele.get("#main  startGameBtn").addEventListener("click",()=>{
             
         })
+    }
+    static game(){
+        
     }
 }
