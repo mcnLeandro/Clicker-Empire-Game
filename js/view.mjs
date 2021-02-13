@@ -8,7 +8,7 @@ import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 //         - "#optionFrame"
 //             - "#logIn"
 //             - "#logout"
-//     - "#main"(top)
+//     - "#main"(registration)
 //         - "#nameInput"
 //         - "#startGameBtn"
 //     - "#main"(top)
@@ -81,7 +81,7 @@ export class View {
             </div>
         `
     }
-    static registlation(){
+    static registration(){
         return `
             <div class="d-flex justify-content-center h-90vh">
                 <div class="col-6 mt-auto mb-auto">

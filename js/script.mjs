@@ -44,3 +44,69 @@ import { ModelHelper } from './model.mjs'
 ].forEach(type => Type.add(type))
 
 console.log(DB.showDB())
+
+//==============================================
+//HTMLElementの構成
+//==============================================
+// - "#body"
+//     - "header"
+//         - "#optionFrame"
+//             - "#logIn"
+//             - "#logout"
+//     - "#main"(registration)
+//         - "#nameInput"
+//         - "#startGameBtn"
+//     - "#main"(top)
+//         - "#newGameBtn"
+//         - "#logInBtn"
+//     - "#main"(game)
+//         - "#userInfoFrame"
+//             - "#userNameDiv"
+//         - "#productInfoFrame"
+//             - "#slideMain"
+//                 - "#slideLeftBtn" 
+//                 - "#slideRightBtn" 
+//             - "#slideExtra" 
+//                 - "#slideLeftBtn" 
+//                 - "#slideRightBtn"
+//             - "#itemInfoFrame"
+//                 - "#item${item.id}"
+//                 - "#itemShowBtn"
+//                 - "#goBackIcon"
+//                 - "#itemQuantityInput"
+//                 - "#purchaseBtn"
+//     - "footer"
+
+const connfig = {
+    
+}
+class Ele{
+    static get(string){
+        if(string.indexOf(" ") != -1 || string.indexOf(".") != -1 || string.indexOf("#") != -1)return document.querySelector(string)
+        if(document.getElementById(string))return document.getElementById(string)
+        else return document.getElementsByTagName(string).item[0]
+    }
+}
+
+class Controller {
+    static top(){
+        if(!Ele.get("#main")) Ele.get("#body").innerHTML = View.base()
+
+        Ele.get("#main").innerHTML = View.top()
+
+        Ele.get("#main #newGameBtn").addEventListener("click",()=>{
+            Controller.registration()
+        })
+
+        Ele.get("#main #logInBtn").addEventListener("click",()=>{
+            //
+        })
+    }
+    static registration(){
+        Ele.get("#main").innerHTML = View.registration()
+
+        Ele.get("#main  startGameBtn").addEventListener("click",()=>{
+            
+        })
+    }
+}
