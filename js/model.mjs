@@ -18,6 +18,7 @@ export class User extends DB {
     }
 
     static currentUser(){
+        if(!document.querySelector("#userInfoFrame div"))return false
         let user_id = parseInt(document.querySelector("#userInfoFrame div").getAttribute("userId"))
         return User.find(user_id)
     }

@@ -5,7 +5,7 @@ import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 //==============================================
 // - "#body"
 //     - "header"
-//         - "#optionFrame"
+//         - "#navFrame"
 //             - "#logIn"
 //             - "#logout"
 //     - "#main"(registration)
@@ -41,24 +41,11 @@ export class View {
 
                     <!-- 
                     //=============================================
-                    // option
+                    // nav
                     //=============================================
                     -->
-                <div id="optionFrame">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a id="logIn" class="nav-link active white text-2vw click-object" href="#">
-                                <i class="fas fa-sign-in-alt text-2vw"></i>
-                                Log in
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="logout" class="nav-link active white text-2vw click-object" href="#">
-                                <i class="fas fa-sign-out-alt text-2vw"></i>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+                <div id="navFrame">
+                    
                 </div>
             </header>
             <div id="main" class="container-fliud">
@@ -71,6 +58,29 @@ export class View {
             </footer>
         `
     }
+    static nav(){
+        return `
+        <ul class="nav">
+            <li class="nav-item">
+                <a id="logIn" class="nav-link active white text-2vw click-object" href="#">
+                    <i class="fas fa-sign-in-alt text-2vw"></i>
+                    Log in
+                </a>
+            </li>
+            <li class="nav-item ${!User.currentUser()? "d-none":""}">
+                <a id="logout" class="nav-link active white text-2vw click-object" href="#">
+                    <i class="fas fa-sign-out-alt text-2vw"></i>
+                    Logout
+                </a>
+            </li>
+            <li class="nav-item ">
+                <button id="DB" class="btn btn-primary nav-link active white text-2vw click-object" href="#">
+                    showDB
+                </button>
+            </li>
+        </ul>
+        `
+    }   
     static top(){
         return `
             <div class="d-flex justify-content-center h-90vh">

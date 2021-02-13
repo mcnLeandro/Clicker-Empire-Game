@@ -43,14 +43,12 @@ import { ModelHelper } from './model.mjs'
     new Type(null, "Real estate" , ModelHelper.realEstateTypeEffection )
 ].forEach(type => Type.add(type))
 
-console.log(DB.showDB())
-
 //==============================================
 //HTMLElementの構成
 //==============================================
 // - "#body"
 //     - "header"
-//         - "#optionFrame"
+//         - "#navFrame"
 //             - "#logIn"
 //             - "#logout"
 //     - "#main"(registration)
@@ -92,8 +90,26 @@ class Ele{
 }
 
 class Controller {
-    static top(){
+
+    static base(){
         if(!Ele.get("#main")) Ele.get("#body").innerHTML = View.base()
+        Controller.nav()
+    }
+    static nav(){
+        Ele.get("#navFrame").innerHTML = View.nav()
+
+
+        Ele.get("#logIn").addEventListener("click",()=>{
+            
+        })
+        Ele.get("#logout").addEventListener("click",()=>{
+            
+        })
+        //デバッグ用
+        Ele.get("#DB").addEventListener("click",()=> console.log(DB.showDB()))
+    }
+    static top(){
+        Controller.base()
 
         Ele.get("#main").innerHTML = View.top()
 
@@ -116,3 +132,5 @@ class Controller {
         
     }
 }
+
+Controller.top()
