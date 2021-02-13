@@ -4,8 +4,8 @@ import { View } from './view.mjs'
 //Model classes
 //=================================================
 export class User extends DB {
-    constructor(id, name, age, totalMoney, earningPerDay){
-        super(id)
+    constructor(name, age, totalMoney, earningPerDay){
+        super(null)
 
         this.name = name
         this.age  = age
@@ -24,8 +24,8 @@ export class User extends DB {
     }
 }
 export class Time extends DB {
-    constructor(id, user_id, day){
-        super(id)
+    constructor(user_id, day){
+        super(null)
 
         this.user_id  = user_id
 
@@ -35,8 +35,8 @@ export class Time extends DB {
     }
 }
 export class BoughtItem extends DB {
-    constructor(id, user_id, item_id, amount){
-        super(id)
+    constructor(user_id, item_id, amount){
+        super(null)
 
         this.user_id = user_id
         this.item_id = item_id
@@ -48,8 +48,8 @@ export class BoughtItem extends DB {
     }
 }
 export class Product extends DB {
-    constructor(id,user_id, item_id, name, amount, earning, makerAmount){
-        super(id)
+    constructor(user_id, item_id, name, amount, earning, makerAmount){
+        super(null)
 
         this.user_id = user_id
         this.item_id = item_id
@@ -64,8 +64,8 @@ export class Product extends DB {
     }
 }
 export class Item extends DB {
-    constructor(id,type_id, img_id, name, introduction, stock, price){
-        super(id)
+    constructor(type_id, img_id, name, introduction, stock, price){
+        super(null)
 
         this.type_id  = type_id
         this.img_id = img_id
@@ -82,8 +82,8 @@ export class Item extends DB {
     }
 }
 export class Type extends DB {
-    constructor(id, name, effection){
-        super(id)
+    constructor(name, effection){
+        super(null)
 
         this.name = name
         this.effection = () => effection
@@ -93,7 +93,7 @@ export class Type extends DB {
 }
 export class Img extends DB {
     constructor(id ,name, url){
-        super(id)
+        super(null)
         this.name = name
         this.url  = url
     }

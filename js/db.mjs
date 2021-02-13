@@ -20,6 +20,7 @@ export class DB {
 
         obj.id = i;
         this.table[className][i] = obj;
+        return this.table[className][i]
     }
     static find(id) {
         let className = this.name;
