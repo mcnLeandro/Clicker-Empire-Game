@@ -13,6 +13,7 @@ export class DB {
         this.table[key] = {};
     }
     static add(obj) {
+
         let i = this.idCounter++;
         let className = this.name;
 
@@ -20,30 +21,26 @@ export class DB {
 
         obj.id = i;
         this.table[className][i] = obj;
-        return this.table[className][i]
+
     }
     static find(id) {
         let className = this.name;
         return this.table[className][id]
     }
+    static findBy(key,value){
+
+        return this.all().filter(obj => obj[key] == value)[0]
+        
+    }
     static where(key1,value1, key2, value2){
-        let className = this.name
-        let models = this.table[className]
 
-        let arr = []
-        Object.keys(models).forEach(id =>{
-            let model = models[id]
-            if(model[key1] == value1 && model[key2] == value2) arr.push(model);
-        })
+        return this.all().filter(obj => obj[key1] == value1 && obj[key2] == value2)
 
-        return arr;
     }
     static all() {
         let className = this.name;
-        return this.table[className]
+        return Object.keys(this.table[className]).map(key=> this.table[className][key])
     }
-
-    
     toKeyFormat(string) {
         let newString = string[0];
         let uppers = string.substring(1, string.length - 1).match(/[A-Z]/g)
@@ -61,27 +58,25 @@ export class DB {
     }
     belongsTo(model){
         let modelName = this.toKeyFormat(model.name)
-        this[modelName] = () => model.find(this[`${modelName}_id`]);
+        let thisName = this.toKeyFormat(this.constructor.name)
+
+        if(this[`${modelName}_id`]){
+            this[modelName] = () => model.find(this[`${modelName}_id`]);
+        }
+        else{
+            this[modelName] = () => model.findBy(`${thisName}_id`, this.id)
+        }
     }
     hasmany(model){
         let modelName = this.toKeyFormat(model.name)
+        let thisClassName = this.constructor.name.toLocaleLowerCase()
+
+        
         this[`${modelName}s`] = () => {
 
-            let newObj = {}
-
             if(!DB.table[model.name]) DB.initializeTable(model.name)
-
-            Object.keys(DB.table[model.name]).forEach(record=> {
-                let modelObjs = DB.table[model.name]
-                let thisClassName = this.constructor.name.toLocaleLowerCase()
-
-                if(modelObjs[record][`${thisClassName}_id`] == this.id){
-                    newObj[record] = modelObjs[record]
-                }
-
-            })
-
-            return newObj;
+            return model.all().filter(obj => obj[`${thisClassName}_id`] == this.id)
+            
         };
     }
 
