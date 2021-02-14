@@ -52,7 +52,7 @@ export class View {
             <div id="main" class="container-fliud">
                 
             </div>
-            <footer class="mt-md-auto p-3 bg-dark">
+            <footer class="mt-lg-auto p-3 bg-dark">
                 <div class="d-flex justify-content-center mb-5">
                     <small class="white">Copyright ©️ <a href="https://twitter.com/leandro83g" target="_blank">Leandro,inc</a>　All <a href="https://github.com/mcnLeandro/Clicker-Empire-Game" target="_blank">Rights</a> Unreserved</small>
                 </div>
@@ -105,7 +105,7 @@ export class View {
     }
     static frames(){
         return `
-            <div  class="col-md-7 col-12 bg-light-gray p-3 float-md-right user-info-section">
+            <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right user-info-section">
                 <!-- 
                 //=============================================
                 // userInfo
@@ -115,18 +115,18 @@ export class View {
             
                 </div>
             </div>
-            <div class="col-md-5 col-12 bg-light-gray p-3 float-md-left product-info-section">
+            <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left product-info-section">
                 <!-- 
                 //=============================================
                 // productInfo
                 //=============================================
                 -->
                 <div id="productInfoFrame">
-                    <div id="slideMain"><div>
-                    <div id="slideExtra"><div>
+                    <div id="slideMain"></div>
+                    <div id="slideExtra"></div>
                 </div>
             </div>
-            <div class="col-md-7 col-12 bg-light-gray p-3 float-md-right">
+            <div class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
                 <!-- 
                 //=============================================
                 // itemInfo
@@ -205,7 +205,7 @@ export class View {
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${Viewitem()}
+                ${View.item()}
                 
             </div>
         `
@@ -219,7 +219,7 @@ export class View {
                     <div>
                         <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
                     </div>
-                    <div class="col-12 col-md-3 ml-md-auto float-md-right">
+                    <div class="col-12 col-lg-3 ml-lg-auto float-lg-right">
                         <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
                     </div>
                     <div class="p-2 col-7 ">
