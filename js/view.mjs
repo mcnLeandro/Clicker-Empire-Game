@@ -182,17 +182,22 @@ export class View {
             </div>
         `
     }
-    static item(){
+    static item(item){
+        let owning = ()=>{
+            if(BoughtItem.where("user_id",User.currentUser().id,"item_id",item.id).length == 0) return 0
+            else return BoughtItem.where("user_id",User.currentUser().id,"item_id",item.id)[0].amount
+        }
+
         return `
-            <section id="item${1}"  value="${1}" class="mt-2 p-2 rounded ">
+            <section id="item${item.id}"  itemId="${item.id}" class="mt-2 p-2 rounded ">
                 <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
                     <div class="col-3 p-3">
-                        <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                        <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
                     </div>
                     <div class="p-3 col-6 ">
                         <h2>House</h2>
-                        <p class="mt-3">Owning : ${10}</p>
-                        <p>Price : ${90319} yen</p>
+                        <p class="mt-3">Owning : ${owning()}</p>
+                        <p>Price : ${item.price} yen</p>
                     </div>
                     <div class="mt-auto mb-auto col-3">
                         <button id="itemShowBtn" class="btn btn-primary w-100">show</button>
@@ -201,11 +206,12 @@ export class View {
             </section>
         `
     }
+    
     static itemIndex(){
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${View.item()}
+                ${View.item(Item.find(1))}
                 
             </div>
         `

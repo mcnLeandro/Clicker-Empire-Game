@@ -39,6 +39,7 @@ export class DB {
     }
     static all() {
         let className = this.name;
+        if(!this.table[className])return []
         return Object.keys(this.table[className]).map(key=> this.table[className][key])
     }
     toKeyFormat(string) {

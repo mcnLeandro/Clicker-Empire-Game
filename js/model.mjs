@@ -9,8 +9,8 @@ export class User extends DB {
 
         this.name = name
         this.age  = age
-        this.totalMoney    = totalMoney
         this.earningPerDay = earningPerDay
+        this.totalMoney    = totalMoney
 
         super.belongsTo(Time)
         super.hasmany(Product)
