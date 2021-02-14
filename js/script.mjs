@@ -129,17 +129,23 @@ class Controller {
         })
     }
     static startGame(){
-        Ele.get("#navFrame").innerHTML = View.nav()
-
+        
         Ele.get("#main").innerHTML = View.frames()
+        
+        let newUser = new User("leandro",1,1,231)
+        User.add(newUser)
 
-        let damyUser = new User(null,"leandro",1,1,231)
+        let newTime = new Time(newUser.id,1)
+        Time.add(newTime)
 
-        Ele.get("#main #userInfoFrame").innerHTML = View.userInfo(damyUser)
-        Ele.get("#main #productInfoFrame").innerHTML  = View.productInfo()
+        Ele.get("#main #userInfoFrame").innerHTML = View.userInfo(newUser)
+        Ele.get("#main #productInfoFrame #slideMain").innerHTML  = View.productInfo()
         Ele.get("#main #itemInfoFrame").innerHTML = View.itemIndex()
+
+        Controller.nav()
     }
 }
 
 Controller.top()
-////////////////DBのsuper(null)
+
+///////////////////////////1:1のrelationつまりbelongsToとbelongsToの場合の対応が必要。複数取得系は連想配列から配列に変える必要があるかもししれない。
