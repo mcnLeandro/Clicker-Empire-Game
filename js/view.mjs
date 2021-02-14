@@ -97,7 +97,7 @@ export class View {
             <div class="d-flex justify-content-center h-90vh">
                 <div class="col-6 mt-auto mb-auto">
                     <h2>What's your Name ?</h2>
-                    <input id="namInput" type="text" class="form-control m-3">
+                    <input id="nameInput" type="text" class="form-control m-3">
                     <button id="startGameBtn" class="btn btn-primary w-100 m-3">Start Game</button>
                 </div>
             </div>
@@ -143,7 +143,7 @@ export class View {
             <div  userId="${user.id}" class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name} days</div>
+                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
                 <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
             </div>
         `

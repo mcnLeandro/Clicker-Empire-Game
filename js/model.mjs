@@ -12,7 +12,7 @@ export class User extends DB {
         this.totalMoney    = totalMoney
         this.earningPerDay = earningPerDay
 
-        super.hasmany(Time)
+        super.belongsTo(Time)
         super.hasmany(Product)
         super.hasmany(BoughtItem)
     }
@@ -24,12 +24,13 @@ export class User extends DB {
     }
 }
 export class Time extends DB {
-    constructor(user_id, day){
+    constructor(user_id, day,dayLongMS){
         super(null)
 
         this.user_id  = user_id
 
         this.day = day
+        this.dayLongMS = dayLongMS
 
         super.belongsTo(User)
     }
@@ -92,7 +93,7 @@ export class Type extends DB {
     }
 }
 export class Img extends DB {
-    constructor(id ,name, url){
+    constructor(name, url){
         super(null)
         this.name = name
         this.url  = url

@@ -10,7 +10,7 @@ import { ModelHelper } from './model.mjs'
 //==============================================
 
 [
-    new Img(null,"Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png")
+    new Img("Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png")
 ].forEach(img => Img.add(img));
 
 
@@ -75,12 +75,6 @@ import { ModelHelper } from './model.mjs'
 //                 - "#purchaseBtn"
 //     - "footer"
 
-const config = {
-    timePerDayMS      : 1000,
-    userAge           : 20,
-    userTotalMoney    : 50000,
-    userEarningPerDay : 0
-}
 class Ele{
     static get(string){
         if(string.indexOf(" ") != -1 || string.indexOf(".") != -1 || string.indexOf("#") != -1)return document.querySelector(string)
@@ -129,15 +123,14 @@ class Controller {
         })
     }
     static startGame(){
+        let userName = Ele.get("#main #nameInput").value
+        let newUser = new User(userName,20,1,50000)
+        User.add(newUser)
+        
+        let newTime = new Time(newUser.id,1,1000)
+        Time.add(newTime)
         
         Ele.get("#main").innerHTML = View.frames()
-        
-        let newUser = new User("leandro",1,1,231)
-        User.add(newUser)
-
-        let newTime = new Time(newUser.id,1)
-        Time.add(newTime)
-
         Ele.get("#main #userInfoFrame").innerHTML = View.userInfo(newUser)
         Ele.get("#main #productInfoFrame #slideMain").innerHTML  = View.productInfo()
         Ele.get("#main #itemInfoFrame").innerHTML = View.itemIndex()
@@ -147,5 +140,3 @@ class Controller {
 }
 
 Controller.top()
-
-///////////////////////////1:1のrelationつまりbelongsToとbelongsToの場合の対応が必要。複数取得系は連想配列から配列に変える必要があるかもししれない。
