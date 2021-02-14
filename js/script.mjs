@@ -13,34 +13,37 @@ import { ModelHelper } from './model.mjs'
     new Img("Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png")
 ].forEach(img => Img.add(img));
 
+[
+    new User("master", 20, 0,50000)
+].forEach(user => User.add(user));
 
 [
-    new Item(null, 1 , 1 , "Hamburger"               , "Release Hamburger"                                , 1   , 30000         ),
-    new Item(null, 1 , 1 , "Lemonade"                , "Release Lemonade"                                 , 1   , 60000         ),
-    new Item(null, 1 , 1 , "Ice Cream"               , "Release Ice Cream"                                , 1   , 90000         ),
-    new Item(null, 2 , 1 , "Flip machine"            , "Increase earning from making Hamburger by 25 yen" , 500 , 15000         ),
-    new Item(null, 2 , 1 , "Lemonade Stand"          , "Increase earning from making Lemonade by 50 yen"  , 1000, 30000         ),
-    new Item(null, 2 , 1 , "Ice Cream Truck"         , "Increase earning from making Ice Cream by 150 yen", 500 , 100000        ),
-    new Item(null, 3 , 1 , "Hamburger Coworker"      , "Employ worker for making Hamburger"               , 10  , 3000          ),
-    new Item(null, 3 , 1 , "Lemonade Coworker"       , "Employ worker for making Lemonade"                , 10  , 3000          ),
-    new Item(null, 3 , 1 , "Ice Cream Coworker"      , "Employ worker for making Ice Cream"               , 10  , 3000          ),
-    new Item(null, 4 , 1 , "ETF Stock"               , "Get 0.1% of total price of  this item you bought" , null, 300000        ),
-    new Item(null, 4 , 1 , "ETF Bonds"               , "Get 0.07% of total price of  this item you bought", null, 300000        ),
-    new Item(null, 5 , 1 , "House"                   , "Get 32000 yen per day"                            , 100 , 20000000      ),
-    new Item(null, 5 , 1 , "TownHouse"               , "Get 64000 yen per day"                            , 100 , 40000000      ),
-    new Item(null, 5 , 1 , "Mansion"                 , "Get 500000 yen per day"                           , 20  , 250000000     ),
-    new Item(null, 5 , 1 , "Industrial Space"        , "Get 2200000 yen per day"                          , 10  , 1000000000    ),
-    new Item(null, 5 , 1 , "Hotel Skyscraper"        , "Get 25000000 yen per day"                         , 5   , 10000000000   ),
-    new Item(null, 5 , 1 , "Bullet-Speed Sky Railway", "Get 30000000000 yen per day"                      , 1   , 10000000000000)
+    new Item( 1 , 1 , "Hamburger"               , "Release Hamburger"                                , 1   , 30000         ),
+    new Item( 1 , 1 , "Lemonade"                , "Release Lemonade"                                 , 1   , 60000         ),
+    new Item( 1 , 1 , "Ice Cream"               , "Release Ice Cream"                                , 1   , 90000         ),
+    new Item( 2 , 1 , "Flip machine"            , "Increase earning from making Hamburger by 25 yen" , 500 , 15000         ),
+    new Item( 2 , 1 , "Lemonade Stand"          , "Increase earning from making Lemonade by 50 yen"  , 1000, 30000         ),
+    new Item( 2 , 1 , "Ice Cream Truck"         , "Increase earning from making Ice Cream by 150 yen", 500 , 100000        ),
+    new Item( 3 , 1 , "Hamburger Coworker"      , "Employ worker for making Hamburger"               , 10  , 3000          ),
+    new Item( 3 , 1 , "Lemonade Coworker"       , "Employ worker for making Lemonade"                , 10  , 3000          ),
+    new Item( 3 , 1 , "Ice Cream Coworker"      , "Employ worker for making Ice Cream"               , 10  , 3000          ),
+    new Item( 4 , 1 , "ETF Stock"               , "Get 0.1% of total price of  this item you bought" , null, 300000        ),
+    new Item( 4 , 1 , "ETF Bonds"               , "Get 0.07% of total price of  this item you bought", null, 300000        ),
+    new Item( 5 , 1 , "House"                   , "Get 32000 yen per day"                            , 100 , 20000000      ),
+    new Item( 5 , 1 , "TownHouse"               , "Get 64000 yen per day"                            , 100 , 40000000      ),
+    new Item( 5 , 1 , "Mansion"                 , "Get 500000 yen per day"                           , 20  , 250000000     ),
+    new Item( 5 , 1 , "Industrial Space"        , "Get 2200000 yen per day"                          , 10  , 1000000000    ),
+    new Item( 5 , 1 , "Hotel Skyscraper"        , "Get 25000000 yen per day"                         , 5   , 10000000000   ),
+    new Item( 5 , 1 , "Bullet-Speed Sky Railway", "Get 30000000000 yen per day"                      , 1   , 10000000000000)
 ].forEach(item => Item.add(item));
 
 
 [
-    new Type(null, "Product"     , ModelHelper.productTypeEffection    ),
-    new Type(null, "Ability"     , ModelHelper.abilityTypeEffection    ),
-    new Type(null, "Manpower"    , ModelHelper.manpowerTypeEffection   ),
-    new Type(null, "Investiment" , ModelHelper.investimentTypeEffection),
-    new Type(null, "Real estate" , ModelHelper.realEstateTypeEffection )
+    new Type( "Product"     , ModelHelper.productTypeEffection    ),
+    new Type( "Ability"     , ModelHelper.abilityTypeEffection    ),
+    new Type( "Manpower"    , ModelHelper.manpowerTypeEffection   ),
+    new Type( "Investiment" , ModelHelper.investimentTypeEffection),
+    new Type( "Real estate" , ModelHelper.realEstateTypeEffection )
 ].forEach(type => Type.add(type))
 
 //==============================================
