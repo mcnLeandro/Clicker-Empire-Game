@@ -35,7 +35,47 @@ import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 
 
 export class View { 
-    static base(){
+    
+    static top(){
+        let innnerMain =`
+            <div class="d-flex justify-content-center h-90vh">
+                <div class="col-6 mt-auto mb-auto">
+                    <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
+                    <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
+                </div>
+            </div>
+        `
+        return ViewTemplate.base(innnerMain)
+    }
+    static signUp(){
+        let innnerMain = `
+            <div class="d-flex justify-content-center h-90vh">
+                <div class="col-6 mt-auto mb-auto">
+                    <h2>What's your Name ?</h2>
+                    <input id="nameInput" type="text" class="form-control m-3">
+                    <button id="startGameBtn" class="btn btn-primary w-100 m-3">Start Game</button>
+                </div>
+            </div>
+        `
+        return ViewTemplate.base(innnerMain)
+    }
+    static login(){
+
+    }
+    static app(user_id){
+        let user = User.find(user_id)
+
+        let userInfo = ViewTemplate.userInfo(user)
+        let productInfo = ViewTemplate.productInfo()
+        let itemInfo = ViewTemplate.itemIndex()
+
+        return ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
+    }
+
+}
+
+export class ViewTemplate {
+    static base(view){
         return `
             <header class="p-2 d-flex justify-content-between bg-dark">
                 <h2 class="white text-3vw" >Clicker Empire Game</h2>
@@ -46,11 +86,11 @@ export class View {
                     //=============================================
                     -->
                 <div id="navFrame">
-                    
+                    ${ViewTemplate.nav()}
                 </div>
             </header>
             <div id="main" class="container-fliud">
-                
+                ${view}
             </div>
             <footer class="mt-lg-auto p-3 bg-dark">
                 <div class="d-flex justify-content-center mb-5">
@@ -81,29 +121,8 @@ export class View {
             </li>
         </ul>
         `
-    }   
-    static top(){
-        return `
-            <div class="d-flex justify-content-center h-90vh">
-                <div class="col-6 mt-auto mb-auto">
-                    <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
-                    <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
-                </div>
-            </div>
-        `
     }
-    static registration(){
-        return `
-            <div class="d-flex justify-content-center h-90vh">
-                <div class="col-6 mt-auto mb-auto">
-                    <h2>What's your Name ?</h2>
-                    <input id="nameInput" type="text" class="form-control m-3">
-                    <button id="startGameBtn" class="btn btn-primary w-100 m-3">Start Game</button>
-                </div>
-            </div>
-        `
-    }
-    static frames(){
+    static frames(userInfo, productInfo, itemInfo){
         return `
             <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right user-info-section">
                 <!-- 
@@ -112,7 +131,7 @@ export class View {
                 //=============================================
                 -->
                 <div id="userInfoFrame">
-            
+                    ${userInfo}
                 </div>
             </div>
             <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left product-info-section">
@@ -122,7 +141,7 @@ export class View {
                 //=============================================
                 -->
                 <div id="productInfoFrame">
-                    <div id="slideMain"></div>
+                    <div id="slideMain">${productInfo}</div>
                     <div id="slideExtra"></div>
                 </div>
             </div>
@@ -133,7 +152,7 @@ export class View {
                 //=============================================
                 -->
                 <div id="itemInfoFrame">
-            
+                    ${itemInfo}
                 </div>
             </div>
         `
@@ -141,10 +160,10 @@ export class View {
     static userInfo(user){
         return `
             <div  userId="${user.id}" class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
-                <div class="col-xl col-sm-5 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
             </div>
         `
     }
@@ -189,7 +208,7 @@ export class View {
         }
 
         return `
-            <section id="item${item.id}"  itemId="${item.id}" class="mt-2 p-2 rounded ">
+            <section id="item${item.id}"  itemId="${item.id}" class="mt-2 p-2 rounded col-12">
                 <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
                     <div class="col-3 p-3">
                         <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
@@ -206,7 +225,6 @@ export class View {
             </section>
         `
     }
-    
     static itemIndex(){
         let items = ""
         Item.all().forEach(item => items += View.item(item))
@@ -219,7 +237,24 @@ export class View {
             </div>
         `
     }
-    static itemShow(){
+    //コメントアウトの部分。inoputの部分を別の関数として作り直してイベントを使ってtotalの部分だけでもrenderする必要がある
+    static itemShow(item){
+        let totalPrice = () => {
+
+            if(!document.querySelector("#itemQuantityInput"))return 0;
+            
+            let value = document.querySelector("#itemQuantityInput").value;
+            if(value == "" || value == null) return 0;
+            else return item.price * parseInt(value);
+        }
+        let add = ()=>{
+            document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
+                document.querySelector("#totalPrice").innerHTML = `Total : ${totalPrice()}`
+            })
+            document.querySelector("#itemQuantityInput").addEventListener("mouseleave",()=>{
+                document.querySelector("#totalPrice").innerHTML = `Total : ${totalPrice()}`
+            })
+        }
         return `
         <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
@@ -229,20 +264,20 @@ export class View {
                         <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
                     </div>
                     <div class="col-12 col-lg-3 ml-lg-auto float-lg-right">
-                        <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="100%" height="" class="rounded">
+                        <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
                     </div>
                     <div class="p-2 col-7 ">
-                        <h2>House</h2>
-                        <p>Max Purchases : ${100}</p>
-                        <p>Price : ${10}</p>
+                        <h2></h2>
+                        <p>Max Purchases : ${item.stock}</p>
+                        <p>Price : ${item.price}</p>
                         <h3>Effection</h3>
-                        <p>${"Get 32,000 extra yen per second"}</p>
+                        <p>${item.introduction}</p>
                     </div>
                     <div class="mt-2 d-flex justify-content-end ">
                         <div class="col-12 col-md-5 p-0 text-right">
                             <p>How many would you like to purchse?</p>
-                            <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2">
-                            <p class="border-bottom">Total : ${100000000}</p>
+                            <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
+                            <p id="totalPriceP" class="border-bottom">Total : ${totalPrice}</p>
                             <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
                         </div>
                     </div>
@@ -252,5 +287,4 @@ export class View {
         </div>
         `
     }
-
 }
