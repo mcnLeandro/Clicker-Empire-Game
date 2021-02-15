@@ -2,160 +2,58 @@ import { View } from './view.mjs'
 import { DB } from './db.mjs'
 import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 import { ModelHelper } from './model.mjs'
-//==============================================
-//HTMLElementの構成
-//==============================================
-// - "#body"
-//     - "header"
-//         - "#navFrame"
-//             - "#logIn"
-//             - "#logout"
-//     - "#main"(registration)
-//         - "#nameInput"
-//         - "#startGameBtn"
-//     - "#main"(top)
-//         - "#newGameBtn"
-//         - "#logInBtn"
-//     - "#main"(game)
-//         - "#userInfoFrame"
-//             - "#userNameDiv"
-//         - "#productInfoFrame"
-//             - "#slideMain"
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn" 
-//             - "#slideExtra" 
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn"
-//         - "#itemInfoFrame"
-//                 - "#item${item.id}"
-//                 - "#itemShowBtn"
-//                 - "#goBackIcon"
-//                 - "#itemQuantityInput"
-//                 - "#purchaseBtn"
-//     - "footer"
 
 
 export class Controller {
-    top(){
-        //トップ画面
-    }
-    signUp(){
-        //登録画面
-    }
-    registration(){
-        //登録処理
-    }
-    logIn(){
-        //ログインページを表示
-    }
-    session(){
-        //ログイン処理
-        //headerとかにuser_idを埋め込むのがいいかも
-    }
-    app(){
-        //ゲーム画面
-    }
-
-}
-
-//=================
-// 思考停止で作ってしまったので以下のcontrollerたちは必要がないかもしれない。
-//==================
-export class ApplicationController　{
-
-    static base(){
-        if(!document.querySelector("#main")) document.querySelector("#body").innerHTML = View.base()
-        ApplicationController.nav()
-    }
-    static nav(){
-
-        document.querySelector("#navFrame").innerHTML = View.nav()
-
-
-        document.querySelector("#logIn").addEventListener("click",()=>{
-            
-        })
-        document.querySelector("#logout").addEventListener("click",()=>{
-            
-        })
-        //デバッグ用
-        document.querySelector("#DB").addEventListener("click",()=> console.log(DB.showDB()))
-
-    }
     static top(){
+        document.getElementById("body").innerHTML = View.top()
 
-        ApplicationController.base()
-
-        document.querySelector("#main").innerHTML = View.top()
-
-        document.querySelector("#main #newGameBtn").addEventListener("click",()=>{
-            Controller.registration()
-        })
-
-        document.querySelector("#main #logInBtn").addEventListener("click",()=>{
-            //
-        })
+        Render.navLinks()
+        Render.clickToSignUp("newGameBtn")
+        Render.clickToLogin("loginBtn")
 
     }
-    static app(user_id){
+    static signUp(){
+        document.getElementById("body").innerHTML = View.signUp()
 
-        let user = user_id != null ? User.find(user_id) : User.currentUser()
-
-        document.querySelector("#main").innerHTML = View.frames()
-        UsersController.show(user)
-        ProductsController.show()
-        ItemsController.index()
-
+        Render.navLinks()
+        Render.clickToRegistration("startGameBtn")
     }
-    static startApp(user_id){
-        
-        registrationsController.create()
-        ApplicationController.app()   
-        Controller.nav()
-
-    }
-}
-export class SessionsController extends ApplicationController{
-
-
-}
-export class registrationsController extends ApplicationController{
-
-    static new(){
-        document.querySelector("#main").innerHTML = View.registration()
-
-        document.querySelector("#main  #startGameBtn").addEventListener("click",()=>{
-            ApplicationController.startApp()
-        })
-    }
-    static create(){
-        let userName = document.querySelector("#main #nameInput").value
+    static registration(){
+        let userName = document.getElementById("nameInput").value
         let newUser = new User(userName,20,0,50000)
         User.add(newUser)
         
         let newTime = new Time(newUser.id,1,1000)
         Time.add(newTime)
+
+        Controller.session(newUser.id)
+    }
+    static login(){
+        //ログインページを表示
+    }
+    static session(user_id){
+        document.getElementById("current-user-id").setAttribute("current-user-id", user_id )
+        Controller.app()
+    }
+    static destroySession(){
+        document.getElementById("current-user-id").setAttribute("current-user-id", "" )
+        Controller.top()
+    }
+    static app(){
+        document.getElementById("body").innerHTML = View.app()
+
+        Render.navLinks()
     }
 
-}
-export class UsersController extends ApplicationController{
+    static createNewProduct(item_id, productEarning){
+        let itemName = Item.find(item_id).name
+        let user_id = User.currentUser().id
 
-    show(user_id){
-        let user = User.find(user_id)
-        document.querySelector("#main #userInfoFrame").innerHTML = View.userInfo(user)
+        let newProduct = new Product(null, user_id, item_id, itemName, 0 ,productEarning, 0);
+        Product.add(newProduct);
     }
-
-
-}
-export class TimesController extends ApplicationController{
-
-
-
-}
-export class BoughtItemsController extends ApplicationController{
-
-
-    static create(item_id){
+    static createNewBoughtItem(item_id){
         let user_id = User.currentUser().id
 
         if(BoughtItem.where("user_id",user_id, "item_id",item_id).length == 0){
@@ -169,42 +67,34 @@ export class BoughtItemsController extends ApplicationController{
         }
     }
 
-
 }
-export class ProductsController extends ApplicationController{
-
-    static show(){
-        document.querySelector("#main #productInfoFrame #slideMain").innerHTML  = View.productInfo()
+export class Render {
+    static clickToSignUp(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> Controller.signUp())
     }
-    static create(item_id, productEarning){
-        let itemName = Item.find(item_id).name
-        let user_id = User.currentUser().id
-
-        let newProduct = new Product(null, user_id, item_id, itemName, 0 ,productEarning, 0);
-        Product.add(newProduct);
+    static clickToLogin(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> Controller.login())
     }
-
-
-}
-export class ItemsController extends ApplicationController{
-
-
-    static index(){
-        document.querySelector("#main #itemInfoFrame").innerHTML = View.itemIndex()
+    static clickToRegistration(elementId){
+        document.getElementById(elementId).addEventListener("click", ()=> Controller.registration())
     }
-    static show(item_id){
-        document.querySelector("#main #itemInfoFrame").innerHTML += View.itemShow(Item.find(item_id))
+    static clickToSession(elementId,user_id){
+        document.getElementById(elementId).addEventListener("click", ()=> Controller.session(user_id))
+    }
+    static clickToDestroySession(elementId){
+        document.getElementById(elementId).addEventListener("click", ()=> Controller.destroySession())
     }
 
+
+    static clickToShowDBInConsole(elementId){
+        document.getElementById(elementId).addEventListener("click", ()=> console.log(DB.showDB()))
+    }
+    
+
+    static navLinks(){
+        Render.clickToLogin("navLogin")
+        Render.clickToDestroySession("navLogout")
+        Render.clickToShowDBInConsole("navDB")
+    }
+
 }
-export class TypesController extends ApplicationController{
-
-
-
-}
-export class ImgsController extends ApplicationController{
-
-
-
-}
-
