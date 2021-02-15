@@ -1,51 +1,20 @@
 import { DB } from './db.mjs'
 import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
-
-//==============================================
-//HTMLElementの構成
-//==============================================
-// - "#body"
-//     - "header"
-//         - "#navFrame"
-//             - "#logIn"
-//             - "#logout"
-//     - "#main"(registration)
-//         - "#nameInput"
-//         - "#startGameBtn"
-//     - "#main"(top)
-//         - "#newGameBtn"
-//         - "#logInBtn"
-//     - "#main"(game)
-//         - "#userInfoFrame"
-//             - "#userNameDiv"
-//         - "#productInfoFrame"
-//             - "#slideMain"
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn" 
-//             - "#slideExtra" 
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn"
-//         - "#itemInfoFrame"
-//                 - "#item${item.id}"
-//                 - "#itemShowBtn"
-//                 - "#goBackIcon"
-//                 - "#itemQuantityInput"
-//                 - "#purchaseBtn"
-//     - "footer"
+import { Controller } from './controller.mjs'
 
 
 export class View { 
     
     static top(){
-        let innnerMain =`
+        let innerMain =`
             <div class="d-flex justify-content-center h-90vh">
                 <div class="col-6 mt-auto mb-auto">
                     <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
-                    <button id="logInBtn" class="btn btn-primary w-100 m-3">Log in</button>
+                    <button id="loginBtn" class="btn btn-primary w-100 m-3">Log in</button>
                 </div>
             </div>
         `
-        return ViewTemplate.base(innnerMain)
+        return ViewTemplate.base(innerMain)
     }
     static signUp(){
         let innnerMain = `
@@ -60,10 +29,10 @@ export class View {
         return ViewTemplate.base(innnerMain)
     }
     static login(){
-
+        //ログイン画面
     }
-    static app(user_id){
-        let user = User.find(user_id)
+    static app(){
+        let user = User.currentUser()
 
         let userInfo = ViewTemplate.userInfo(user)
         let productInfo = ViewTemplate.productInfo()
@@ -103,19 +72,19 @@ export class ViewTemplate {
         return `
         <ul class="nav">
             <li class="nav-item">
-                <a id="logIn" class="nav-link active white text-2vw click-object" href="#">
+                <a id="navLogin" class="nav-link active white text-2vw click-object" href="#">
                     <i class="fas fa-sign-in-alt text-2vw"></i>
-                    Log in
+                    Login
                 </a>
             </li>
             <li class="nav-item ${!User.currentUser()? "d-none":""}">
-                <a id="logout" class="nav-link active white text-2vw click-object" href="#">
+                <a id="navLogout" class="nav-link active white text-2vw click-object" href="#">
                     <i class="fas fa-sign-out-alt text-2vw"></i>
                     Logout
                 </a>
             </li>
             <li class="nav-item ">
-                <button id="DB" class="btn btn-primary nav-link active white text-2vw click-object" href="#">
+                <button id="navDB" class="btn btn-primary nav-link active white text-2vw click-object" href="#">
                     showDB
                 </button>
             </li>
@@ -159,7 +128,7 @@ export class ViewTemplate {
     }
     static userInfo(user){
         return `
-            <div  userId="${user.id}" class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
+            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
@@ -227,7 +196,7 @@ export class ViewTemplate {
     }
     static itemIndex(){
         let items = ""
-        Item.all().forEach(item => items += View.item(item))
+        Item.all().forEach(item => items += ViewTemplate.item(item))
 
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
