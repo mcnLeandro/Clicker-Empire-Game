@@ -1,5 +1,10 @@
 import { DB } from './db.mjs'
 import { View } from './view.mjs'
+import { 
+    BoughtItemsController,
+    ProductsController,
+} from './controller.mjs'
+
 //=================================================
 //Model classes
 //=================================================
@@ -16,10 +21,9 @@ export class User extends DB {
         super.hasmany(Product)
         super.hasmany(BoughtItem)
     }
-
     static currentUser(){
-        if(!document.querySelector("#userInfoFrame div"))return false
-        let user_id = parseInt(document.querySelector("#userInfoFrame div").getAttribute("userId"))
+        if(!document.getElementById("current-user-id").getAttribute("current-user-id"))return false
+        let user_id = parseInt(document.getElementById("current-user-id").getAttribute("current-user-id"))
         return User.find(user_id)
     }
 }
@@ -49,11 +53,12 @@ export class BoughtItem extends DB {
     }
 }
 export class Product extends DB {
-    constructor(user_id, item_id, name, amount, earning, makerAmount){
+    constructor(user_id, item_id,img_id, name, amount, earning, makerAmount){
         super(null)
 
         this.user_id = user_id
         this.item_id = item_id
+        this.img_id  = img_id
 
         this.name        = name
         this.amount      = amount
@@ -107,33 +112,15 @@ export class Img extends DB {
 
 export class ModelHelper{
 
-    static BoughtItemAddtionProcess(item_id){
-        let user_id = User.currentUser().id
-
-        if(BoughtItem.where("user_id",user_id, "item_id",item_id).length == 0){
-
-            let newBoughtItem = new BoughtItem(null, user_id, item_id, 0)
-            BoughtItem.add(newBoughtItem);
-
-        }
-        else{
-            BoughtItem.where("user_id",user_id, "item_id",item_id)[0].amount += 1;
-        }
-
-    }
     static productTypeEffection(item_id, productEarning){
 
-        ModelHelper.BoughtItemAddtionProcess(item_id);
-
-        let itemName = Item.find(item_id).name
-        let user_id = User.currentUser().id
-        let newProduct = new Product(null, user_id, item_id, itemName, 0 ,productEarning, 0);
-        Product.add(newProduct);
-
+        BoughtItemsController.create(item_id);
+        ProductsController.create(item_id,productEarning)
+    
     }
     static abilityTypeEffection(item_id, additonalPrice){
 
-        ModelHelper.BoughtItemAddtionProcess(item_id);
+        BoughtItemsController.create(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -142,7 +129,7 @@ export class ModelHelper{
     }
     static manpowerTypeEffection(item_id){
 
-        ModelHelper.BoughtItemAddtionProcess(item_id);
+        BoughtItemsController.create(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -152,7 +139,7 @@ export class ModelHelper{
     //3000 *= 10 roop問題あり
     static investimentTypeEffection(item_id, returnPercentage, itemPriceChange){
 
-        ModelHelper.BoughtItemAddtionProcess(item_id);
+        BoughtItemsController.create(item_id);
 
         let user = User.currentUser()
 
@@ -168,7 +155,7 @@ export class ModelHelper{
     }
     static realEstateTypeEffection(item_id, additionalReturn){
 
-        ModelHelper.BoughtItemAddtionProcess(item_id);
+        BoughtItemsController.create(item_id);
 
         let user = User.currentUser()
 
