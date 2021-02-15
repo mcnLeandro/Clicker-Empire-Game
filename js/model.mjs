@@ -1,9 +1,6 @@
 import { DB } from './db.mjs'
 import { View } from './view.mjs'
-import { 
-    BoughtItemsController,
-    ProductsController,
-} from './controller.mjs'
+import { Controller, Render} from './controller.mjs'
 
 //=================================================
 //Model classes
@@ -114,13 +111,13 @@ export class ModelHelper{
 
     static productTypeEffection(item_id, productEarning){
 
-        BoughtItemsController.create(item_id);
-        ProductsController.create(item_id,productEarning)
+        Controller.createNewBoughtItem(item_id);
+        Controller.createNewProduct(item_id,productEarning)
     
     }
     static abilityTypeEffection(item_id, additonalPrice){
 
-        BoughtItemsController.create(item_id);
+        Controller.createNewBoughtItem(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -129,7 +126,7 @@ export class ModelHelper{
     }
     static manpowerTypeEffection(item_id){
 
-        BoughtItemsController.create(item_id);
+        Controller.createNewBoughtItem(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -139,7 +136,7 @@ export class ModelHelper{
     //3000 *= 10 roop問題あり
     static investimentTypeEffection(item_id, returnPercentage, itemPriceChange){
 
-        BoughtItemsController.create(item_id);
+        Controller.createNewBoughtItem(item_id);
 
         let user = User.currentUser()
 
@@ -155,7 +152,7 @@ export class ModelHelper{
     }
     static realEstateTypeEffection(item_id, additionalReturn){
 
-        BoughtItemsController.create(item_id);
+        Controller.createNewBoughtItem(item_id);
 
         let user = User.currentUser()
 
