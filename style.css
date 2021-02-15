@@ -54,7 +54,7 @@ footer{
     }
 }
 
-@media screen and (min-width:960px) {
+@media screen and (min-width:990px) {
     *{
         font-size: 25px;
     }
