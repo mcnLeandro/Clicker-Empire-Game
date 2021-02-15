@@ -2,6 +2,7 @@ import { View } from './view.mjs'
 import { DB } from './db.mjs'
 import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
 import { ModelHelper } from './model.mjs'
+import { Controller } from './controller.mjs'
 
 
 
@@ -46,100 +47,21 @@ import { ModelHelper } from './model.mjs'
     new Type( "Real estate" , ModelHelper.realEstateTypeEffection )
 ].forEach(type => Type.add(type))
 
-//==============================================
-//HTMLElementの構成
-//==============================================
-// - "#body"
-//     - "header"
-//         - "#navFrame"
-//             - "#logIn"
-//             - "#logout"
-//     - "#main"(registration)
-//         - "#nameInput"
-//         - "#startGameBtn"
-//     - "#main"(top)
-//         - "#newGameBtn"
-//         - "#logInBtn"
-//     - "#main"(game)
-//         - "#userInfoFrame"
-//             - "#userNameDiv"
-//         - "#productInfoFrame"
-//             - "#slideMain"
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn" 
-//             - "#slideExtra" 
-//                 - "#slideLeftBtn" 
-//                 - "#slideRightBtn"
-//         - "#itemInfoFrame"
-//                 - "#item${item.id}"
-//                 - "#itemShowBtn"
-//                 - "#goBackIcon"
-//                 - "#itemQuantityInput"
-//                 - "#purchaseBtn"
-//     - "footer"
-
-class Ele{
-    static get(string){
-        if(string.indexOf(" ") != -1 || string.indexOf(".") != -1 || string.indexOf("#") != -1)return document.querySelector(string)
-        if(document.getElementById(string))return document.getElementById(string)
-        else return document.getElementsByTagName(string).item[0]
-    }
-}
-
-class Controller {
-
-    static base(){
-        if(!Ele.get("#main")) Ele.get("#body").innerHTML = View.base()
-        Controller.nav()
-    }
-    static nav(){
-        Ele.get("#navFrame").innerHTML = View.nav()
 
 
-        Ele.get("#logIn").addEventListener("click",()=>{
-            
-        })
-        Ele.get("#logout").addEventListener("click",()=>{
-            
-        })
-        //デバッグ用
-        Ele.get("#DB").addEventListener("click",()=> console.log(DB.showDB()))
-    }
-    static top(){
-        Controller.base()
 
-        Ele.get("#main").innerHTML = View.top()
 
-        Ele.get("#main #newGameBtn").addEventListener("click",()=>{
-            Controller.registration()
-        })
-
-        Ele.get("#main #logInBtn").addEventListener("click",()=>{
-            //
-        })
-    }
-    static registration(){
-        Ele.get("#main").innerHTML = View.registration()
-
-        Ele.get("#main  #startGameBtn").addEventListener("click",()=>{
-            Controller.startGame()
-        })
-    }
-    static startGame(){
-        let userName = Ele.get("#main #nameInput").value
-        let newUser = new User(userName,20,1,50000)
-        User.add(newUser)
-        
-        let newTime = new Time(newUser.id,1,1000)
-        Time.add(newTime)
-        
-        Ele.get("#main").innerHTML = View.frames()
-        Ele.get("#main #userInfoFrame").innerHTML = View.userInfo(newUser)
-        Ele.get("#main #productInfoFrame #slideMain").innerHTML  = View.productInfo()
-        Ele.get("#main #itemInfoFrame").innerHTML = View.itemIndex()
-
-        Controller.nav()
-    }
-}
 
 Controller.top()
+
+///1。Viewのコメントを見る
+///3. startGame関数がゲームをスタートする関数かゲームページを表示する関数かわからないので分解して用途ごとの関数に分ける。
+///4. ログアウト機能を作る。
+///5.ログイン機能を作る
+///6. productInfoの前にslideの作成をする必要があるのでめんどくさくてもtest用のHTML作成するなりして復習しながらslide完成させる。またProductがからの場合も考慮する。
+///7. indexからのshowを表示できるようにする。addEventListenner
+///8。商品が購入できるようにする。
+///9. investimenntのprice変動問題を解決する
+///10. Productの挙動を確認する。
+///11.もう一度このやることリストを作り直す。 
+// 12. img探しをする(みんなのを使ってもいいかも)

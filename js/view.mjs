@@ -195,7 +195,7 @@ export class View {
                         <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
                     </div>
                     <div class="p-3 col-6 ">
-                        <h2>House</h2>
+                        <h2>${item.name}</h2>
                         <p class="mt-3">Owning : ${owning()}</p>
                         <p>Price : ${item.price} yen</p>
                     </div>
@@ -208,10 +208,13 @@ export class View {
     }
     
     static itemIndex(){
+        let items = ""
+        Item.all().forEach(item => items += View.item(item))
+
         return `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${View.item(Item.find(1))}
+                ${items}
                 
             </div>
         `
