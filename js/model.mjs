@@ -15,8 +15,8 @@ export class User extends DB {
         this.totalMoney    = totalMoney
 
         super.belongsTo(Time)
-        super.hasmany(Product)
-        super.hasmany(BoughtItem)
+        super.hasmany(UsersProduct)
+        super.hasmany(UsersItem)
     }
     static currentUser(){
         if(!document.getElementById("current-user-id").getAttribute("current-user-id"))return false
@@ -35,8 +35,18 @@ export class Time extends DB {
 
         super.belongsTo(User)
     }
+
+    getYear(){
+
+    }
+    getMonth(){
+
+    }
+    getDate(){
+
+    }
 }
-export class BoughtItem extends DB {
+export class UsersItem extends DB {
     constructor(user_id, item_id, amount){
         super(null)
 
@@ -49,12 +59,30 @@ export class BoughtItem extends DB {
         super.belongsTo(Item)
     }
 }
-export class Product extends DB {
-    constructor(user_id, item_id,img_id, name, amount, earning, makerAmount){
+export class UsersProduct extends DB{
+    constructor(user_id,product_id){
         super(null)
 
         this.user_id = user_id
-        this.item_id = item_id
+        this.product_id = product_id
+
+        let product = Product.find(product_id)
+        this.img_id  = product.img_id
+
+        this.name        = product.name
+        this.amount      = product.amount
+        this.earning     = product.earning
+        this.makerAmount = product.makerAmount
+
+
+        super.belongsTo(User)
+        super.belongsTo(Product)
+    }
+}
+export class Product extends DB {
+    constructor(img_id, name, amount, earning, makerAmount){
+        super(null)
+
         this.img_id  = img_id
 
         this.name        = name
@@ -62,8 +90,8 @@ export class Product extends DB {
         this.earning     = earning
         this.makerAmount = makerAmount
 
-        super.belongsTo(User)
-        super.belongsTo(Item)
+        super.hasmany(UsersProduct)
+        super.belongsTo(Img)
     }
 }
 export class Item extends DB {
@@ -80,8 +108,7 @@ export class Item extends DB {
 
         super.belongsTo(Type)
         super.belongsTo(Img)
-        super.hasmany(BoughtItem)
-        super.hasmany(Product)
+        super.hasmany(UsersItem)
     }
 }
 export class Type extends DB {
