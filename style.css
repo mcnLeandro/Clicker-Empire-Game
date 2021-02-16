@@ -38,36 +38,6 @@ footer{
 .click-object:hover{
     color: #aaa;
 }
-
-.white{color: white;}
-
-.bg-light-gray {background-color: rgb(75,88,114);}
-.bg-heavy-gray  {background-color: rgb(37,46,58	);}
-
-@keyframes up-down {
-    0% {
-        transform: translate(0,0px);
-    }
-
-    100% {
-        transform: translate(0,-50px)
-    }
-}
-
-@media screen and (min-width:990px) {
-    *{
-        font-size: 25px;
-    }
-    .product-info-section, .user-info-section{
-        position: sticky;
-        top: 5rem;
-        z-index: 1;
-    }
-}
-/* =========================
-// slide
-*/
-
 .slideProduct{
     padding: 0 !important;
     transition: all 2s linear;
@@ -86,6 +56,21 @@ footer{
     animation: deplete 1s linear reverse forwards;
 }
 
+
+.white{color: white;}
+
+.bg-light-gray {background-color: rgb(75,88,114);}
+.bg-heavy-gray  {background-color: rgb(37,46,58	);}
+
+@keyframes up-down {
+    0% {
+        transform: translate(0,0px);
+    }
+
+    100% {
+        transform: translate(0,-50px)
+    }
+}
 @keyframes    deplete {
     0%{
         width: 100%;
@@ -102,3 +87,16 @@ footer{
         opacity: 0;
     } 
 }
+
+@media screen and (min-width:990px) {
+    *{
+        font-size: 25px;
+    }
+    .product-info-section, .user-info-section{
+        position: sticky;
+        top: 5rem;
+        z-index: 1;
+    }
+}
+
+

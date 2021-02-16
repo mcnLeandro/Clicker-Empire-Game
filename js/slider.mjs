@@ -3,7 +3,6 @@ export class Slider {
 
     constructor(sliderItemsSelector,sliderFrameId, mainId,extraId,leftBtnId,rightBtnId){
         this.sliderItems = document.querySelectorAll(`.${sliderItemsSelector}`);
-        console.log(this.sliderItems.item(1))
 
         this.sliderFrame = document.getElementById(sliderFrameId)
         this.main        = document.getElementById(mainId)
@@ -16,17 +15,21 @@ export class Slider {
     }
     
     set(){
-        this.main.append(this.sliderItems[0]);
-        this.main.setAttribute("data-index", "0");
+        if(this.sliderItems.length != 0){
 
-
-        this.leftBtn.addEventListener("click", function(){
-            this.sliderObj.slideJump(-1, "left");
-        });
+            this.main.append(this.sliderItems[0]);
+            this.main.setAttribute("data-index", "0");
         
-        this.rightBtn.addEventListener("click", function(){
-            this.sliderObj.slideJump(+1, "right");
-        });
+        
+            this.leftBtn.addEventListener("click", function(){
+                this.sliderObj.slideJump(-1, "left");
+            });
+            
+            this.rightBtn.addEventListener("click", function(){
+                this.sliderObj.slideJump(+1, "right");
+            });
+            
+        }
     }
     slideJump(steps, animationType) {
         let index = parseInt(this.main.getAttribute("data-index"));

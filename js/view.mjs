@@ -47,15 +47,14 @@ export class View {
 
         document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
         Render.navLinks()
-        let productSlider = new Slider(
+        new Slider(
             "sliderProduct",
             "productSliderShowFrame",
             "productSliderMain",
             "productSliderExtra",
             "productSliderLeftBtn",
             "productSliderRightBtn"
-        )
-        productSlider.set()
+        ).set()
     }
 
 }
@@ -110,7 +109,7 @@ export class ViewTemplate {
     }
     static frames(userInfo, productInfo, itemInfo){
         return `
-            <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
+            <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right user-info-section">
                 <!-- 
                 //=============================================
                 // userInfo
@@ -120,7 +119,7 @@ export class ViewTemplate {
                     ${userInfo}
                 </div>
             </div>
-            <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left">
+            <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left product-info-section">
                 <!-- 
                 //=============================================
                 // productInfo
@@ -175,10 +174,6 @@ export class ViewTemplate {
         `
     }
     static productInfo(usersProduct){
-
-        //UsersProductが空の場合の処理をする必要がある。
-        // let usersProduct = UsersProduct.find(users_product_id)
-
         return `
             <div class="sliderProduct">
                 <div id="productDescription" class="col-11 my-3 bg-light-gray rounded">
@@ -194,9 +189,10 @@ export class ViewTemplate {
         `
     }
     static productSliderFrame(){
-        /*User.currentUser().users_products().forEach(product => ViewTamplate.productInfo(product))*/ 
         let productData = ""
+        // User.currentUser().users_products().forEach(product => productData += ViewTamplate.productInfo(product)) 
         Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
+
         return `
         <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
             <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">

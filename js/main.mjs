@@ -58,7 +58,6 @@ import { Controller } from './controller.mjs'
 Controller.top()
 
 ///5.ログイン機能を作る
-///6.sliderはUsersProductが空の場合も考慮する。
 ///7. indexからのshowを表示できるようにする。addEventListenner
 ///8。商品が購入できるようにする。
 ///9. investimenntのprice変動問題を解決する
