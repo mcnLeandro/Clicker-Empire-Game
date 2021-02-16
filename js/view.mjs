@@ -35,7 +35,7 @@ export class View {
         let user = User.currentUser()
 
         let userInfo = ViewTemplate.userInfo(user)
-        let productInfo = ViewTemplate.productInfo()
+        let productInfo = ViewTemplate.productInfo(Product.find(1))
         let itemInfo = ViewTemplate.itemIndex()
 
         return ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
@@ -110,8 +110,7 @@ export class ViewTemplate {
                 //=============================================
                 -->
                 <div id="productInfoFrame">
-                    <div id="slideMain">${productInfo}</div>
-                    <div id="slideExtra"></div>
+                    ${productInfo}
                 </div>
             </div>
             <div class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
@@ -136,38 +135,65 @@ export class ViewTemplate {
             </div>
         `
     }
-    //slider問題
-    static productInfo(){
+    static productDescription(usersProduct){
         return `
-            <div class="row  mx-2 justify-content-center bg-heavy-gray rounded ">
-                <div class="col-11 my-3 bg-light-gray rounded">
-                    <div class="text-center p-2 white">${1000} burgers</div>
-                    <div class="text-center p-2 white">${25} yen per day </div>
+            <div class="text-center p-2 white">${usersProduct.amount} ${usersProduct.name.toLowerCase()}s</div>
+            <div class="text-center p-2 white">${usersProduct.earning} yen per day </div>
+        `
+    }
+    static productMakers(usersProduct){
+        let maker = `<i class="fas fa-user fa-2x white up_down"></i>`
+        let makers = ``;
+
+        // for(let i = 1 ; i <= usersProduct.makerAmount; i++) makers += maker;
+        for(let i = 1 ; i <= 6 ; i++ ) makers += maker
+
+        return makers;
+    }
+    static productImg(usersProduct){
+        return `
+        <div class="d-flex justify-content-center">
+            <img src="${usersProduct.img().url}" alt="" width="70%">
+        </div>
+        `
+    }
+    static productInfo(usersProduct){
+
+        //UsersProductが空の場合の処理をする必要がある。
+        // let usersProduct = UsersProduct.find(users_product_id)
+
+        return `
+            <div id="productDescription" class="col-11 my-3 bg-light-gray rounded">
+                ${ViewTemplate.productDescription(usersProduct)}
+            </div>
+            <div id="productImg" class="col-11 my-2  d-flex justify-content-center">
+                ${ViewTemplate.productImg(usersProduct)}
+            </div>
+            <div id="productMakers" class="col-11 my-5 row justify-content-center">
+                ${ViewTemplate.productMakers(usersProduct)}
+            </div>
+        `
+    }
+    static productSliderFrame(){
+        return `
+        <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
+            <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">
+                <div id="producctSliderMain" class="main full-width">
+
                 </div>
-                <div class="col-11 my-2  d-flex justify-content-center">
-                    <div class="d-flex justify-content-center">
-                        <img src="https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png" alt="" width="70%">
-                    </div>
+                <div id="productSliderExtra" class="extra full-width">
+
                 </div>
-                <div class="col-11 my-5 row justify-content-center">
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                    <i class="fas fa-user fa-2x white up_down"></i>
-                </div>
+            </div>
+            <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-11 my-2 mt-auto">
-                    <div class="d-flex justify-content-center mt-2">
-                        <button id="slideLeftBtn" class="btn btn-light"><</button>
-                        <button id="slideRightBtn" class="btn btn-light">></button>
+                    <div id="controls" class="d-flex justify-content-center mt-2">
+                        <button id="productSliderLeftBtn" class="btn btn-light"><</button>
+                        <button id="productSliderRightBtn" class="btn btn-light">></button>
                     </div>
                 </div>
             </div>
+        </div>
         `
     }
     static item(item){
