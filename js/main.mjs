@@ -1,6 +1,6 @@
 import { View } from './view.mjs'
 import { DB } from './db.mjs'
-import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
+import { User,Time,UsersItem,UsersProduct,Product,Item,Type,Img } from './model.mjs'
 import { ModelHelper } from './model.mjs'
 import { Controller } from './controller.mjs'
 
@@ -10,8 +10,8 @@ import { Controller } from './controller.mjs'
 //==============================================
 
 [
-    new Img("Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png"),
-    new Img("Lemonade","https://cdn.pixabay.com/photo/2012/04/15/20/36/juice-35236_960_720.png"),
+    new Img("Hamburger" ,"https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png"),
+    new Img("Lemonade"  ,"https://cdn.pixabay.com/photo/2012/04/15/20/36/juice-35236_960_720.png"),
     new Img("Ice Creame","https://cdn.pixabay.com/photo/2020/03/19/07/19/ice-cream-4946596_960_720.png"),
 ].forEach(img => Img.add(img));
 
@@ -57,9 +57,8 @@ import { Controller } from './controller.mjs'
 
 Controller.top()
 
-
 ///5.ログイン機能を作る
-///6. productInfoの前にslideの作成をする必要があるのでめんどくさくてもtest用のHTML作成するなりして復習しながらslide完成させる。またProductが空の場合も考慮する。
+///6.sliderはUsersProductが空の場合も考慮する。
 ///7. indexからのshowを表示できるようにする。addEventListenner
 ///8。商品が購入できるようにする。
 ///9. investimenntのprice変動問題を解決する

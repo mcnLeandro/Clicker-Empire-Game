@@ -1,7 +1,7 @@
 import { DB } from './db.mjs'
 import { User,Time,UsersItem,UsersProduct,Product,Item,Type,Img } from './model.mjs'
-import { Controller } from './controller.mjs'
-
+import { Controller,Render } from './controller.mjs'
+import { Slider } from './slider.mjs'
 
 export class View { 
     
@@ -14,7 +14,11 @@ export class View {
                 </div>
             </div>
         `
-        return ViewTemplate.base(innerMain)
+
+        document.getElementById("body").innerHTML = ViewTemplate.base(innerMain)
+        Render.navLinks()
+        Render.clickToSignUp("newGameBtn")
+        Render.clickToLogin("loginBtn")
     }
     static signUp(){
         let innnerMain = `
@@ -26,7 +30,10 @@ export class View {
                 </div>
             </div>
         `
-        return ViewTemplate.base(innnerMain)
+
+        document.getElementById("body").innerHTML = ViewTemplate.base(innnerMain)
+        Render.navLinks()
+        Render.clickToRegistration("startGameBtn")
     }
     static login(){
         //ログイン画面
@@ -35,10 +42,20 @@ export class View {
         let user = User.currentUser()
 
         let userInfo = ViewTemplate.userInfo(user)
-        let productInfo = ViewTemplate.productInfo(Product.find(1))
+        let productInfo = ViewTemplate.productSliderFrame()
         let itemInfo = ViewTemplate.itemIndex()
 
-        return ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
+        document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
+        Render.navLinks()
+        let productSlider = new Slider(
+            "sliderProduct",
+            "productSliderShowFrame",
+            "productSliderMain",
+            "productSliderExtra",
+            "productSliderLeftBtn",
+            "productSliderRightBtn"
+        )
+        productSlider.set()
     }
 
 }
@@ -93,7 +110,7 @@ export class ViewTemplate {
     }
     static frames(userInfo, productInfo, itemInfo){
         return `
-            <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right user-info-section">
+            <div  class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
                 <!-- 
                 //=============================================
                 // userInfo
@@ -103,7 +120,7 @@ export class ViewTemplate {
                     ${userInfo}
                 </div>
             </div>
-            <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left product-info-section">
+            <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left">
                 <!-- 
                 //=============================================
                 // productInfo
@@ -142,7 +159,7 @@ export class ViewTemplate {
         `
     }
     static productMakers(usersProduct){
-        let maker = `<i class="fas fa-user fa-2x white up_down"></i>`
+        let maker = `<i class="fas fa-user fa-2x white up_down"></i>` + `\n`
         let makers = ``;
 
         // for(let i = 1 ; i <= usersProduct.makerAmount; i++) makers += maker;
@@ -152,9 +169,9 @@ export class ViewTemplate {
     }
     static productImg(usersProduct){
         return `
-        <div class="d-flex justify-content-center">
-            <img src="${usersProduct.img().url}" alt="" width="70%">
-        </div>
+            <div class="d-flex justify-content-center">
+                <img src="${usersProduct.img().url}" alt="" width="70%">
+            </div>
         `
     }
     static productInfo(usersProduct){
@@ -163,27 +180,35 @@ export class ViewTemplate {
         // let usersProduct = UsersProduct.find(users_product_id)
 
         return `
-            <div id="productDescription" class="col-11 my-3 bg-light-gray rounded">
-                ${ViewTemplate.productDescription(usersProduct)}
-            </div>
-            <div id="productImg" class="col-11 my-2  d-flex justify-content-center">
-                ${ViewTemplate.productImg(usersProduct)}
-            </div>
-            <div id="productMakers" class="col-11 my-5 row justify-content-center">
-                ${ViewTemplate.productMakers(usersProduct)}
+            <div class="sliderProduct">
+                <div id="productDescription" class="col-11 my-3 bg-light-gray rounded">
+                    ${ViewTemplate.productDescription(usersProduct)}
+                </div>
+                <div id="productImg" class="col-11 my-2  d-flex justify-content-center">
+                    ${ViewTemplate.productImg(usersProduct)}
+                </div>
+                <div id="productMakers" class="col-11 my-5 row justify-content-center">
+                    ${ViewTemplate.productMakers(usersProduct)}
+                </div>
             </div>
         `
     }
     static productSliderFrame(){
+        /*User.currentUser().users_products().forEach(product => ViewTamplate.productInfo(product))*/ 
+        let productData = ""
+        Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
         return `
         <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
             <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">
-                <div id="producctSliderMain" class="main full-width">
+                <div id="productSliderMain" class="main full-width">
 
                 </div>
                 <div id="productSliderExtra" class="extra full-width">
 
                 </div>
+            </div>
+            <div class="slider-data d-none">
+                ${productData}
             </div>
             <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-11 my-2 mt-auto">

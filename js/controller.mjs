@@ -6,18 +6,10 @@ import { ModelHelper } from './model.mjs'
 
 export class Controller {
     static top(){
-        document.getElementById("body").innerHTML = View.top()
-
-        Render.navLinks()
-        Render.clickToSignUp("newGameBtn")
-        Render.clickToLogin("loginBtn")
-
+        View.top()
     }
     static signUp(){
-        document.getElementById("body").innerHTML = View.signUp()
-
-        Render.navLinks()
-        Render.clickToRegistration("startGameBtn")
+        View.signUp()
     }
     static registration(){
         let userName = document.getElementById("nameInput").value
@@ -41,9 +33,7 @@ export class Controller {
         Controller.top()
     }
     static app(){
-        document.getElementById("body").innerHTML = View.app()
-
-        Render.navLinks()
+        View.app()
     }
 
     //リファクタリング可能
@@ -65,7 +55,7 @@ export class Controller {
     static createNewUsersItem(item_id){
         let user_id = User.currentUser().id
         // let usersItem = UsersItem.where("user_id",user_id, "item_id",item_id)
-        
+
         if(UsersItem.where("user_id",user_id, "item_id",item_id).length == 0){
 
             let newUsersItem = new UsersItem(null, user_id, item_id, 0)
