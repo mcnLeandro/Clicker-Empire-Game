@@ -1,6 +1,6 @@
 import { View } from './view.mjs'
 import { DB } from './db.mjs'
-import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
+import { User,Time,UsersItem,UsersProduct,Product,Item,Type,Img } from './model.mjs'
 import { ModelHelper } from './model.mjs'
 
 
@@ -46,24 +46,34 @@ export class Controller {
         Render.navLinks()
     }
 
-    static createNewProduct(item_id, productEarning){
-        let itemName = Item.find(item_id).name
+    //リファクタリング可能
+    static createNewUsersProduct(product_id, ){
         let user_id = User.currentUser().id
+        // let usersProduct = UsersProduct.where("user_id",user_id, "product_id",product_id)
 
-        let newProduct = new Product(null, user_id, item_id, itemName, 0 ,productEarning, 0);
-        Product.add(newProduct);
-    }
-    static createNewBoughtItem(item_id){
-        let user_id = User.currentUser().id
+        if(UsersProduct.where("user_id",user_id, "product_id",product_id).length == 0){
 
-        if(BoughtItem.where("user_id",user_id, "item_id",item_id).length == 0){
-
-            let newBoughtItem = new BoughtItem(null, user_id, item_id, 0)
-            BoughtItem.add(newBoughtItem);
+            let newUsersProduct = new UsersProduct(null, user_id, product_id, 0)
+            UsersProduct.add(newUsersProduct);
 
         }
         else{
-            BoughtItem.where("user_id",user_id, "item_id",item_id)[0].amount += 1;
+            UsersProduct.where("user_id",user_id, "product_id",product_id)[0].amount += 1;
+        }
+    }
+    //リファクタリング可能
+    static createNewUsersItem(item_id){
+        let user_id = User.currentUser().id
+        // let usersItem = UsersItem.where("user_id",user_id, "item_id",item_id)
+        
+        if(UsersItem.where("user_id",user_id, "item_id",item_id).length == 0){
+
+            let newUsersItem = new UsersItem(null, user_id, item_id, 0)
+            UsersItem.add(newUsersItem);
+
+        }
+        else{
+            UsersItem.where("user_id",user_id, "item_id",item_id)[0].amount += 1;
         }
     }
 

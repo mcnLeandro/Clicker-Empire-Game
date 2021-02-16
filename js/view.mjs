@@ -1,5 +1,5 @@
 import { DB } from './db.mjs'
-import { User,Time,BoughtItem,Product,Item,Type,Img } from './model.mjs'
+import { User,Time,UsersItem,UsersProduct,Product,Item,Type,Img } from './model.mjs'
 import { Controller } from './controller.mjs'
 
 
@@ -172,8 +172,8 @@ export class ViewTemplate {
     }
     static item(item){
         let owning = ()=>{
-            if(BoughtItem.where("user_id",User.currentUser().id,"item_id",item.id).length == 0) return 0
-            else return BoughtItem.where("user_id",User.currentUser().id,"item_id",item.id)[0].amount
+            if(UsersItem.where("user_id",User.currentUser().id,"item_id",item.id).length == 0) return 0
+            else return UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)[0].amount
         }
 
         return `

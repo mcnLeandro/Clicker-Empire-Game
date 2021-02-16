@@ -136,15 +136,15 @@ export class Img extends DB {
 
 export class ModelHelper{
 
-    static productTypeEffection(item_id, productEarning){
+    static productTypeEffection(item_id, product_id){
 
-        Controller.createNewBoughtItem(item_id);
-        Controller.createNewProduct(item_id,productEarning)
+        Controller.createNewUsersItem(item_id);
+        Controller.createNewUsersProduct(product_id)
     
     }
     static abilityTypeEffection(item_id, additonalPrice){
 
-        Controller.createNewBoughtItem(item_id);
+        Controller.createNewUsersItem(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -153,7 +153,7 @@ export class ModelHelper{
     }
     static manpowerTypeEffection(item_id){
 
-        Controller.createNewBoughtItem(item_id);
+        Controller.createNewUsersItem(item_id);
 
         let user_id = User.currentUser().id
         let product = Product.where("user_id",user_id,"item_id",item_id)[0];
@@ -163,13 +163,13 @@ export class ModelHelper{
     //3000 *= 10 roop問題あり
     static investimentTypeEffection(item_id, returnPercentage, itemPriceChange){
 
-        Controller.createNewBoughtItem(item_id);
+        Controller.createNewUsersItem(item_id);
 
         let user = User.currentUser()
 
-        let boughtItem = BoughtItem.where("user_id",user.id,"item_id",item_id)[0];
-        let itemPrice = boughtItem.item().price;
-        let itemAmount = boughtItem.amount;
+        let usersItem = UsersItem.where("user_id",user.id,"item_id",item_id)[0];
+        let itemPrice = usersItem.item().price;
+        let itemAmount = usersItem.amount;
 
         let additionalReturn = Math.round(itemPrice * (itemAmount) * (returnPercentage/100)) - Math.round(itemPrice * (itemAmount-1) * (returnPercentage/100));
 
@@ -179,7 +179,7 @@ export class ModelHelper{
     }
     static realEstateTypeEffection(item_id, additionalReturn){
 
-        Controller.createNewBoughtItem(item_id);
+        Controller.createNewUsersItem(item_id);
 
         let user = User.currentUser()
 

@@ -5,18 +5,21 @@ import { ModelHelper } from './model.mjs'
 import { Controller } from './controller.mjs'
 
 
-
 //==============================================
 //DBの初期化 (initilize DB )
 //==============================================
 
 [
-    new Img("Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png")
+    new Img("Hamburger","https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png"),
+    new Img("Lemonade","https://cdn.pixabay.com/photo/2012/04/15/20/36/juice-35236_960_720.png"),
+    new Img("Ice Creame","https://cdn.pixabay.com/photo/2020/03/19/07/19/ice-cream-4946596_960_720.png"),
 ].forEach(img => Img.add(img));
 
 [
-    new User("master", 20, 0,50000)
-].forEach(user => User.add(user));
+    new Product(1,"Hamburger" , 0, 25 , 0),
+    new Product(2,"Lemonade"  , 0, 50 , 0),
+    new Product(3,"Ice Creame", 0, 150, 0),
+].forEach(product => Product.add(product));
 
 [
     new Item( 1 , 1 , "Hamburger"               , "Release Hamburger"                                , 1   , 30000         ),
@@ -54,14 +57,12 @@ import { Controller } from './controller.mjs'
 
 Controller.top()
 
-///1。Viewのコメントを見る
-///3. startGame関数がゲームをスタートする関数かゲームページを表示する関数かわからないので分解して用途ごとの関数に分ける。
-///4. ログアウト機能を作る。
+
 ///5.ログイン機能を作る
-///6. productInfoの前にslideの作成をする必要があるのでめんどくさくてもtest用のHTML作成するなりして復習しながらslide完成させる。またProductがからの場合も考慮する。
+///6. productInfoの前にslideの作成をする必要があるのでめんどくさくてもtest用のHTML作成するなりして復習しながらslide完成させる。またProductが空の場合も考慮する。
 ///7. indexからのshowを表示できるようにする。addEventListenner
 ///8。商品が購入できるようにする。
 ///9. investimenntのprice変動問題を解決する
-///10. Productの挙動を確認する。
+///10. UsersProductの挙動を確認する。
 ///11.もう一度このやることリストを作り直す。 
-// 12. img探しをする(みんなのを使ってもいいかも)
+// 12. img探しをする
