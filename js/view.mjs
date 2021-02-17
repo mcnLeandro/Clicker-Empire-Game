@@ -15,7 +15,10 @@ export class View {
             </div>
         `
 
+
         document.getElementById("body").innerHTML = ViewTemplate.base(innerMain)
+
+
         Render.navLinks()
         Render.clickToSignUp("newGameBtn")
         Render.clickToLogin("loginBtn")
@@ -31,7 +34,10 @@ export class View {
             </div>
         `
 
+
         document.getElementById("body").innerHTML = ViewTemplate.base(innnerMain)
+
+
         Render.navLinks()
         Render.clickToRegistration("startGameBtn")
     }
@@ -41,12 +47,17 @@ export class View {
     static app(){
         let user = User.currentUser()
 
-        let userInfo = ViewTemplate.userInfo(user)
-        let productInfo = ViewTemplate.productSliderFrame()
-        let itemInfo = ViewTemplate.itemIndex()
+        // let userInfo = ViewTemplate.userInfo(user)
+        // let productInfo = ViewTemplate.productSliderFrame()
+        // let itemInfo = ViewTemplate.itemIndex()
 
-        document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames(userInfo,productInfo,itemInfo))
+
+        document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames())
+
+
         Render.navLinks()
+        View.itemIndex()
+
         new Slider(
             "sliderProduct",
             "productSliderShowFrame",
@@ -55,6 +66,140 @@ export class View {
             "productSliderLeftBtn",
             "productSliderRightBtn"
         ).set()
+
+        
+    }
+    static userInfo(user){
+        return `
+            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
+            </div>
+        `
+    }
+    static productInfoWithSlider(){
+        let productData = ""
+        // User.currentUser().users_products().forEach(product => productData += ViewTamplate.productInfo(product)) 
+        Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
+
+        return `
+        <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
+            <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">
+                <div id="productSliderMain" class="main full-width">
+
+                </div>
+                <div id="productSliderExtra" class="extra full-width">
+
+                </div>
+            </div>
+            <div class="slider-data d-none">
+                ${productData}
+            </div>
+            <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
+                <div class="col-11 my-2 mt-auto">
+                    <div id="controls" class="d-flex justify-content-center mt-2">
+                        <button id="productSliderLeftBtn" class="btn btn-light"><</button>
+                        <button id="productSliderRightBtn" class="btn btn-light">></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    }
+    static itemIndex(){
+        let items = ""
+        Item.all().forEach(item => items += ViewTemplate.item(item))
+
+        let itemIndex =  `
+            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
+
+                ${items}
+                
+            </div>
+        `
+
+        document.getElementById("itemInfoFrame").innerHTML = itemIndex;
+
+        Item.all().forEach(item => {
+            if(document.querySelector(`#item${item.id} #itemShowBtn`)){
+                document.querySelector(`#item${item.id} #itemShowBtn`).addEventListener("click",()=>{
+                    View.itemShow(item)
+                })
+            };
+            
+        })
+
+    }
+    //コメントアウトの部分。inoputの部分を別の関数として作り直してイベントを使ってtotalの部分だけでもrenderする必要がある
+    static itemShow(item){
+        let inputControl = () =>{
+            let input = document.querySelector("#itemQuantityInput");
+            let value = input.value;
+            value = (value < item.stock)?(value > 0)?value: "" : item.stock ;
+
+            input.value = value;
+        }
+        let calculateTotalPrice = () => {
+
+            if(!document.querySelector("#itemQuantityInput"))return 0;
+            
+            let value = document.querySelector("#itemQuantityInput").value;
+
+            if(value == "" || value == null) return 0;
+            return item.price * parseInt(value);
+        }
+        let addEventListennerToInputSection = ()=>{
+            document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
+                inputControl()
+                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+            })
+            document.querySelector("#itemQuantityInput").addEventListener("keyup",()=>{
+                inputControl()
+                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+            })
+        }
+
+
+        let itemShow = `
+        <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
+
+            <section class="mt-2 p-2 rounded">
+                <div class="m-2 p-5 shadow bg-light-gray rounded">
+                    <div>
+                        <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
+                    </div>
+                    <div class="col-12 col-lg-3 ml-lg-auto float-lg-right">
+                        <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
+                    </div>
+                    <div class="p-2 col-7 ">
+                        <h2>${item.name}</h2>
+                        <p>Max Purchases : ${item.stock}</p>
+                        <p>Price : ${item.price}</p>
+                        <h3>Effection</h3>
+                        <p>${item.introduction}</p>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-end ">
+                        <div class="col-12 col-md-5 p-0 text-right">
+                            <p>How many would you like to purchse?</p>
+                            <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
+                            <p id="totalPriceP" class="border-bottom">Total : ${calculateTotalPrice()}</p>
+                            <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        `
+
+        document.getElementById("itemInfoFrame").innerHTML = itemShow;
+
+
+        Render.clickToLoadItemIndex("goBackIcon")
+        addEventListennerToInputSection()
+
     }
 
 }
@@ -116,7 +261,7 @@ export class ViewTemplate {
                 //=============================================
                 -->
                 <div id="userInfoFrame">
-                    ${userInfo}
+                    ${!userInfo?"":userInfo}
                 </div>
             </div>
             <div class="col-lg-5 col-12 bg-light-gray p-3 float-lg-left product-info-section">
@@ -126,7 +271,7 @@ export class ViewTemplate {
                 //=============================================
                 -->
                 <div id="productInfoFrame">
-                    ${productInfo}
+                    ${!productInfo?"":productInfo}
                 </div>
             </div>
             <div class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
@@ -136,21 +281,12 @@ export class ViewTemplate {
                 //=============================================
                 -->
                 <div id="itemInfoFrame">
-                    ${itemInfo}
+                    ${!itemInfo?"":productInfo}
                 </div>
             </div>
         `
     }
-    static userInfo(user){
-        return `
-            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
-            </div>
-        `
-    }
+    
     static productDescription(usersProduct){
         return `
             <div class="text-center p-2 white">${usersProduct.amount} ${usersProduct.name.toLowerCase()}s</div>
@@ -161,8 +297,8 @@ export class ViewTemplate {
         let maker = `<i class="fas fa-user fa-2x white up_down"></i>` + `\n`
         let makers = ``;
 
-        // for(let i = 1 ; i <= usersProduct.makerAmount; i++) makers += maker;
-        for(let i = 1 ; i <= 6 ; i++ ) makers += maker
+        for(let i = 1 ; i <= usersProduct.makerAmount; i++) makers += maker;
+        // for(let i = 1 ; i <= 6 ; i++ ) makers += maker
 
         return makers;
     }
@@ -188,35 +324,7 @@ export class ViewTemplate {
             </div>
         `
     }
-    static productSliderFrame(){
-        let productData = ""
-        // User.currentUser().users_products().forEach(product => productData += ViewTamplate.productInfo(product)) 
-        Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
-
-        return `
-        <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
-            <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">
-                <div id="productSliderMain" class="main full-width">
-
-                </div>
-                <div id="productSliderExtra" class="extra full-width">
-
-                </div>
-            </div>
-            <div class="slider-data d-none">
-                ${productData}
-            </div>
-            <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
-                <div class="col-11 my-2 mt-auto">
-                    <div id="controls" class="d-flex justify-content-center mt-2">
-                        <button id="productSliderLeftBtn" class="btn btn-light"><</button>
-                        <button id="productSliderRightBtn" class="btn btn-light">></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `
-    }
+    
     static item(item){
         let owning = ()=>{
             if(UsersItem.where("user_id",User.currentUser().id,"item_id",item.id).length == 0) return 0
@@ -241,66 +349,6 @@ export class ViewTemplate {
             </section>
         `
     }
-    static itemIndex(){
-        let items = ""
-        Item.all().forEach(item => items += ViewTemplate.item(item))
-
-        return `
-            <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-
-                ${items}
-                
-            </div>
-        `
-    }
-    //コメントアウトの部分。inoputの部分を別の関数として作り直してイベントを使ってtotalの部分だけでもrenderする必要がある
-    static itemShow(item){
-        let totalPrice = () => {
-
-            if(!document.querySelector("#itemQuantityInput"))return 0;
-            
-            let value = document.querySelector("#itemQuantityInput").value;
-            if(value == "" || value == null) return 0;
-            else return item.price * parseInt(value);
-        }
-        let add = ()=>{
-            document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
-                document.querySelector("#totalPrice").innerHTML = `Total : ${totalPrice()}`
-            })
-            document.querySelector("#itemQuantityInput").addEventListener("mouseleave",()=>{
-                document.querySelector("#totalPrice").innerHTML = `Total : ${totalPrice()}`
-            })
-        }
-        return `
-        <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
-
-            <section class="mt-2 p-2 rounded">
-                <div class="m-2 p-5 shadow bg-light-gray rounded">
-                    <div>
-                        <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
-                    </div>
-                    <div class="col-12 col-lg-3 ml-lg-auto float-lg-right">
-                        <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
-                    </div>
-                    <div class="p-2 col-7 ">
-                        <h2></h2>
-                        <p>Max Purchases : ${item.stock}</p>
-                        <p>Price : ${item.price}</p>
-                        <h3>Effection</h3>
-                        <p>${item.introduction}</p>
-                    </div>
-                    <div class="mt-2 d-flex justify-content-end ">
-                        <div class="col-12 col-md-5 p-0 text-right">
-                            <p>How many would you like to purchse?</p>
-                            <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
-                            <p id="totalPriceP" class="border-bottom">Total : ${totalPrice}</p>
-                            <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-        </div>
-        `
-    }
+    
+    
 }

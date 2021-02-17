@@ -84,6 +84,9 @@ export class Render {
     static clickToDestroySession(elementId){
         document.getElementById(elementId).addEventListener("click", ()=> Controller.destroySession())
     }
+    static clickToLoadItemIndex(elementId){
+        document.getElementById(elementId).addEventListener("click", ()=> View.itemIndex())
+    }
 
 
     static clickToShowDBInConsole(elementId){

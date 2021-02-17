@@ -57,10 +57,10 @@ import { Controller } from './controller.mjs'
 
 Controller.top()
 
-///5.ログイン機能を作る
-///7. indexからのshowを表示できるようにする。addEventListenner
-///8。商品が購入できるようにする。
-///9. investimenntのprice変動問題を解決する
-///10. UsersProductの挙動を確認する。
-///11.もう一度このやることリストを作り直す。 
-// 12. img探しをする
+///2。商品が購入できるようにする。
+///3. investimenntのprice変動問題を解決する
+///4. UsersProductの挙動を確認する。
+///5. もう一度このやることリストを作り直す。 
+///6. ログイン機能を作る
+///7.HTMLのオーバーフローについてはもう一度検討する必要がある。
+///7. img探しをする
