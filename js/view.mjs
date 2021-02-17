@@ -45,32 +45,16 @@ export class View {
         //ログイン画面
     }
     static app(){
-        let user = User.currentUser()
-
-        // let userInfo = ViewTemplate.userInfo(user)
-        // let productInfo = ViewTemplate.productSliderFrame()
-        // let itemInfo = ViewTemplate.itemIndex()
-
 
         document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames())
-
+        View.userInfo(User.currentUser())
+        View.itemIndex()
+        View.productInfoWithSlider()
 
         Render.navLinks()
-        View.itemIndex()
-
-        new Slider(
-            "sliderProduct",
-            "productSliderShowFrame",
-            "productSliderMain",
-            "productSliderExtra",
-            "productSliderLeftBtn",
-            "productSliderRightBtn"
-        ).set()
-
-        
     }
     static userInfo(user){
-        return `
+        let userInfo =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
@@ -78,13 +62,17 @@ export class View {
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
             </div>
         `
+        document.getElementById("userInfoFrame").innerHTML = userInfo;
+
+
     }
+    //本来はPeoduct.allではなくUserに関連ずいたUsersProductを使う。
     static productInfoWithSlider(){
         let productData = ""
         // User.currentUser().users_products().forEach(product => productData += ViewTamplate.productInfo(product)) 
         Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
 
-        return `
+        let productInfoWithSlider = `
         <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
             <div id="productSliderShowFrame" class="row flex-nowrap overflow-hiddens pl-lg-5 pl-3">
                 <div id="productSliderMain" class="main full-width">
@@ -107,6 +95,16 @@ export class View {
             </div>
         </div>
         `
+        document.getElementById("productInfoFrame").innerHTML = productInfoWithSlider;
+
+        new Slider(
+            "sliderProduct",
+            "productSliderShowFrame",
+            "productSliderMain",
+            "productSliderExtra",
+            "productSliderLeftBtn",
+            "productSliderRightBtn"
+        ).set()
     }
     static itemIndex(){
         let items = ""
@@ -125,14 +123,15 @@ export class View {
         Item.all().forEach(item => {
             if(document.querySelector(`#item${item.id} #itemShowBtn`)){
                 document.querySelector(`#item${item.id} #itemShowBtn`).addEventListener("click",()=>{
-                    View.itemShow(item)
+                    View.itemShow(item);
                 })
             };
             
         })
 
     }
-    //コメントアウトの部分。inoputの部分を別の関数として作り直してイベントを使ってtotalの部分だけでもrenderする必要がある
+    //購入できる数はユーザーがいくつそのitemを持っているかで変更していく必要がある。
+    //その辺の曖昧な部分をまだ考える必要がある。
     static itemShow(item){
         let inputControl = () =>{
             let input = document.querySelector("#itemQuantityInput");
@@ -165,7 +164,7 @@ export class View {
         let itemShow = `
         <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-            <section class="mt-2 p-2 rounded">
+            <section class="mt-2 p-2 rounded " >
                 <div class="m-2 p-5 shadow bg-light-gray rounded">
                     <div>
                         <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>

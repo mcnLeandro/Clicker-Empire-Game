@@ -17,10 +17,10 @@ export class Slider {
     set(){
         if(this.sliderItems.length != 0){
 
-            this.main.append(this.sliderItems[0]);
-            this.main.setAttribute("data-index", "0");
-        
-        
+            this.main.append(this.sliderItems[1]);
+            this.main.setAttribute("data-index", "1");
+            this.slideJump(-1, "left");
+
             this.leftBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(-1, "left");
             });
@@ -28,7 +28,7 @@ export class Slider {
             this.rightBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(+1, "right");
             });
-            
+
         }
     }
     slideJump(steps, animationType) {
