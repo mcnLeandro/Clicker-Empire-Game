@@ -297,7 +297,6 @@ export class ViewTemplate {
         let makers = ``;
 
         for(let i = 1 ; i <= usersProduct.makerAmount; i++) makers += maker;
-        // for(let i = 1 ; i <= 6 ; i++ ) makers += maker
 
         return makers;
     }

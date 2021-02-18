@@ -30,6 +30,16 @@ export class Slider {
             });
 
         }
+        else {
+            let div = document.createElement("div")
+            div.classList.add("h-500px","p-5")
+
+            let p = document.createElement("p")
+            p.classList.add("white","text-center")
+            p.innerHTML = "You don't have a single product. You should get that from items."
+            div.append(p)
+            this.main.append(div)
+        }
     }
     slideJump(steps, animationType) {
         let index = parseInt(this.main.getAttribute("data-index"));

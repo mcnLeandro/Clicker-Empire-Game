@@ -22,6 +22,9 @@ footer{
 .h-90vh{
     height: 90vh;
 }
+.h-500px{
+    height: 500px;
+}
 .ultra-lg{
     font-size: 10vw;
 }
