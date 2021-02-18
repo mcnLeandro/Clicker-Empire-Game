@@ -164,7 +164,7 @@ export class View {
         let itemShow = `
         <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-            <section class="mt-2 p-2 rounded " >
+            <section class="mt-2 p-2 rounded col-12" >
                 <div class="m-2 p-5 shadow bg-light-gray rounded">
                     <div>
                         <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
@@ -177,7 +177,7 @@ export class View {
                         <p>Max Purchases : ${item.stock.toLocaleString()}</p>
                         <p>Price : ${item.price.toLocaleString()}</p>
                         <h3>Effection</h3>
-                        <p>${item.introduction}</p>
+                        <p>${item.introduction()}</p>
                     </div>
                     <div class="mt-2 d-flex justify-content-end ">
                         <div class="col-12 col-md-5 p-0 text-right">

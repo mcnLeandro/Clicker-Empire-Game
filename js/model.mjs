@@ -95,29 +95,33 @@ export class Product extends DB {
     }
 }
 export class Item extends DB {
-    constructor(type_id, img_id, name, introduction, stock, price){
+    constructor(type_id, img_id, name, stock, price, effectionParamsArr){
         super(null)
 
         this.type_id  = type_id
         this.img_id = img_id
 
         this.name = name
-        this.introduction = introduction
         this.stock = stock
         this.price = price
 
+        let type = Type.find(type_id)
+        this.introduction = type.introductionTemplate(...effectionParamsArr)
+        this.effection = type.effectionTemplate(...effectionParamsArr)
+        
         super.belongsTo(Type)
         super.belongsTo(Img)
         super.hasmany(UsersItem)
     }
 }
 export class Type extends DB {
-    constructor(name, effection){
+    constructor(name, introductionTemplate,effectionTemplate){
         super(null)
 
         this.name = name
-        this.effection = () => effection
-
+        this.introductionTemplate = introductionTemplate
+        this.effectionTemplate = effectionTemplate
+        
         super.hasmany(Item)
     }
 }
@@ -136,54 +140,92 @@ export class Img extends DB {
 
 export class ModelHelper{
 
-    static productTypeEffection(item_id, product_id){
+    static productTypeEffectionTemplate(product_id){
 
-        Controller.createNewUsersItem(item_id);
-        Controller.createNewUsersProduct(product_id)
+        return () => {
+            Controller.createNewUsersItem(this.id);
+            Controller.createNewUsersProduct(product_id)
+        }
+    }
+    static abilityTypeEffectionTemplate(product_id, additonalPrice){
+        return () => {
+            Controller.createNewUsersItem(this.id);
     
-    }
-    static abilityTypeEffection(item_id, additonalPrice){
-
-        Controller.createNewUsersItem(item_id);
-
-        let user_id = User.currentUser().id
-        let product = Product.where("user_id",user_id,"item_id",item_id)[0];
-        product.earningPerDay += additonalPrice;
+            let user_id = User.currentUser().id
+            let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
+            usersProduct.earningPerDay += additonalPrice;
+        }
 
     }
-    static manpowerTypeEffection(item_id){
+    static manpowerTypeEffectionTemplate(product_id){
 
-        Controller.createNewUsersItem(item_id);
-
-        let user_id = User.currentUser().id
-        let product = Product.where("user_id",user_id,"item_id",item_id)[0];
-        product.makerAmount += 1;
+        return () => {
+            Controller.createNewUsersItem(this.id);
+    
+            let user_id = User.currentUser().id
+            let product = Product.where("user_id",user_id,"product_id",product_id)[0];
+            product.makerAmount += 1;
+        }
 
     }
     //3000 *= 10 roop問題あり
-    static investimentTypeEffection(item_id, returnPercentage, itemPriceChange){
+    static investimentTypeEffectionTemplate(returnPercentage, itemPriceChange){
 
-        Controller.createNewUsersItem(item_id);
-
-        let user = User.currentUser()
-
-        let usersItem = UsersItem.where("user_id",user.id,"item_id",item_id)[0];
-        let itemPrice = usersItem.item().price;
-        let itemAmount = usersItem.amount;
-
-        let additionalReturn = Math.round(itemPrice * (itemAmount) * (returnPercentage/100)) - Math.round(itemPrice * (itemAmount-1) * (returnPercentage/100));
-
-        user.earningPerDay += additionalReturn;
-
+        return () => {
+            Controller.createNewUsersItem(this.id);
+    
+            let user = User.currentUser()
+    
+            let usersItem = UsersItem.where("user_id",user.id,"item_id",this.id)[0];
+            let itemPrice = usersItem.item().price;
+            let itemAmount = usersItem.amount;
+    
+            let additionalReturn = Math.round(itemPrice * (itemAmount) * (returnPercentage/100)) - Math.round(itemPrice * (itemAmount-1) * (returnPercentage/100));
+    
+            user.earningPerDay += additionalReturn;
+        }
         
     }
-    static realEstateTypeEffection(item_id, additionalReturn){
+    static realEstateTypeEffectionTemplate(additionalReturn){
 
-        Controller.createNewUsersItem(item_id);
+        return () => {
+            Controller.createNewUsersItem(this.id);
+    
+            let user = User.currentUser()
+    
+            user.earningPerDay += additionalReturn;
+        }
 
-        let user = User.currentUser()
+    }
 
-        user.earningPerDay += additionalReturn;
 
+
+    static productTypeIntroductionTemplate(product_id){
+        let productName = Product.find(product_id).name
+        return () => {
+            return `Release ${productName}.`
+        }
+    }
+    static abilityTypeIntroductionTemplate(product_id,additonalPrice){
+        let productName = Product.find(product_id).name
+        return () => {
+            return `Increase earning from making ${productName} by ${additonalPrice.toLocaleString()} yen.`
+        }
+    }
+    static manpowerTypeIntroductionTemplate(product_id){
+        let productName = Product.find(product_id).name
+        return () => {
+            return `Hire an employee to make ${productName}.`
+        }
+    }
+    static investimentTypeIntroductionTemplate(returnPercentage, priceChangePercentage){
+        return () => {
+            return `Get ${returnPercentage}% of total price of this item you bought. The Item's price will increase by ${priceChangePercentage}% when you purchase the item. `
+        }
+    }
+    static realEstateTypeIntroductionTemplate(additionalReturn){
+        return () => {
+            return `Get ${additionalReturn.toLocaleString()} yen per day.`
+        }
     }
 }
