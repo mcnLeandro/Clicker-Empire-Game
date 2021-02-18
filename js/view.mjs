@@ -57,9 +57,9 @@ export class View {
         let userInfo =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age} yrs old</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day} days</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney} yen</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age.toLocaleString()} yrs old</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day.toLocaleString()} days</div>
+                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney.toLocaleString()} yen</div>
             </div>
         `
         document.getElementById("userInfoFrame").innerHTML = userInfo;
@@ -147,7 +147,7 @@ export class View {
             let value = document.querySelector("#itemQuantityInput").value;
 
             if(value == "" || value == null) return 0;
-            return item.price * parseInt(value);
+            return (item.price * parseInt(value)).toLocaleString();
         }
         let addEventListennerToInputSection = ()=>{
             document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
@@ -174,8 +174,8 @@ export class View {
                     </div>
                     <div class="p-2 col-7 ">
                         <h2>${item.name}</h2>
-                        <p>Max Purchases : ${item.stock}</p>
-                        <p>Price : ${item.price}</p>
+                        <p>Max Purchases : ${item.stock.toLocaleString()}</p>
+                        <p>Price : ${item.price.toLocaleString()}</p>
                         <h3>Effection</h3>
                         <p>${item.introduction}</p>
                     </div>
@@ -339,7 +339,7 @@ export class ViewTemplate {
                     <div class="p-3 col-6 ">
                         <h2>${item.name}</h2>
                         <p class="mt-3">Owning : ${owning()}</p>
-                        <p>Price : ${item.price} yen</p>
+                        <p>Price : ${item.price.toLocaleString()} yen</p>
                     </div>
                     <div class="mt-auto mb-auto col-3">
                         <button id="itemShowBtn" class="btn btn-primary w-100">show</button>

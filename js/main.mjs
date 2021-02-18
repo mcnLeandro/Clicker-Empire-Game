@@ -10,6 +10,14 @@ import { Controller } from './controller.mjs'
 //==============================================
 
 [
+    new User("Debug",20,50000000000000000000000000000000,0)
+].forEach(user => User.add(user));
+
+[
+    new Time(1,1,1000)
+].forEach(time => Time.add(time));
+
+[
     new Img("Hamburger" ,"https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png"),
     new Img("Lemonade"  ,"https://cdn.pixabay.com/photo/2012/04/15/20/36/juice-35236_960_720.png"),
     new Img("Ice Creame","https://cdn.pixabay.com/photo/2020/03/19/07/19/ice-cream-4946596_960_720.png"),
@@ -22,15 +30,15 @@ import { Controller } from './controller.mjs'
 ].forEach(product => Product.add(product));
 
 [
-    new Item( 1 , 1 , "Hamburger"               , "Release Hamburger"                                , 1   , 30000         ),
-    new Item( 1 , 1 , "Lemonade"                , "Release Lemonade"                                 , 1   , 60000         ),
-    new Item( 1 , 1 , "Ice Cream"               , "Release Ice Cream"                                , 1   , 90000         ),
+    new Item( 1 , 1 , "Hamburger"               , "Release Hamburger"                                , 1   , 0             ),
+    new Item( 1 , 2 , "Lemonade"                , "Release Lemonade"                                 , 1   , 30000         ),
+    new Item( 1 , 3 , "Ice Cream"               , "Release Ice Cream"                                , 1   , 60000         ),
     new Item( 2 , 1 , "Flip machine"            , "Increase earning from making Hamburger by 25 yen" , 500 , 15000         ),
     new Item( 2 , 1 , "Lemonade Stand"          , "Increase earning from making Lemonade by 50 yen"  , 1000, 30000         ),
     new Item( 2 , 1 , "Ice Cream Truck"         , "Increase earning from making Ice Cream by 150 yen", 500 , 100000        ),
-    new Item( 3 , 1 , "Hamburger Coworker"      , "Employ worker for making Hamburger"               , 10  , 3000          ),
-    new Item( 3 , 1 , "Lemonade Coworker"       , "Employ worker for making Lemonade"                , 10  , 3000          ),
-    new Item( 3 , 1 , "Ice Cream Coworker"      , "Employ worker for making Ice Cream"               , 10  , 3000          ),
+    new Item( 3 , 1 , "Hamburger Coworker"      , "Employ worker for making Hamburger"               , 10  , 30000         ),
+    new Item( 3 , 1 , "Lemonade Coworker"       , "Employ worker for making Lemonade"                , 10  , 30000         ),
+    new Item( 3 , 1 , "Ice Cream Coworker"      , "Employ worker for making Ice Cream"               , 10  , 30000         ),
     new Item( 4 , 1 , "ETF Stock"               , "Get 0.1% of total price of  this item you bought" , null, 300000        ),
     new Item( 4 , 1 , "ETF Bonds"               , "Get 0.07% of total price of  this item you bought", null, 300000        ),
     new Item( 5 , 1 , "House"                   , "Get 32000 yen per day"                            , 100 , 20000000      ),
@@ -55,7 +63,14 @@ import { Controller } from './controller.mjs'
 
 
 
-Controller.top()
+// Controller.top()
+Controller.session(1)
+///Typreモデル=>introduction()を持つ
+///Itemモデル=> introductionがなくなりeffectionParamsArrが追加される
+///item.type().effection(...item.effectionParamsArr) => effection
+///item.type().introduction(...item.effectionParamsArr) => introduction
+///item_idをなんとか引数なしで自動的に手に入れたい。最終手段はHTMLから
+///item_idはitemのなかのparamsを配列ではなくて連想配列にして関数を埋め込めば取得できるかも。配列でも同じことができるかも
 
 ///2。商品が購入できるようにする。
 ///3. investimenntのprice変動問題を解決する
