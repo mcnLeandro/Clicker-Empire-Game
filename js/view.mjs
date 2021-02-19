@@ -7,6 +7,7 @@ export class View {
     
     static top(){
 
+
         document.getElementById("body").innerHTML = ViewTemplate.base(
             `
                 <div class="d-flex justify-content-center h-90vh">
@@ -21,6 +22,7 @@ export class View {
         Render.navLinks()
         Render.clickToSignUp("newGameBtn")
         Render.clickToLogin("loginBtn")
+
 
     }
     static signUp(){
@@ -58,12 +60,9 @@ export class View {
             </div>
         `
 
+
     }
     static productInfoWithSlider(){
-
-        
-        let productData = ""
-        User.currentUser().users_products().forEach(product => productData += ViewTemplate.productInfo(product)) 
 
 
         document.getElementById("productInfoFrame").innerHTML = `
@@ -77,7 +76,7 @@ export class View {
                 </div>
             </div>
             <div class="slider-data d-none">
-                ${productData}
+                ${ User.currentUser().users_products().reduce((products,product) => products + ViewTemplate.productInfo(product),``)}
             </div>
             <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-11 my-2 mt-auto">
@@ -104,13 +103,10 @@ export class View {
     static itemIndex(){
 
 
-        let items = ""
-        Item.all().forEach(item => items += ViewTemplate.item(item))
-
         document.getElementById("itemInfoFrame").innerHTML =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${items}
+                ${Item.all().reduce((items,item) => items + ViewTemplate.item(item),``)}
                 
             </div>
         `
@@ -221,7 +217,7 @@ export class View {
 }
 
 export class ViewTemplate {
-    
+
     static base(view){
 
 
@@ -372,8 +368,10 @@ export class ViewTemplate {
 
 
         let owning = ()=>{
-            if(UsersItem.where("user_id",User.currentUser().id,"item_id",item.id).length == 0) return 0
-            else return UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)[0].amount
+            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+
+            if(usersItemSearchedArr.length == 0) return 0
+            else return usersItemSearchedArr[0].amount
         }
 
         return `
@@ -384,7 +382,7 @@ export class ViewTemplate {
                     </div>
                     <div class="p-3 col-6 ">
                         <h2>${item.name}</h2>
-                        <p class="mt-3">Owning : ${owning()}</p>
+                        <p class="mt-3">Owning : ${owning().toLocaleString()}</p>
                         <p>Price : ${item.price.toLocaleString()} yen</p>
                     </div>
                     <div class="mt-auto mb-auto col-3">
