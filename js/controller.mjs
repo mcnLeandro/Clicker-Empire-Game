@@ -8,12 +8,17 @@ export class Controller {
 
 
     static top(){
+
         View.top()
+
     }
     static signUp(){
+
         View.signUp()
+
     }
     static registration(){
+
         let userName = document.getElementById("nameInput").value
         let newUser = new User(userName,20,0,50000)
         User.add(newUser)
@@ -22,50 +27,56 @@ export class Controller {
         Time.add(newTime)
 
         Controller.session(newUser.id)
+
     }
     static login(){
         //ログインページを表示
     }
     static session(user_id){
+
         document.getElementById("current-user-id").setAttribute("current-user-id", user_id )
         Controller.app()
+
     }
     static destroySession(){
+
         document.getElementById("current-user-id").setAttribute("current-user-id", "" )
         Controller.top()
+
     }
     static app(){
+
         View.app()
+
     }
 
 
-
-    //リファクタリング可能
     static createNewUsersProduct(product_id){
-        let user_id = User.currentUser().id
-        // let usersProduct = UsersProduct.where("user_id",user_id, "product_id",product_id)
 
-        if(UsersProduct.where("user_id",user_id, "product_id",product_id).length == 0){
+        let user_id = User.currentUser().id
+        let usersProductSearchedArr = UsersProduct.where("user_id",user_id, "product_id",product_id)
+
+        if(usersProductSearchedArr.length == 0){
 
             let newUsersProduct = new UsersProduct(user_id, product_id, 0)
             UsersProduct.add(newUsersProduct);
-
         }
     }
-    //リファクタリング可能
     static createNewUsersItem(item_id){
+
         let user_id = User.currentUser().id
-        // let usersItem = UsersItem.where("user_id",user_id, "item_id",item_id)
+        let usersItemSearchedArr = UsersItem.where("user_id",user_id, "item_id",item_id)
 
-        if(UsersItem.where("user_id",user_id, "item_id",item_id).length == 0){
+        if(usersItemSearchedArr.length == 0){
 
-            let newUsersItem = new UsersItem(user_id, item_id, 0)
+            let newUsersItem = new UsersItem(user_id, item_id, 1)
             UsersItem.add(newUsersItem);
 
         }
         else{
-            UsersItem.where("user_id",user_id, "item_id",item_id)[0].amount += 1;
+            usersItemSearchedArr[0].amount += 1;
         }
+
     }
 
 
