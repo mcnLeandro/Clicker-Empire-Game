@@ -152,7 +152,7 @@ export class Img extends DB {
 }
 //==============================================
 //modelのヘルプ関数などを管理する。
-//基本的にはtypeのeffection関数を管理することになる。
+//基本的にはtypeのeffection関数とintroduction関数を管理することになる。
 //ちょっとダサいかもしれないけど今回はこれで行く
 //==============================================
 
@@ -161,36 +161,51 @@ export class ModelHelper{
     static productTypeEffectionTemplate(product_id){
         return function() {
 
+            User.currentUser().totalMoney -= this.price
+            
             Controller.createNewUsersItem(this.id);
             Controller.createNewUsersProduct(product_id)
 
             View.productInfoWithSlider()
+
+
         }
     }
     static abilityTypeEffectionTemplate(product_id, additonalPrice){
         return function() {
+
+            let user = User.currentUser()
+            user.totalMoney -= this.price
+
             Controller.createNewUsersItem(this.id);
     
-            let user_id = User.currentUser().id
-            let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
+            let usersProduct = UsersProduct.where("user_id",user.id,"product_id",product_id)[0];
             usersProduct.earning += additonalPrice;
+
         }
     }
     static manpowerTypeEffectionTemplate(product_id){
         return function() {
+
+            let user = User.currentUser()
+            user.totalMoney -= this.price
+
             Controller.createNewUsersItem(this.id);
     
-            let user_id = User.currentUser().id
-            let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
+            let usersProduct = UsersProduct.where("user_id",user.id,"product_id",product_id)[0];
             usersProduct.makerAmount += 1;
+            
+            View.productInfoWithSlider()
         }
     }
     //3000 *= 10 roop問題あり
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChange){
         return function() {
-            Controller.createNewUsersItem(this.id);
-    
+
             let user = User.currentUser()
+            user.totalMoney -= this.price
+
+            Controller.createNewUsersItem(this.id);
     
             let usersItem = UsersItem.where("user_id",user.id,"item_id",this.id)[0];
             let itemPrice = usersItem.item().price;
@@ -199,14 +214,19 @@ export class ModelHelper{
             let additionalReturn = Math.round(itemPrice * (itemAmount) * (returnPercentage/100)) - Math.round(itemPrice * (itemAmount-1) * (returnPercentage/100));
     
             user.earningPerDay += additionalReturn;
+
         }
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
         return function() {
+
+            let user = User.currentUser()
+            user.totalMoney -= this.price
+
             Controller.createNewUsersItem(this.id);
     
-            let user = User.currentUser()
             user.earningPerDay += additionalReturn;
+
         }
     }
 
@@ -214,29 +234,39 @@ export class ModelHelper{
     static productTypeIntroductionTemplate(product_id){
         let productName = Product.find(product_id).name
         return function() {
+
             return `Release ${productName}.`
+
         }
     }
     static abilityTypeIntroductionTemplate(product_id, additonalPrice){
         let productName = Product.find(product_id).name
         return function() {
+
             return `Increase earning from making ${productName} by ${additonalPrice.toLocaleString()} yen.`
+
         }
     }
     static manpowerTypeIntroductionTemplate(product_id){
         let productName = Product.find(product_id).name
         return function() {
+
             return `Hire an employee to make ${productName}.`
+
         }
     }
     static investimentTypeIntroductionTemplate(returnPercentage, priceChangePercentage){
         return function() {
+
             return `Get ${returnPercentage}% of total price of this item you bought. The Item's price will increase by ${priceChangePercentage}% when you purchase the item. `
+
         }
     }
     static realEstateTypeIntroductionTemplate(additionalReturn){
         return function() {
+
             return `Get ${additionalReturn.toLocaleString()} yen per day.`
+
         }
     }
 
