@@ -6,7 +6,8 @@ import { Controller, Render} from './controller.mjs'
 //Model classes
 //=================================================
 export class User extends DB {
-    constructor(name, age, totalMoney, earningPerDay){
+
+    constructor(name, age, earningPerDay, totalMoney){
         super(null)
 
         this.name = name
@@ -18,14 +19,17 @@ export class User extends DB {
         super.hasmany(UsersProduct)
         super.hasmany(UsersItem)
     }
+
     static currentUser(){
         if(!document.getElementById("current-user-id").getAttribute("current-user-id"))return false
         let user_id = parseInt(document.getElementById("current-user-id").getAttribute("current-user-id"))
         return User.find(user_id)
     }
+
 }
 export class Time extends DB {
-    constructor(user_id, day,dayLongMS){
+
+    constructor(user_id, day, dayLongMS){
         super(null)
 
         this.user_id  = user_id
@@ -45,8 +49,10 @@ export class Time extends DB {
     getDate(){
 
     }
+
 }
 export class UsersItem extends DB {
+
     constructor(user_id, item_id, amount){
         super(null)
 
@@ -58,9 +64,11 @@ export class UsersItem extends DB {
         super.belongsTo(User)
         super.belongsTo(Item)
     }
+
 }
 export class UsersProduct extends DB{
-    constructor(user_id,product_id){
+
+    constructor(user_id, product_id){
         super(null)
 
         this.user_id = user_id
@@ -79,8 +87,10 @@ export class UsersProduct extends DB{
         super.belongsTo(Product)
         super.belongsTo(Img)
     }
+
 }
 export class Product extends DB {
+
     constructor(img_id, name, amount, earning, makerAmount){
         super(null)
 
@@ -94,8 +104,10 @@ export class Product extends DB {
         super.hasmany(UsersProduct)
         super.belongsTo(Img)
     }
+
 }
 export class Item extends DB {
+
     constructor(type_id, img_id, name, stock, price, effectionParamsArr){
         super(null)
 
@@ -114,9 +126,11 @@ export class Item extends DB {
         super.belongsTo(Img)
         super.hasmany(UsersItem)
     }
+
 }
 export class Type extends DB {
-    constructor(name, introductionTemplate,effectionTemplate){
+
+    constructor(name, introductionTemplate, effectionTemplate){
         super(null)
 
         this.name = name
@@ -125,13 +139,16 @@ export class Type extends DB {
         
         super.hasmany(Item)
     }
+
 }
 export class Img extends DB {
+
     constructor(name, url){
         super(null)
         this.name = name
         this.url  = url
     }
+
 }
 //==============================================
 //modelのヘルプ関数などを管理する。
@@ -142,7 +159,6 @@ export class Img extends DB {
 export class ModelHelper{
 
     static productTypeEffectionTemplate(product_id){
-
         return function() {
 
             Controller.createNewUsersItem(this.id);
@@ -159,10 +175,8 @@ export class ModelHelper{
             let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
             usersProduct.earning += additonalPrice;
         }
-
     }
     static manpowerTypeEffectionTemplate(product_id){
-
         return function() {
             Controller.createNewUsersItem(this.id);
     
@@ -170,11 +184,9 @@ export class ModelHelper{
             let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
             usersProduct.makerAmount += 1;
         }
-
     }
     //3000 *= 10 roop問題あり
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChange){
-
         return function() {
             Controller.createNewUsersItem(this.id);
     
@@ -188,19 +200,15 @@ export class ModelHelper{
     
             user.earningPerDay += additionalReturn;
         }
-        
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
-
         return function() {
             Controller.createNewUsersItem(this.id);
     
             let user = User.currentUser()
             user.earningPerDay += additionalReturn;
         }
-
     }
-
 
 
     static productTypeIntroductionTemplate(product_id){
@@ -209,7 +217,7 @@ export class ModelHelper{
             return `Release ${productName}.`
         }
     }
-    static abilityTypeIntroductionTemplate(product_id,additonalPrice){
+    static abilityTypeIntroductionTemplate(product_id, additonalPrice){
         let productName = Product.find(product_id).name
         return function() {
             return `Increase earning from making ${productName} by ${additonalPrice.toLocaleString()} yen.`
@@ -231,4 +239,5 @@ export class ModelHelper{
             return `Get ${additionalReturn.toLocaleString()} yen per day.`
         }
     }
+
 }
