@@ -27,7 +27,8 @@ export class Slider {
         }
         else if(this.sliderItems.length == 1){
             this.main.append(this.sliderItems[0]);
-            this.main.setAttribute("data-index", "0");
+            this.main.setAttribute("data-index", "1");
+            this.slideJump(-1, "left");
         }
         else {
 

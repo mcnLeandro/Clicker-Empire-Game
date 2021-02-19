@@ -66,12 +66,11 @@ export class View {
 
 
     }
-    //本来はPeoduct.allではなくUserに関連ずいたUsersProductを使う。
     static productInfoWithSlider(){
         let productData = ""
-        console.log(User.currentUser().users_products())
+
         User.currentUser().users_products().forEach(product => productData += ViewTemplate.productInfo(product)) 
-        // Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
+
 
         let productInfoWithSlider = `
         <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">

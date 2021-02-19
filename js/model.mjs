@@ -70,6 +70,7 @@ export class UsersProduct extends DB{
         this.img_id  = product.img_id
 
         this.name        = product.name
+        this.amount      = product.amount
         this.earning     = product.earning
         this.makerAmount = product.makerAmount
 
