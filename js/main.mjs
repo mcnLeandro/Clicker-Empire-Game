@@ -64,12 +64,10 @@ import { Controller } from './controller.mjs'
 
 // Controller.top()
 Controller.session(1)
-let item = Item.find(4)
-console.log(item.introduction())
 
 ///2。商品が購入できるようにする。
 ///3. investimenntのprice変動問題を解決する
-///4. UsersProductの挙動を確認する。
+///4. UsersProductの挙動を確認する。humburgerを買う
 ///5. もう一度このやることリストを作り直す。 
 ///6. ログイン機能を作る
 ///7.HTMLのオーバーフローについてはもう一度検討する必要がある。

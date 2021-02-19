@@ -70,13 +70,13 @@ export class UsersProduct extends DB{
         this.img_id  = product.img_id
 
         this.name        = product.name
-        this.amount      = product.amount
         this.earning     = product.earning
         this.makerAmount = product.makerAmount
 
 
         super.belongsTo(User)
         super.belongsTo(Product)
+        super.belongsTo(Img)
     }
 }
 export class Product extends DB {
@@ -142,36 +142,39 @@ export class ModelHelper{
 
     static productTypeEffectionTemplate(product_id){
 
-        return () => {
+        return function() {
+
             Controller.createNewUsersItem(this.id);
             Controller.createNewUsersProduct(product_id)
+
+            View.productInfoWithSlider()
         }
     }
     static abilityTypeEffectionTemplate(product_id, additonalPrice){
-        return () => {
+        return function() {
             Controller.createNewUsersItem(this.id);
     
             let user_id = User.currentUser().id
             let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
-            usersProduct.earningPerDay += additonalPrice;
+            usersProduct.earning += additonalPrice;
         }
 
     }
     static manpowerTypeEffectionTemplate(product_id){
 
-        return () => {
+        return function() {
             Controller.createNewUsersItem(this.id);
     
             let user_id = User.currentUser().id
-            let product = Product.where("user_id",user_id,"product_id",product_id)[0];
-            product.makerAmount += 1;
+            let usersProduct = UsersProduct.where("user_id",user_id,"product_id",product_id)[0];
+            usersProduct.makerAmount += 1;
         }
 
     }
     //3000 *= 10 roop問題あり
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChange){
 
-        return () => {
+        return function() {
             Controller.createNewUsersItem(this.id);
     
             let user = User.currentUser()
@@ -188,11 +191,10 @@ export class ModelHelper{
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
 
-        return () => {
+        return function() {
             Controller.createNewUsersItem(this.id);
     
             let user = User.currentUser()
-    
             user.earningPerDay += additionalReturn;
         }
 
@@ -202,29 +204,29 @@ export class ModelHelper{
 
     static productTypeIntroductionTemplate(product_id){
         let productName = Product.find(product_id).name
-        return () => {
+        return function() {
             return `Release ${productName}.`
         }
     }
     static abilityTypeIntroductionTemplate(product_id,additonalPrice){
         let productName = Product.find(product_id).name
-        return () => {
+        return function() {
             return `Increase earning from making ${productName} by ${additonalPrice.toLocaleString()} yen.`
         }
     }
     static manpowerTypeIntroductionTemplate(product_id){
         let productName = Product.find(product_id).name
-        return () => {
+        return function() {
             return `Hire an employee to make ${productName}.`
         }
     }
     static investimentTypeIntroductionTemplate(returnPercentage, priceChangePercentage){
-        return () => {
+        return function() {
             return `Get ${returnPercentage}% of total price of this item you bought. The Item's price will increase by ${priceChangePercentage}% when you purchase the item. `
         }
     }
     static realEstateTypeIntroductionTemplate(additionalReturn){
-        return () => {
+        return function() {
             return `Get ${additionalReturn.toLocaleString()} yen per day.`
         }
     }

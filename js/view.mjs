@@ -69,8 +69,9 @@ export class View {
     //本来はPeoduct.allではなくUserに関連ずいたUsersProductを使う。
     static productInfoWithSlider(){
         let productData = ""
-        // User.currentUser().users_products().forEach(product => productData += ViewTamplate.productInfo(product)) 
-        Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
+        console.log(User.currentUser().users_products())
+        User.currentUser().users_products().forEach(product => productData += ViewTemplate.productInfo(product)) 
+        // Product.all().forEach(product => productData += ViewTemplate.productInfo(product))
 
         let productInfoWithSlider = `
         <div id="slideFrame" class="row  mx-5 justify-content-center bg-heavy-gray rounded ">
@@ -174,7 +175,7 @@ export class View {
                     </div>
                     <div class="p-2 col-7 ">
                         <h2>${item.name}</h2>
-                        <p>Max Purchases : ${item.stock.toLocaleString()}</p>
+                        <p>Max Purchases : ${item.stock != null ? item.stock.toLocaleString() : "∞"}</p>
                         <p>Price : ${item.price.toLocaleString()}</p>
                         <h3>Effection</h3>
                         <p>${item.introduction()}</p>
@@ -198,6 +199,15 @@ export class View {
 
         Render.clickToLoadItemIndex("goBackIcon")
         addEventListennerToInputSection()
+
+        document.getElementById("purchaseBtn").addEventListener("click",()=>{
+            let quantity = document.getElementById("itemQuantityInput").value
+
+            for(let i = 0; i < quantity ; i++) item.effection()
+
+            View.itemIndex()
+        })
+
 
     }
 

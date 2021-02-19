@@ -5,6 +5,8 @@ import { ModelHelper } from './model.mjs'
 
 
 export class Controller {
+
+
     static top(){
         View.top()
     }
@@ -36,19 +38,18 @@ export class Controller {
         View.app()
     }
 
+
+
     //リファクタリング可能
-    static createNewUsersProduct(product_id, ){
+    static createNewUsersProduct(product_id){
         let user_id = User.currentUser().id
         // let usersProduct = UsersProduct.where("user_id",user_id, "product_id",product_id)
 
         if(UsersProduct.where("user_id",user_id, "product_id",product_id).length == 0){
 
-            let newUsersProduct = new UsersProduct(null, user_id, product_id, 0)
+            let newUsersProduct = new UsersProduct(user_id, product_id, 0)
             UsersProduct.add(newUsersProduct);
 
-        }
-        else{
-            UsersProduct.where("user_id",user_id, "product_id",product_id)[0].amount += 1;
         }
     }
     //リファクタリング可能
@@ -58,7 +59,7 @@ export class Controller {
 
         if(UsersItem.where("user_id",user_id, "item_id",item_id).length == 0){
 
-            let newUsersItem = new UsersItem(null, user_id, item_id, 0)
+            let newUsersItem = new UsersItem(user_id, item_id, 0)
             UsersItem.add(newUsersItem);
 
         }
@@ -67,7 +68,12 @@ export class Controller {
         }
     }
 
+
+
 }
+
+
+
 export class Render {
     static clickToSignUp(elementId){
         document.getElementById(elementId).addEventListener("click",()=> Controller.signUp())
