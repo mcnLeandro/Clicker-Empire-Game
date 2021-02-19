@@ -48,15 +48,16 @@ export class View {
     static login(){
         //ログイン画面
     }
-    static userInfo(user){
+    static userInfo(){
 
 
+        let user = User.currentUser()
         document.getElementById("userInfoFrame").innerHTML =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age.toLocaleString()} yrs old</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day.toLocaleString()} days</div>
-                <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney.toLocaleString()} yen</div>
+                <div class="col-xl col-lg-10 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day.toLocaleString()} days</div>
+                <div class="col-xl-11 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney.toLocaleString()} yen</div>
             </div>
         `
 
@@ -175,7 +176,7 @@ export class View {
                         </div>
                         <div class="mt-2 d-flex justify-content-end ">
                             <div class="col-12 col-md-5 p-0 text-right">
-                                <p>How many would you like to purchse?</p>
+                                <p>How many would you like to purchase?</p>
                                 <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
                                 <p id="totalPriceP" class="border-bottom">Total : ${calculateTotalPrice()}</p>
                                 <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
@@ -197,6 +198,7 @@ export class View {
             for(let i = 0; i < quantity ; i++) item.effection()
 
             View.itemIndex()
+            View.userInfo()
         })
 
 
@@ -205,7 +207,7 @@ export class View {
 
 
         document.getElementById("body").innerHTML = ViewTemplate.base(ViewTemplate.frames())
-        View.userInfo(User.currentUser())
+        View.userInfo()
         View.itemIndex()
         View.productInfoWithSlider()
 
