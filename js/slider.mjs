@@ -15,7 +15,21 @@ export class Slider {
     }
     
     set(){
-        if(this.sliderItems.length != 0){
+        if(this.sliderItems.length == 0){
+            let div = document.createElement("div")
+            div.classList.add("h-500px","p-5")
+
+            let p = document.createElement("p")
+            p.classList.add("white","text-center")
+            p.innerHTML = "You don't have a single product. You should get that from items."
+            div.append(p)
+            this.main.append(div)
+        }
+        else if(this.sliderItems.length == 1){
+            this.main.append(this.sliderItems[0]);
+            this.main.setAttribute("data-index", "0");
+        }
+        else {
 
             this.main.append(this.sliderItems[1]);
             this.main.setAttribute("data-index", "1");
@@ -28,17 +42,6 @@ export class Slider {
             this.rightBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(+1, "right");
             });
-
-        }
-        else {
-            let div = document.createElement("div")
-            div.classList.add("h-500px","p-5")
-
-            let p = document.createElement("p")
-            p.classList.add("white","text-center")
-            p.innerHTML = "You don't have a single product. You should get that from items."
-            div.append(p)
-            this.main.append(div)
         }
     }
     slideJump(steps, animationType) {
