@@ -75,7 +75,7 @@ export class DB {
         
         this[`${modelName}s`] = () => {
 
-            if(!DB.table[model.name]) DB.initializeTable(model.name)
+            if(!DB.table[model.name]) return []
             return model.all().filter(obj => obj[`${thisClassName}_id`] == this.id)
             
         };
