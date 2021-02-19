@@ -47,14 +47,14 @@ export class Slider {
     }
     slideJump(steps, animationType) {
         let index = parseInt(this.main.getAttribute("data-index"));
-        let currentElement = this.sliderItems.item(index);
+        let currentElement = this.sliderItems.item(index) != null ?this.sliderItems.item(index):"" ;
     
         index += steps;
     
         if(index < 0) index = this.sliderItems.length -1;
         else if(index >= this.sliderItems.length) index = 0;
     
-        let nextElement = this.sliderItems.item(index);
+        let nextElement = this.sliderItems.item(index)!= null ?this.sliderItems.item(index):"" ;
     
         this.main.setAttribute("data-index", index.toString());
     
