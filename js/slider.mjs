@@ -24,11 +24,12 @@ export class Slider {
             p.innerHTML = "You don't have a single product. You should get that from items."
             div.append(p)
             this.main.append(div)
+            this.extra.classList.add("deplete-animation")
         }
         else if(this.sliderItems.length == 1){
             this.main.append(this.sliderItems[0]);
-            this.main.setAttribute("data-index", "1");
-            this.slideJump(-1, "left");
+            this.main.setAttribute("data-index", "0");
+            this.extra.classList.add("deplete-animation")
         }
         else {
 
