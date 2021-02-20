@@ -61,6 +61,9 @@ export class UsersItem extends DB {
 
         this.amount  = amount
 
+        let item = Item.find(item_id)
+        this.price = item.price
+
         super.belongsTo(User)
         super.belongsTo(Item)
     }
@@ -162,7 +165,7 @@ export class ModelHelper{
         return function() {
 
             User.currentUser().totalMoney -= this.price
-            
+
             Controller.createNewUsersItem(this.id);
             Controller.createNewUsersProduct(product_id)
 
@@ -198,22 +201,34 @@ export class ModelHelper{
             View.productInfoWithSlider()
         }
     }
-    //3000 *= 10 roop問題あり
-    static investimentTypeEffectionTemplate(returnPercentage, itemPriceChange){
+    static investimentTypeEffectionTemplate(returnPercentage, itemPriceChangePercentage){
         return function() {
 
             let user = User.currentUser()
             user.totalMoney -= this.price
 
+
             Controller.createNewUsersItem(this.id);
     
-            let usersItem = UsersItem.where("user_id",user.id,"item_id",this.id)[0];
-            let itemPrice = usersItem.item().price;
-            let itemAmount = usersItem.amount;
-    
-            let additionalReturn = Math.round(itemPrice * (itemAmount) * (returnPercentage/100)) - Math.round(itemPrice * (itemAmount-1) * (returnPercentage/100));
-    
-            user.earningPerDay += additionalReturn;
+
+            let usersItem = UsersItem.where("user_id",user.id,"item_id",this.id)[0];            
+            let itemPriceChange = itemPriceChangePercentage != 0 ? itemPriceChangePercentage/100 : 0;
+
+
+            usersItem.price *= (1 + itemPriceChange)
+
+
+            let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.amount )
+
+            let newReturn = Math.round(totalPurchaseAmount*(returnPercentage/100))
+            let beforeReturn = Math.round((totalPurchaseAmount - usersItem.price)*(returnPercentage/100))
+            beforeReturn  = usersItem.amount == 1 ? 0 : beforeReturn
+
+            let additionalReturn = newReturn - beforeReturn
+
+
+            user.earningPerDay += additionalReturn
+
 
         }
     }
@@ -270,4 +285,12 @@ export class ModelHelper{
         }
     }
 
+    static multiplication(num1,num2){return num1 * num2};
+
+    static dynamicSummation(f, num1, num2, start, end){
+        if(start > end) return 0;
+        let num = f(num1,num2)
+        return num1 + ModelHelper.dynamicSummation(f, num, num2, start+1, end);
+    }
+    
 }

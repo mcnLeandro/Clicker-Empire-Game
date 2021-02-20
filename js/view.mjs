@@ -172,6 +172,13 @@ export class View {
 
         }
 
+        let investimentPrice = ()=>{
+
+            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+
+            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
+
+        }
 
         document.getElementById("itemInfoFrame").innerHTML = `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
@@ -186,8 +193,8 @@ export class View {
                         </div>
                         <div class="p-2 col-7 ">
                             <h2>${item.name}</h2>
-                            <p>Max Purchases : ${item.stock != null ? item.stock.toLocaleString() : "∞"}</p>
-                            <p>Price : ${item.price.toLocaleString()}</p>
+                            <p>Max Purchases : ${item.stock != null && item.stock !== Infinity ? item.stock.toLocaleString() : "∞"}</p>
+                            <p>Price : ${item.type().name != "Investiment" ? item.price.toLocaleString() : investimentPrice().toLocaleString() }</p>
                             <h3>Effection</h3>
                             <p>${item.introduction()}</p>
                         </div>
@@ -375,12 +382,20 @@ export class ViewTemplate {
     }
     static item(item){
 
+        let investimentPrice = ()=>{
 
+            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+
+            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
+
+        }
         let owning = ()=>{
+
             let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
 
             if(usersItemSearchedArr.length == 0) return 0
             else return usersItemSearchedArr[0].amount
+
         }
 
         return `
@@ -392,7 +407,7 @@ export class ViewTemplate {
                     <div class="p-3 col-6 ">
                         <h2>${item.name}</h2>
                         <p class="mt-3">Owning : ${owning().toLocaleString()}</p>
-                        <p>Price : ${item.price.toLocaleString()} yen</p>
+                        <p>Price : ${item.type().name != "Investiment" ? item.price.toLocaleString() : investimentPrice().toLocaleString() } yen</p>
                     </div>
                     <div class="mt-auto mb-auto col-3">
                         <button id="itemShowBtn" class="btn btn-primary w-100">show</button>
