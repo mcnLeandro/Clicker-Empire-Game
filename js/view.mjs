@@ -129,11 +129,17 @@ export class View {
 
 
         let inputControl = () =>{
+
             let input = document.querySelector("#itemQuantityInput");
             let value = input.value;
-            value = (value < item.stock)?(value > 0)?value: "" : item.stock ;
+
+            if(item.stock != null && item.stock !== Infinity){
+                if(value > item.stock) value = item.stock
+                else if(value < 0)     value = ""
+            }
 
             input.value = value;
+
         }
         let calculateTotalPrice = () => {
 
@@ -143,8 +149,10 @@ export class View {
 
             if(value == "" || value == null) return 0;
             return (item.price * parseInt(value)).toLocaleString();
+
         }
         let addEventListennerToInputSection = ()=>{
+
             document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
                 inputControl()
                 document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
@@ -153,6 +161,15 @@ export class View {
                 inputControl()
                 document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
             })
+            document.getElementById("purchaseBtn").addEventListener("click",()=>{
+                let quantity = document.getElementById("itemQuantityInput").value
+    
+                for(let i = 0; i < quantity ; i++) item.effection()
+    
+                View.itemIndex()
+                View.userInfo()
+            })
+
         }
 
 
@@ -191,16 +208,6 @@ export class View {
 
         Render.clickToLoadItemIndex("goBackIcon")
         addEventListennerToInputSection()
-
-        document.getElementById("purchaseBtn").addEventListener("click",()=>{
-            let quantity = document.getElementById("itemQuantityInput").value
-
-            for(let i = 0; i < quantity ; i++) item.effection()
-
-            View.itemIndex()
-            View.userInfo()
-        })
-
 
     }
     static app(){
