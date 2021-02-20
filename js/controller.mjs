@@ -80,6 +80,9 @@ export class Controller {
     }
 
 
+    static pay(price){
+        User.currentUser().totalMoney -= price;
+    }
 
 }
 

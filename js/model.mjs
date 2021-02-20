@@ -164,38 +164,24 @@ export class ModelHelper{
     static productTypeEffectionTemplate(product_id){
         return function() {
 
-            User.currentUser().totalMoney -= this.price
-
-            Controller.createNewUsersItem(this.id);
             Controller.createNewUsersProduct(product_id)
 
             View.productInfoWithSlider()
-
 
         }
     }
     static abilityTypeEffectionTemplate(product_id, additonalPrice){
         return function() {
-
-            let user = User.currentUser()
-            user.totalMoney -= this.price
-
-            Controller.createNewUsersItem(this.id);
     
-            let usersProduct = UsersProduct.where("user_id",user.id,"product_id",product_id)[0];
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
             usersProduct.earning += additonalPrice;
 
         }
     }
     static manpowerTypeEffectionTemplate(product_id){
         return function() {
-
-            let user = User.currentUser()
-            user.totalMoney -= this.price
-
-            Controller.createNewUsersItem(this.id);
     
-            let usersProduct = UsersProduct.where("user_id",user.id,"product_id",product_id)[0];
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
             usersProduct.makerAmount += 1;
             
             View.productInfoWithSlider()
@@ -204,14 +190,7 @@ export class ModelHelper{
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChangePercentage){
         return function() {
 
-            let user = User.currentUser()
-            user.totalMoney -= this.price
-
-
-            Controller.createNewUsersItem(this.id);
-    
-
-            let usersItem = UsersItem.where("user_id",user.id,"item_id",this.id)[0];            
+            let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0];            
             let itemPriceChange = itemPriceChangePercentage != 0 ? itemPriceChangePercentage/100 : 0;
 
 
@@ -220,27 +199,22 @@ export class ModelHelper{
 
             let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.amount )
 
-            let newReturn = Math.round(totalPurchaseAmount*(returnPercentage/100))
-            let beforeReturn = Math.round((totalPurchaseAmount - usersItem.price)*(returnPercentage/100))
+            let newReturn = totalPurchaseAmount*(returnPercentage/100)
+            let beforeReturn = (totalPurchaseAmount - usersItem.price)*(returnPercentage/100)
             beforeReturn  = usersItem.amount == 1 ? 0 : beforeReturn
 
-            let additionalReturn = newReturn - beforeReturn
+            let additionalReturn = Math.round(newReturn - beforeReturn)
 
 
-            user.earningPerDay += additionalReturn
+            User.currentUser().earningPerDay += additionalReturn
 
 
         }
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
         return function() {
-
-            let user = User.currentUser()
-            user.totalMoney -= this.price
-
-            Controller.createNewUsersItem(this.id);
     
-            user.earningPerDay += additionalReturn;
+            User.currentUser().earningPerDay += additionalReturn;
 
         }
     }
@@ -285,7 +259,9 @@ export class ModelHelper{
         }
     }
 
-    static multiplication(num1,num2){return num1 * num2};
+    static multiplication(num1,num2){
+        return num1 * num2
+    };
 
     static dynamicSummation(f, num1, num2, start, end){
         if(start > end) return 0;

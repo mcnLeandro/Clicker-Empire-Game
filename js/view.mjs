@@ -151,23 +151,38 @@ export class View {
             return (item.price * parseInt(value)).toLocaleString();
 
         }
-        let addEventListennerToInputSection = ()=>{
+        let addEventListennerToControlInput = ()=>{
 
             document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
+
                 inputControl()
                 document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+
             })
             document.querySelector("#itemQuantityInput").addEventListener("keyup",()=>{
+
                 inputControl()
                 document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+
             })
+            
+
+        }
+        let addEventListennerToRunPurchaseProcess = ()=> {
+
             document.getElementById("purchaseBtn").addEventListener("click",()=>{
+
                 let quantity = document.getElementById("itemQuantityInput").value
     
-                for(let i = 0; i < quantity ; i++) item.effection()
-    
+                for(let i = 0; i < quantity ; i++) {
+                    let price = item.type().name != "Investiment" ? item.price : investimentPrice();
+                    Controller.pay(price)
+                    Controller.createNewUsersItem(item.id);
+                    item.effection()
+                }
                 View.itemIndex()
                 View.userInfo()
+
             })
 
         }
@@ -214,7 +229,10 @@ export class View {
 
 
         Render.clickToLoadItemIndex("goBackIcon")
-        addEventListennerToInputSection()
+        
+        //showページ専用のaddEventListenner関数
+        addEventListennerToControlInput()
+        addEventListennerToRunPurchaseProcess()
 
     }
     static app(){
