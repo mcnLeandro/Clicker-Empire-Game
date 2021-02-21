@@ -66,8 +66,13 @@ import { Controller } from './controller.mjs'
 Controller.session(1)
 
 //今からやること
-//新しく  feature_fix_model_specification　ブランチを作る
 //DBの構成の変更userはsignupの際にそれぞれのitemとのusersItemを持つことにする。(これによって一度UsersItemを取得してしまえばあとはidで全ての表示ができるようになる。whereメソッドを使う必要が少なくなる)
+//- UsersItemにItemと同じカラムを持たせる
+//- signUp時にItem分のUsersItemレコードを作成する処理を追加する。(introduction,effection意外。これらはbelongsToで取得する)
+//- Controller内のcreateNewUsersItemの他にupdate用にupdateUsersItemのようなメソッドを追加する必要がある。
+//- viewのitem関連の処理の修正をする。
+//- ModelHelper内の関数も必要に応じて変更する。
+//- 最後にエラーがないかを確認する。
 //エラーとして alertを返した場合でもuserPay,createNewUsersItemが実行されしまうため修正が必要。Controllerでの条件分岐を作る必要がありそう。
 //
 
