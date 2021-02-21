@@ -157,6 +157,7 @@ export class Img extends DB {
 //modelのヘルプ関数などを管理する。
 //基本的にはtypeのeffection関数とintroduction関数を管理することになる。
 //ちょっとダサいかもしれないけど今回はこれで行く
+//関数内のDB内のデータのアップデートはcontrollerでするべきだけどこれは次回の課題にしたい。
 //==============================================
 
 export class ModelHelper{
@@ -174,6 +175,7 @@ export class ModelHelper{
         return function() {
     
             let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
+            //update
             usersProduct.earning += additonalPrice;
 
         }
@@ -182,6 +184,7 @@ export class ModelHelper{
         return function() {
     
             let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
+            //update
             usersProduct.makerAmount += 1;
             
             View.productInfoWithSlider()
@@ -193,7 +196,7 @@ export class ModelHelper{
             let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0];            
             let itemPriceChange = itemPriceChangePercentage != 0 ? itemPriceChangePercentage/100 : 0;
 
-
+            //update
             usersItem.price *= (1 + itemPriceChange)
 
 
@@ -205,7 +208,7 @@ export class ModelHelper{
 
             let additionalReturn = Math.round(newReturn - beforeReturn)
 
-
+            //update
             User.currentUser().earningPerDay += additionalReturn
 
 
@@ -213,7 +216,8 @@ export class ModelHelper{
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
         return function() {
-    
+            
+            //update
             User.currentUser().earningPerDay += additionalReturn;
 
         }
