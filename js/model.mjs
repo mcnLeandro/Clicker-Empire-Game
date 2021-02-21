@@ -179,6 +179,7 @@ export class ModelHelper{
             }
             else{
                 View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
+                return true
             }
 
         }
@@ -195,6 +196,7 @@ export class ModelHelper{
             }
             else{
                 View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
+                return true
             }
         }
     }
@@ -219,7 +221,6 @@ export class ModelHelper{
             //update
             User.currentUser().earningPerDay += additionalReturn
 
-
         }
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
@@ -237,7 +238,6 @@ export class ModelHelper{
         return function() {
 
             return `Release ${productName}.`
-
         }
     }
     static abilityTypeIntroductionTemplate(product_id, additonalPrice){

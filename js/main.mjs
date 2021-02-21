@@ -10,7 +10,7 @@ import { Controller } from './controller.mjs'
 //==============================================
 
 [
-    new User("Debug",20,50000000000000000000000000000000,0)
+    new User("Debug",20,0,50000000000000)
 ].forEach(user => User.add(user));
 
 [
@@ -39,13 +39,13 @@ import { Controller } from './controller.mjs'
 
 [
     new Item( 1 , 1 , "Hamburger"               , 1   , 0             ,[1]          ),
-    new Item( 1 , 2 , "Lemonade"                , 1   , 30000         ,[2]          ),
-    new Item( 1 , 3 , "Ice Cream"               , 1   , 60000         ,[3]          ),
+    new Item( 1 , 2 , "Lemonade"                , 1   , 60000         ,[2]          ),
+    new Item( 1 , 3 , "Ice Cream"               , 1   , 90000         ,[3]          ),
     new Item( 2 , 1 , "Flip machine"            , 500 , 15000         ,[1,25]       ),
     new Item( 2 , 1 , "Lemonade Stand"          , 1000, 30000         ,[2,50]       ),
     new Item( 2 , 1 , "Ice Cream Truck"         , 500 , 100000        ,[3,150]      ),
-    new Item( 3 , 1 , "Hamburger Coworker"      , 10  , 30000         ,[1]          ),
-    new Item( 3 , 1 , "Lemonade Coworker"       , 10  , 30000         ,[2]          ),
+    new Item( 3 , 1 , "Hamburger Coworker"      , 10  , 15000         ,[1]          ),
+    new Item( 3 , 1 , "Lemonade Coworker"       , 10  , 20000         ,[2]          ),
     new Item( 3 , 1 , "Ice Cream Coworker"      , 10  , 30000         ,[3]          ),
     new Item( 4 , 1 , "ETF Stock"               , null, 300000        ,[0.1,10]     ),
     new Item( 4 , 1 , "ETF Bonds"               , null, 300000        ,[0.07,0]     ),
@@ -65,10 +65,12 @@ import { Controller } from './controller.mjs'
 // Controller.top()
 Controller.session(1)
 
-///2。商品が購入できるようにする。
-///3. investimenntのprice変動問題を解決する
-///4. UsersProductの挙動を確認する。humburgerを買う
-///5. もう一度このやることリストを作り直す。 
+//今からやること
+//DBの構成の変更userはsignupの際にそれぞれのitemとのusersItemを持つことにする。(これによって一度UsersItemを取得してしまえばあとはidで全ての表示ができるようになる。whereメソッドを使う必要が少なくなる)
+//エラーとして alertを返した場合でもuserPay,createNewUsersItemが実行されしまうため修正が必要。Controllerでの条件分岐を作る必要がありそう。
+//
+
 ///6. ログイン機能を作る
-///7.HTMLのオーバーフローについてはもう一度検討する必要がある。
 ///7. img探しをする
+///showDBのリファクタリングも余裕があれば
+///5. もう一度このやることリストを作り直す。 

@@ -204,7 +204,7 @@ export class View {
                         let price = item.type().name != "Investiment" ? item.price : investimentPrice();
                         Controller.userPay(price)
                         Controller.createNewUsersItem(item.id);
-                        item.effection()
+                        console.log(!item.effection())
                     }
                     View.itemIndex()
                     View.userInfo()
