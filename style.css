@@ -59,7 +59,9 @@ footer{
     animation: deplete 1s linear reverse forwards;
 }
 
-
+.alert-fade-out{
+    animation: fade-out 5s linear reverse forwards;
+}
 .white{color: white;}
 
 .bg-light-gray {background-color: rgb(75,88,114);}
@@ -74,7 +76,7 @@ footer{
         transform: translate(0,-50px)
     }
 }
-@keyframes    deplete {
+@keyframes deplete {
     0%{
         width: 100%;
         opacity: 1;
@@ -90,12 +92,26 @@ footer{
         opacity: 0;
     } 
 }
+@keyframes fade-out {
+    100%{
+        height: 100%;
+        opacity: 1;
+    }
+    30%{
+        height: 100%;
+        opacity: 1;
+    }
+    0%{
+        height: 0%;
+        opacity: 0;
+    } 
+}
 
 @media screen and (min-width:990px) {
     *{
         font-size: 25px;
     }
-    .product-info-section, .user-info-section{
+    .product-info-section, .user-info-section,#alert{
         position: sticky;
         top: 5rem;
         z-index: 1;
