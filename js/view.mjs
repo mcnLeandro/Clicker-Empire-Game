@@ -368,7 +368,7 @@ export class ViewTemplate {
                     ${!productInfo?"":productInfo}
                 </div>
             </div>
-            <div class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right">
+            <div class="col-lg-7 col-12 bg-light-gray p-3 float-lg-right  item-info-section overflow-auto" >
                 <!-- 
                 //=============================================
                 // itemInfo
