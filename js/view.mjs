@@ -123,18 +123,32 @@ export class View {
 
 
     }
-    //購入できる数はユーザーがいくつそのitemを持っているかで変更していく必要がある。
-    //その辺の曖昧な部分をまだ考える必要がある。
     static itemShow(item){
+        
+        let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
 
 
+        let investimentPrice = ()=>{
+
+            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
+
+        }
+        let owning = ()=>{
+
+            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+
+            if(usersItemSearchedArr.length == 0) return 0
+            else return usersItemSearchedArr[0].amount
+
+        }
         let inputControl = () =>{
 
             let input = document.querySelector("#itemQuantityInput");
             let value = input.value;
 
             if(item.stock != null && item.stock !== Infinity){
-                if(value > item.stock) value = item.stock
+                let stock = item.stock - owning()
+                if(value > stock) value = stock
                 else if(value < 0)     value = ""
             }
 
@@ -148,7 +162,7 @@ export class View {
             let value = document.querySelector("#itemQuantityInput").value;
 
             if(value == "" || value == null) return 0;
-            return (item.price * parseInt(value)).toLocaleString();
+            return (item.price * parseInt(value));
 
         }
         let addEventListennerToControlInput = ()=>{
@@ -156,13 +170,13 @@ export class View {
             document.querySelector("#itemQuantityInput").addEventListener("click",()=>{
 
                 inputControl()
-                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice().toLocaleString()}`
 
             })
             document.querySelector("#itemQuantityInput").addEventListener("keyup",()=>{
 
                 inputControl()
-                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice()}`
+                document.querySelector("#totalPriceP").innerHTML = `Total : ${calculateTotalPrice().toLocaleString()}`
 
             })
             
@@ -173,27 +187,34 @@ export class View {
             document.getElementById("purchaseBtn").addEventListener("click",()=>{
 
                 let quantity = document.getElementById("itemQuantityInput").value
-    
-                for(let i = 0; i < quantity ; i++) {
-                    let price = item.type().name != "Investiment" ? item.price : investimentPrice();
-                    Controller.pay(price)
-                    Controller.createNewUsersItem(item.id);
-                    item.effection()
+
+                if(User.currentUser().totalMoney < calculateTotalPrice()){
+                    
+                    alert("You don't have enough money !!!!")
+
                 }
-                View.itemIndex()
-                View.userInfo()
+                else if(item.name != "Investiment" && item.stock < owning() + quantity){
+
+                    alert("Out of stock")
+
+                }
+                else{
+        
+                    for(let i = 0; i < quantity ; i++) {
+                        let price = item.type().name != "Investiment" ? item.price : investimentPrice();
+                        Controller.userPay(price)
+                        Controller.createNewUsersItem(item.id);
+                        item.effection()
+                    }
+                    View.itemIndex()
+                    View.userInfo()
+
+                }
 
             })
 
         }
 
-        let investimentPrice = ()=>{
-
-            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
-
-            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
-
-        }
 
         document.getElementById("itemInfoFrame").innerHTML = `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
@@ -209,6 +230,8 @@ export class View {
                         <div class="p-2 col-7 ">
                             <h2>${item.name}</h2>
                             <p>Max Purchases : ${item.stock != null && item.stock !== Infinity ? item.stock.toLocaleString() : "∞"}</p>
+                            <p>Owning : ${owning().toLocaleString()}</p>
+
                             <p>Price : ${item.type().name != "Investiment" ? item.price.toLocaleString() : investimentPrice().toLocaleString() }</p>
                             <h3>Effection</h3>
                             <p>${item.introduction()}</p>
@@ -217,7 +240,7 @@ export class View {
                             <div class="col-12 col-md-5 p-0 text-right">
                                 <p>How many would you like to purchase?</p>
                                 <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
-                                <p id="totalPriceP" class="border-bottom">Total : ${calculateTotalPrice()}</p>
+                                <p id="totalPriceP" class="border-bottom">Total : ${calculateTotalPrice().toLocaleString()}</p>
                                 <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
                             </div>
                         </div>
@@ -268,6 +291,7 @@ export class ViewTemplate {
                     ${ViewTemplate.nav()}
                 </div>
             </header>
+            <div id="alert"><div>
             <div id="main" class="container-fliud">
                 ${view}
             </div>
@@ -400,16 +424,14 @@ export class ViewTemplate {
     }
     static item(item){
 
-        let investimentPrice = ()=>{
+        let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
 
-            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+        let investimentPrice = ()=>{
 
             return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
 
         }
         let owning = ()=>{
-
-            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
 
             if(usersItemSearchedArr.length == 0) return 0
             else return usersItemSearchedArr[0].amount
