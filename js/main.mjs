@@ -66,6 +66,7 @@ import { Controller } from './controller.mjs'
 Controller.session(1)
 
 //今からやること
+//新しく  feature_fix_model_specification　ブランチを作る
 //DBの構成の変更userはsignupの際にそれぞれのitemとのusersItemを持つことにする。(これによって一度UsersItemを取得してしまえばあとはidで全ての表示ができるようになる。whereメソッドを使う必要が少なくなる)
 //エラーとして alertを返した場合でもuserPay,createNewUsersItemが実行されしまうため修正が必要。Controllerでの条件分岐を作る必要がありそう。
 //
