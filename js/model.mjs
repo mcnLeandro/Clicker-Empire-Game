@@ -60,9 +60,7 @@ export class UsersItem extends DB {
         this.item_id = item_id
 
         this.amount  = amount
-
-        let item = Item.find(item_id)
-        this.price = item.price
+        this.price = Item.find(item_id).price
 
         super.belongsTo(User)
         super.belongsTo(Item)
@@ -72,12 +70,13 @@ export class UsersItem extends DB {
 export class UsersProduct extends DB{
 
     constructor(user_id, product_id){
+
+        let product = Product.find(product_id)
+
         super(null)
 
         this.user_id = user_id
         this.product_id = product_id
-
-        let product = Product.find(product_id)
         this.img_id  = product.img_id
 
         this.name        = product.name
@@ -120,10 +119,8 @@ export class Item extends DB {
         this.name = name
         this.stock = stock
         this.price = price
-
-        let type = Type.find(type_id)
-        this.introduction = type.introductionTemplate(...effectionParamsArr)
-        this.effection = type.effectionTemplate(...effectionParamsArr)
+        this.introduction = Type.find(type_id).introductionTemplate(...effectionParamsArr)
+        this.effection = Type.find(type_id).effectionTemplate(...effectionParamsArr)
         
         super.belongsTo(Type)
         super.belongsTo(Img)
@@ -174,20 +171,31 @@ export class ModelHelper{
     static abilityTypeEffectionTemplate(product_id, additonalPrice){
         return function() {
     
-            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
-            //update
-            usersProduct.earning += additonalPrice;
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
+
+            if(usersProduct.length != 0){
+                //update
+                usersProduct[0].earning += additonalPrice;
+            }
+            else{
+                View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
+            }
 
         }
     }
     static manpowerTypeEffectionTemplate(product_id){
         return function() {
     
-            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
-            //update
-            usersProduct.makerAmount += 1;
-            
-            View.productInfoWithSlider()
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
+            if(usersProduct.length != 0){
+                //update
+                usersProduct.makerAmount += 1;
+                
+                View.productInfoWithSlider()
+            }
+            else{
+                View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
+            }
         }
     }
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChangePercentage){

@@ -190,12 +190,12 @@ export class View {
 
                 if(User.currentUser().totalMoney < calculateTotalPrice()){
                     
-                    alert("You don't have enough money !!!!")
+                    View.alert("You don't have enough money !!!!")
 
                 }
                 else if(item.name != "Investiment" && item.stock < owning() + quantity){
 
-                    alert("Out of stock")
+                    View.alert("Out of stock !!")
 
                 }
                 else{
@@ -270,6 +270,19 @@ export class View {
 
 
     }
+    static alert(message){
+
+
+        document.getElementById("alert").innerHTML = `
+            <div id="alert" class="alert alert-danger alert-fade-out" role="alert">
+                ${message}
+            <div>
+        `
+        setInterval(function(){
+            document.getElementById("alert").innerHTML = ""
+        },10000)
+
+    }
 
 }
 
@@ -291,7 +304,7 @@ export class ViewTemplate {
                     ${ViewTemplate.nav()}
                 </div>
             </header>
-            <div id="alert"><div>
+            <div id="alert"></div>
             <div id="main" class="container-fliud">
                 ${view}
             </div>

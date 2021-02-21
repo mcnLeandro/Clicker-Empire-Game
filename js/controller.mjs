@@ -80,7 +80,7 @@ export class Controller {
     }
 
 
-    static pay(price){
+    static userPay(price){
         User.currentUser().totalMoney -= price;
     }
 
@@ -96,21 +96,24 @@ export class Render {
         document.getElementById(elementId).addEventListener("click",()=> Controller.login())
     }
     static clickToRegistration(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.registration())
+        document.getElementById(elementId).addEventListener("click",()=> Controller.registration())
     }
     static clickToSession(elementId,user_id){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.session(user_id))
+        document.getElementById(elementId).addEventListener("click",()=> Controller.session(user_id))
     }
     static clickToDestroySession(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.destroySession())
+        document.getElementById(elementId).addEventListener("click",()=> Controller.destroySession())
+    }
+    static clickToApp(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> Controller.app())
     }
     static clickToLoadItemIndex(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> View.itemIndex())
+        document.getElementById(elementId).addEventListener("click",()=> View.itemIndex())
     }
 
 
     static clickToShowDBInConsole(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> console.log(DB.showDB()))
+        document.getElementById(elementId).addEventListener("click",()=> console.log(DB.showDB()))
     }
     
 
