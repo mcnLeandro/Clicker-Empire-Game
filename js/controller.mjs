@@ -59,34 +59,30 @@ export class Controller {
     static createNewUsersProduct(product_id){
 
         let user_id = User.currentUser().id
-        let usersProductSearchedArr = UsersProduct.where("user_id",user_id, "product_id",product_id)
-
-        if(usersProductSearchedArr.length == 0){
-
-            let newUsersProduct = new UsersProduct(user_id, product_id, 0)
-            UsersProduct.add(newUsersProduct);
-        }
-    }
-    static createNewUsersItem(item_id){
-
-        let user_id = User.currentUser().id
-        let usersItemSearchedArr = UsersItem.where("user_id",user_id, "item_id",item_id)
-
-        if(usersItemSearchedArr.length == 0){
-
-            let newUsersItem = new UsersItem(user_id, item_id, 1)
-            UsersItem.add(newUsersItem);
-
-        }
-        else{
-            usersItemSearchedArr[0].amount += 1;
-        }
+        let newUsersProduct = new UsersProduct(user_id, product_id, 0)
+        UsersProduct.add(newUsersProduct);
 
     }
+    static updataUser(user_id, column,value){
 
+        if(column.indexOf("id") != -1 && column != "img_id")return false
 
+        // let user = User.find(user_id)
+        // user[column] = value
+        User.currentUser()[column] = value
+
+    }
+    static updateUsersItem(usersItem_id, column,value){
+
+        if(column.indexOf("id") != -1 && column != "img_id")return false
+        let usersItem = UsersItem.find(usersItem_id)
+        usersItem[column] = value;
+
+    }
     static userPay(price){
+
         User.currentUser().totalMoney -= price;
+
     }
 
 }
