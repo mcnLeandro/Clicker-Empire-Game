@@ -51,80 +51,76 @@ export class Time extends DB {
     }
 
 }
+export class Item extends DB {
+
+    constructor(type_id, img_id, name, stock, price, isUnlocked, effectionParamsArr){
+        super(null)
+
+        this.type_id = type_id
+        this.img_id  = img_id
+
+        this.name  = name
+        this.stock = stock
+        this.price = price
+        this.isUnlocked   = isUnlocked
+        this.introduction = Type.find(type_id).introductionTemplate(...effectionParamsArr)
+        this.effection    = Type.find(type_id).effectionTemplate(...effectionParamsArr)
+        
+        super.belongsTo(Type)
+        super.belongsTo(Img)
+        super.hasmany(UsersItem)
+    }
+
+}
 export class UsersItem extends DB {
 
-    constructor(user_id, item_id, amount){
+    constructor(user_id, item_id, owning){
+
         super(null)
 
         this.user_id = user_id
         this.item_id = item_id
 
-        this.amount  = amount
-        this.price = Item.find(item_id).price
+        this.owning     = owning == null ? 0 : owning ;
+        this.stock      = Item.find(item_id).stock == null ? Infinity : Item.find(item_id).stock ;
+        this.price      = Item.find(item_id).price
+        this.isUnlocked = Item.find(item_id).isUnlocked
 
         super.belongsTo(User)
         super.belongsTo(Item)
     }
 
 }
-export class UsersProduct extends DB{
-
-    constructor(user_id, product_id){
-
-        let product = Product.find(product_id)
-
-        super(null)
-
-        this.user_id = user_id
-        this.product_id = product_id
-        this.img_id  = product.img_id
-
-        this.name        = product.name
-        this.amount      = product.amount
-        this.earning     = product.earning
-        this.makerAmount = product.makerAmount
-
-
-        super.belongsTo(User)
-        super.belongsTo(Product)
-        super.belongsTo(Img)
-    }
-
-}
 export class Product extends DB {
 
-    constructor(img_id, name, amount, earning, makerAmount){
+    constructor(img_id, name, earning){
         super(null)
 
         this.img_id  = img_id
 
-        this.name        = name
-        this.amount      = amount
-        this.earning     = earning
-        this.makerAmount = makerAmount
+        this.name    = name
+        this.earning = earning
 
         super.hasmany(UsersProduct)
         super.belongsTo(Img)
     }
 
 }
-export class Item extends DB {
+export class UsersProduct extends DB{
 
-    constructor(type_id, img_id, name, stock, price, effectionParamsArr){
+    constructor(user_id, product_id, amount, makerAmount){
         super(null)
 
-        this.type_id  = type_id
-        this.img_id = img_id
+        this.user_id    = user_id
+        this.product_id = product_id
 
-        this.name = name
-        this.stock = stock
-        this.price = price
-        this.introduction = Type.find(type_id).introductionTemplate(...effectionParamsArr)
-        this.effection = Type.find(type_id).effectionTemplate(...effectionParamsArr)
-        
-        super.belongsTo(Type)
-        super.belongsTo(Img)
-        super.hasmany(UsersItem)
+        this.amount      = amount == null ? 0 : amount ; 
+        this.earning     = Product.find(product_id).earning
+        this.makerAmount = makerAmount == null ? 0 : makerAmount ;
+
+
+        super.belongsTo(User)
+        super.belongsTo(Product)
     }
 
 }
@@ -154,7 +150,6 @@ export class Img extends DB {
 //modelのヘルプ関数などを管理する。
 //基本的にはtypeのeffection関数とintroduction関数を管理することになる。
 //ちょっとダサいかもしれないけど今回はこれで行く
-//関数内のDB内のデータのアップデートはcontrollerでするべきだけどこれは次回の課題にしたい。
 //==============================================
 
 export class ModelHelper{
@@ -163,6 +158,11 @@ export class ModelHelper{
         return function() {
 
             Controller.createNewUsersProduct(product_id)
+
+            let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0];
+
+            Controller.lockUsersItem(usersItem.id)
+            Controller.unlockSpecificUsersItems(product_id)
 
             View.productInfoWithSlider()
 
@@ -174,12 +174,18 @@ export class ModelHelper{
             let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
 
             if(usersProduct.length != 0){
-                //update
-                usersProduct[0].earning += additonalPrice;
+
+                let usersProductEarning = usersProduct[0].earning + additonalPrice;
+                Controller.updateUsersProduct(usersProduct[0].id, "earning", usersProductEarning)
+
+                View.productInfoWithSlider()
+
             }
             else{
+
                 View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
                 return true
+
             }
 
         }
@@ -188,46 +194,47 @@ export class ModelHelper{
         return function() {
     
             let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
+
             if(usersProduct.length != 0){
-                //update
-                usersProduct.makerAmount += 1;
+
+                let usersProductMakerAmount = usersProduct[0].makerAmount + 1;
+                Controller.updateUsersProduct(usersProduct[0].id, "makerAmount", usersProductMakerAmount)
                 
                 View.productInfoWithSlider()
+
             }
             else{
+
                 View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
                 return true
+
             }
         }
     }
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChangePercentage){
         return function() {
 
-            let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0];            
+            let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0]; 
             let itemPriceChange = itemPriceChangePercentage != 0 ? itemPriceChangePercentage/100 : 0;
+            let usersItemPrice = usersItem.price * (1 + itemPriceChange)
 
-            //update
-            usersItem.price *= (1 + itemPriceChange)
+            Controller.updateUsersItem(usersItem.id,"price",usersItemPrice)
 
-
-            let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.amount )
-
+            let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.owning )
             let newReturn = totalPurchaseAmount*(returnPercentage/100)
-            let beforeReturn = (totalPurchaseAmount - usersItem.price)*(returnPercentage/100)
-            beforeReturn  = usersItem.amount == 1 ? 0 : beforeReturn
-
+            let beforeReturn = usersItem.amount == 1 ? 0 :  (totalPurchaseAmount - usersItem.price)*(returnPercentage/100)
             let additionalReturn = Math.round(newReturn - beforeReturn)
+            let usersEarningPerDay = User.currentUser().earningPerDay + additionalReturn
 
-            //update
-            User.currentUser().earningPerDay += additionalReturn
+            Controller.updateUser(null,"earningPerDay", usersEarningPerDay)
 
         }
     }
     static realEstateTypeEffectionTemplate(additionalReturn){
         return function() {
-            
-            //update
-            User.currentUser().earningPerDay += additionalReturn;
+
+            let value = User.currentUser().earningPerDay + additionalReturn;
+            Controller.updateUser(null,"earningPerDay", value)
 
         }
     }

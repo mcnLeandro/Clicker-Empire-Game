@@ -20,11 +20,16 @@ export class Controller {
     static registration(){
 
         let userName = document.getElementById("nameInput").value
-        let newUser = new User(userName,20,0,50000)
+        let newUser = new User(userName,20,0,500000000000)
         User.add(newUser)
         
         let newTime = new Time(newUser.id,1,1000)
         Time.add(newTime)
+
+        Item.all().forEach(item => {
+            let newUsersItem = new UsersItem(newUser.id, item.id)
+            UsersItem.add(newUsersItem);
+        });
 
         Controller.session(newUser.id)
 
@@ -54,34 +59,63 @@ export class Controller {
     static createNewUsersProduct(product_id){
 
         let user_id = User.currentUser().id
-        let usersProductSearchedArr = UsersProduct.where("user_id",user_id, "product_id",product_id)
-
-        if(usersProductSearchedArr.length == 0){
-
-            let newUsersProduct = new UsersProduct(user_id, product_id, 0)
-            UsersProduct.add(newUsersProduct);
-        }
-    }
-    static createNewUsersItem(item_id){
-
-        let user_id = User.currentUser().id
-        let usersItemSearchedArr = UsersItem.where("user_id",user_id, "item_id",item_id)
-
-        if(usersItemSearchedArr.length == 0){
-
-            let newUsersItem = new UsersItem(user_id, item_id, 1)
-            UsersItem.add(newUsersItem);
-
-        }
-        else{
-            usersItemSearchedArr[0].amount += 1;
-        }
+        let newUsersProduct = new UsersProduct(user_id, product_id, 0)
+        UsersProduct.add(newUsersProduct);
 
     }
+    static updateUser(user_id, column,value){
 
+        if(!column.indexOf("id") && column != "img_id")return false
+        // let user = User.find(user_id)
+        // user[column] = value
+        User.currentUser()[column] = value
 
+    }
+    static updateUsersProduct(usersProduct_id, column, value){
+
+        if( !column.indexOf("id") && column != "img_id")return false
+        let usersProduct = UsersProduct.find(usersProduct_id)
+        usersProduct[column] = value
+
+    }
+    static updateUsersItem(usersItem_id, column,value){
+
+        if(!column.indexOf("id") && column != "img_id")return false
+        let usersItem = UsersItem.find(usersItem_id)
+        usersItem[column] = value;
+
+    }
     static userPay(price){
+
         User.currentUser().totalMoney -= price;
+
+    }
+    static lockUsersItem(usersItem_id){
+        let usersItem = UsersItem.find(usersItem_id)
+        Controller.updateUsersItem(usersItem_id, "isUnlocked", false)
+    }
+    //以下のアンロック処理はproductやitemの数が増えたり順番が変わったりすると対応できないのでよろしくないけど今回はしょうがないので次回の課題
+    static unlockSpecificUsersItems(product_id){
+        let user_id = User.currentUser().id
+        let abilityUsersItem;
+        let manpowerUsersItem;
+
+        switch(product_id){
+            case 1 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",4)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",7)[0]
+                break;
+            case 2 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",5)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",8)[0]
+                break;
+            case 3 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",6)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",9)[0]
+                break;
+        }
+        Controller.updateUsersItem(abilityUsersItem.id, "isUnlocked", true)
+        Controller.updateUsersItem(manpowerUsersItem.id, "isUnlocked", true)
     }
 
 }

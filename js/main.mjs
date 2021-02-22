@@ -32,29 +32,29 @@ import { Controller } from './controller.mjs'
 ].forEach(type => Type.add(type));
 
 [
-    new Product(1,"Hamburger" , 0, 25 , 0),
-    new Product(2,"Lemonade"  , 0, 50 , 0),
-    new Product(3,"Ice Creame", 0, 150, 0),
+    new Product(1,"Hamburger" , 25 ),
+    new Product(2,"Lemonade"  , 50 ),
+    new Product(3,"Ice Creame", 150),
 ].forEach(product => Product.add(product));
 
 [
-    new Item( 1 , 1 , "Hamburger"               , 1   , 0             ,[1]          ),
-    new Item( 1 , 2 , "Lemonade"                , 1   , 60000         ,[2]          ),
-    new Item( 1 , 3 , "Ice Cream"               , 1   , 90000         ,[3]          ),
-    new Item( 2 , 1 , "Flip machine"            , 500 , 15000         ,[1,25]       ),
-    new Item( 2 , 1 , "Lemonade Stand"          , 1000, 30000         ,[2,50]       ),
-    new Item( 2 , 1 , "Ice Cream Truck"         , 500 , 100000        ,[3,150]      ),
-    new Item( 3 , 1 , "Hamburger Coworker"      , 10  , 15000         ,[1]          ),
-    new Item( 3 , 1 , "Lemonade Coworker"       , 10  , 20000         ,[2]          ),
-    new Item( 3 , 1 , "Ice Cream Coworker"      , 10  , 30000         ,[3]          ),
-    new Item( 4 , 1 , "ETF Stock"               , null, 300000        ,[0.1,10]     ),
-    new Item( 4 , 1 , "ETF Bonds"               , null, 300000        ,[0.07,0]     ),
-    new Item( 5 , 1 , "House"                   , 100 , 20000000      ,[32000]      ),
-    new Item( 5 , 1 , "TownHouse"               , 100 , 40000000      ,[64000]      ),
-    new Item( 5 , 1 , "Mansion"                 , 20  , 250000000     ,[500000]     ),
-    new Item( 5 , 1 , "Industrial Space"        , 10  , 1000000000    ,[2200000]    ),
-    new Item( 5 , 1 , "Hotel Skyscraper"        , 5   , 10000000000   ,[25000000]   ),
-    new Item( 5 , 1 , "Bullet-Speed Sky Railway", 1   , 10000000000000,[30000000000])
+    new Item( 1 , 1 , "Hamburger"               , 1   , 0             , true ,[1]          ),
+    new Item( 1 , 2 , "Lemonade"                , 1   , 60000         , true ,[2]          ),
+    new Item( 1 , 3 , "Ice Cream"               , 1   , 90000         , true ,[3]          ),
+    new Item( 2 , 1 , "Flip machine"            , 500 , 15000         , false ,[1,25]       ),
+    new Item( 2 , 1 , "Lemonade Stand"          , 1000, 30000         , false ,[2,50]       ),
+    new Item( 2 , 1 , "Ice Cream Truck"         , 500 , 100000        , false ,[3,150]      ),
+    new Item( 3 , 1 , "Hamburger Coworker"      , 10  , 15000         , false ,[1]          ),
+    new Item( 3 , 1 , "Lemonade Coworker"       , 10  , 20000         , false ,[2]          ),
+    new Item( 3 , 1 , "Ice Cream Coworker"      , 10  , 30000         , false ,[3]          ),
+    new Item( 4 , 1 , "ETF Stock"               , null, 300000        , true ,[0.1,10]     ),
+    new Item( 4 , 1 , "ETF Bonds"               , null, 300000        , true ,[0.07,0]     ),
+    new Item( 5 , 1 , "House"                   , 100 , 20000000      , true ,[32000]      ),
+    new Item( 5 , 1 , "TownHouse"               , 100 , 40000000      , true ,[64000]      ),
+    new Item( 5 , 1 , "Mansion"                 , 20  , 250000000     , true ,[500000]     ),
+    new Item( 5 , 1 , "Industrial Space"        , 10  , 1000000000    , true ,[2200000]    ),
+    new Item( 5 , 1 , "Hotel Skyscraper"        , 5   , 10000000000   , true ,[25000000]   ),
+    new Item( 5 , 1 , "Bullet-Speed Sky Railway", 1   , 10000000000000, true ,[30000000000])
 ].forEach(item => Item.add(item));
 
 
@@ -62,12 +62,13 @@ import { Controller } from './controller.mjs'
 
 
 
-// Controller.top()
-Controller.session(1)
+Controller.top()
+// Controller.session(1)
 
 //今からやること
-//新しく  feature_fix_model_specification　ブランチを作る
-//DBの構成の変更userはsignupの際にそれぞれのitemとのusersItemを持つことにする。(これによって一度UsersItemを取得してしまえばあとはidで全ての表示ができるようになる。whereメソッドを使う必要が少なくなる)
+
+
+//- 最後にエラーがないかを確認する。
 //エラーとして alertを返した場合でもuserPay,createNewUsersItemが実行されしまうため修正が必要。Controllerでの条件分岐を作る必要がありそう。
 //
 
