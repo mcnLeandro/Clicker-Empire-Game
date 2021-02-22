@@ -5,13 +5,20 @@ import { ModelHelper } from './model.mjs'
 
 
 export class Controller {
+
+
     static top(){
+
         View.top()
+
     }
     static signUp(){
+
         View.signUp()
+
     }
     static registration(){
+
         let userName = document.getElementById("nameInput").value
         let newUser = new User(userName,20,0,50000)
         User.add(newUser)
@@ -19,55 +26,102 @@ export class Controller {
         let newTime = new Time(newUser.id,1,1000)
         Time.add(newTime)
 
+        Item.all().forEach(item => {
+            let newUsersItem = new UsersItem(newUser.id, item.id)
+            UsersItem.add(newUsersItem);
+        });
+
         Controller.session(newUser.id)
+
     }
     static login(){
         //ログインページを表示
     }
     static session(user_id){
+
         document.getElementById("current-user-id").setAttribute("current-user-id", user_id )
         Controller.app()
+
     }
     static destroySession(){
+
         document.getElementById("current-user-id").setAttribute("current-user-id", "" )
         Controller.top()
+
     }
     static app(){
+
         View.app()
+
     }
 
-    //リファクタリング可能
-    static createNewUsersProduct(product_id, ){
+
+    static createNewUsersProduct(product_id){
+
         let user_id = User.currentUser().id
-        // let usersProduct = UsersProduct.where("user_id",user_id, "product_id",product_id)
+        let newUsersProduct = new UsersProduct(user_id, product_id, 0)
+        UsersProduct.add(newUsersProduct);
 
-        if(UsersProduct.where("user_id",user_id, "product_id",product_id).length == 0){
-
-            let newUsersProduct = new UsersProduct(null, user_id, product_id, 0)
-            UsersProduct.add(newUsersProduct);
-
-        }
-        else{
-            UsersProduct.where("user_id",user_id, "product_id",product_id)[0].amount += 1;
-        }
     }
-    //リファクタリング可能
-    static createNewUsersItem(item_id){
+    static updateUser(user_id, column,value){
+
+        if(!column.indexOf("id") && column != "img_id")return false
+        // let user = User.find(user_id)
+        // user[column] = value
+        User.currentUser()[column] = value
+
+    }
+    static updateUsersProduct(usersProduct_id, column, value){
+
+        if( !column.indexOf("id") && column != "img_id")return false
+        let usersProduct = UsersProduct.find(usersProduct_id)
+        usersProduct[column] = value
+
+    }
+    static updateUsersItem(usersItem_id, column,value){
+
+        if(!column.indexOf("id") && column != "img_id")return false
+        let usersItem = UsersItem.find(usersItem_id)
+        usersItem[column] = value;
+
+    }
+    static userPay(price){
+
+        User.currentUser().totalMoney -= price;
+
+    }
+    static lockUsersItem(usersItem_id){
+        let usersItem = UsersItem.find(usersItem_id)
+        Controller.updateUsersItem(usersItem_id, "isUnlocked", false)
+    }
+    //以下のアンロック処理はproductやitemの数が増えたり順番が変わったりすると対応できないのでよろしくないけど今回はしょうがないので次回の課題
+    static unlockSpecificUsersItems(product_id){
         let user_id = User.currentUser().id
-        // let usersItem = UsersItem.where("user_id",user_id, "item_id",item_id)
+        let abilityUsersItem;
+        let manpowerUsersItem;
 
-        if(UsersItem.where("user_id",user_id, "item_id",item_id).length == 0){
-
-            let newUsersItem = new UsersItem(null, user_id, item_id, 0)
-            UsersItem.add(newUsersItem);
-
+        switch(product_id){
+            case 1 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",4)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",7)[0]
+                break;
+            case 2 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",5)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",8)[0]
+                break;
+            case 3 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",6)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",9)[0]
+                break;
         }
-        else{
-            UsersItem.where("user_id",user_id, "item_id",item_id)[0].amount += 1;
-        }
+        Controller.updateUsersItem(abilityUsersItem.id, "isUnlocked", true)
+        Controller.updateUsersItem(manpowerUsersItem.id, "isUnlocked", true)
     }
 
 }
+
+
+
 export class Render {
     static clickToSignUp(elementId){
         document.getElementById(elementId).addEventListener("click",()=> Controller.signUp())
@@ -76,21 +130,24 @@ export class Render {
         document.getElementById(elementId).addEventListener("click",()=> Controller.login())
     }
     static clickToRegistration(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.registration())
+        document.getElementById(elementId).addEventListener("click",()=> Controller.registration())
     }
     static clickToSession(elementId,user_id){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.session(user_id))
+        document.getElementById(elementId).addEventListener("click",()=> Controller.session(user_id))
     }
     static clickToDestroySession(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> Controller.destroySession())
+        document.getElementById(elementId).addEventListener("click",()=> Controller.destroySession())
+    }
+    static clickToApp(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> Controller.app())
     }
     static clickToLoadItemIndex(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> View.itemIndex())
+        document.getElementById(elementId).addEventListener("click",()=> View.itemIndex())
     }
 
 
     static clickToShowDBInConsole(elementId){
-        document.getElementById(elementId).addEventListener("click", ()=> console.log(DB.showDB()))
+        document.getElementById(elementId).addEventListener("click",()=> console.log(DB.showDB()))
     }
     
 
