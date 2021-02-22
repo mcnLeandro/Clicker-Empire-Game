@@ -51,63 +51,6 @@ export class Time extends DB {
     }
 
 }
-export class UsersItem extends DB {
-
-    constructor(user_id, item_id, amount){
-        super(null)
-
-        this.user_id = user_id
-        this.item_id = item_id
-
-        this.amount  = amount
-        this.price = Item.find(item_id).price
-
-        super.belongsTo(User)
-        super.belongsTo(Item)
-    }
-
-}
-export class UsersProduct extends DB{
-
-    constructor(user_id, product_id){
-
-        let product = Product.find(product_id)
-
-        super(null)
-
-        this.user_id = user_id
-        this.product_id = product_id
-        this.img_id  = product.img_id
-
-        this.name        = product.name
-        this.amount      = product.amount
-        this.earning     = product.earning
-        this.makerAmount = product.makerAmount
-
-
-        super.belongsTo(User)
-        super.belongsTo(Product)
-        super.belongsTo(Img)
-    }
-
-}
-export class Product extends DB {
-
-    constructor(img_id, name, amount, earning, makerAmount){
-        super(null)
-
-        this.img_id  = img_id
-
-        this.name        = name
-        this.amount      = amount
-        this.earning     = earning
-        this.makerAmount = makerAmount
-
-        super.hasmany(UsersProduct)
-        super.belongsTo(Img)
-    }
-
-}
 export class Item extends DB {
 
     constructor(type_id, img_id, name, stock, price, effectionParamsArr){
@@ -125,6 +68,64 @@ export class Item extends DB {
         super.belongsTo(Type)
         super.belongsTo(Img)
         super.hasmany(UsersItem)
+    }
+
+}
+export class UsersItem extends DB {
+
+    constructor(user_id, item_id, owning){
+
+        let item = Item.find(item_id)
+
+        super(null)
+
+        this.user_id = user_id
+        this.item_id = item_id
+
+        this.owning  = owning == null ? 0 : owning ;
+        this.stock   = item.stock
+        this.price   = item.price
+
+        super.belongsTo(User)
+        super.belongsTo(Item)
+    }
+
+}
+export class Product extends DB {
+
+    constructor(img_id, name, earning){
+        super(null)
+
+        this.img_id  = img_id
+
+        this.name    = name
+        this.earning = earning
+
+        super.hasmany(UsersProduct)
+        super.belongsTo(Img)
+    }
+
+}
+export class UsersProduct extends DB{
+
+    constructor(user_id, product_id, amount, makerAmount){
+
+        let product = Product.find(product_id)
+
+        super(null)
+
+        this.user_id    = user_id
+        this.product_id = product_id
+        this.img_id     = product.img_id
+
+        this.amount      = amount == null ? 0 : amount ; 
+        this.earning     = product.earning
+        this.makerAmount = makerAmount == null ? 0 : makerAmount ;
+
+
+        super.belongsTo(User)
+        super.belongsTo(Product)
+        super.belongsTo(Img)
     }
 
 }
