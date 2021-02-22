@@ -62,8 +62,8 @@ import { Controller } from './controller.mjs'
 
 
 
-// Controller.top()
-Controller.session(1)
+Controller.top()
+// Controller.session(1)
 
 //今からやること
 //DBの構成の変更userはsignupの際にそれぞれのitemとのusersItemを持つことにする。(これによって一度UsersItemを取得してしまえばあとはidで全ての表示ができるようになる。whereメソッドを使う必要が少なくなる)

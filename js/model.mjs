@@ -81,7 +81,7 @@ export class UsersItem extends DB {
         this.item_id = item_id
 
         this.owning  = owning == null ? 0 : owning ;
-        this.stock   = Item.find(item_id).stock
+        this.stock   = Item.find(item_id).stock == null ? Infinity : Item.find(item_id).stock ;
         this.price   = Item.find(item_id).price
 
         super.belongsTo(User)

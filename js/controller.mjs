@@ -26,7 +26,12 @@ export class Controller {
         let newTime = new Time(newUser.id,1,1000)
         Time.add(newTime)
 
-        Controller.session(newUser.id)
+        Item.all().forEach(item => {
+            let newUsersItem = new UsersItem(newUser.id, item.id)
+            UsersItem.add(newUsersItem);
+        });
+
+        // Controller.session(newUser.id)
 
     }
     static login(){
