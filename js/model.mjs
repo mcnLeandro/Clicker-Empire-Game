@@ -171,44 +171,25 @@ export class ModelHelper{
     static abilityTypeEffectionTemplate(product_id, additonalPrice){
         return function() {
     
-            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
 
-            if(usersProduct.length != 0){
+            let usersProductEarning = usersProduct.earning + additonalPrice;
+            Controller.updateUsersProduct(usersProduct.id, "earning", usersProductEarning)
 
-                let usersProductEarning = usersProduct[0].earning + additonalPrice;
-                Controller.updateUsersProduct(usersProduct[0].id, "earning", usersProductEarning)
-
-                View.productInfoWithSlider()
-
-            }
-            else{
-
-                View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
-                return true
-
-            }
+            View.productInfoWithSlider()
 
         }
     }
     static manpowerTypeEffectionTemplate(product_id){
         return function() {
     
-            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id);
+            let usersProduct = UsersProduct.where("user_id",User.currentUser().id, "product_id",product_id)[0];
 
-            if(usersProduct.length != 0){
+            let usersProductMakerAmount = usersProduct.makerAmount + 1;
+            Controller.updateUsersProduct(usersProduct.id, "makerAmount", usersProductMakerAmount)
+            
+            View.productInfoWithSlider()
 
-                let usersProductMakerAmount = usersProduct[0].makerAmount + 1;
-                Controller.updateUsersProduct(usersProduct[0].id, "makerAmount", usersProductMakerAmount)
-                
-                View.productInfoWithSlider()
-
-            }
-            else{
-
-                View.alert(`You have to release ${Product.find(product_id).name} before purchase this item !!`)
-                return true
-
-            }
         }
     }
     static investimentTypeEffectionTemplate(returnPercentage, itemPriceChangePercentage){
