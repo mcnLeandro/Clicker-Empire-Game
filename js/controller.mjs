@@ -65,16 +65,22 @@ export class Controller {
     }
     static updataUser(user_id, column,value){
 
-        if(column.indexOf("id") != -1 && column != "img_id")return false
-
+        if(!column.indexOf("id") && column != "img_id")return false
         // let user = User.find(user_id)
         // user[column] = value
         User.currentUser()[column] = value
 
     }
+    static updateUsersProduct(usersProduct_id, column, value){
+
+        if( !column.indexOf("id") && column != "img_id")return false
+        let usersProduct = UsersProduct.find(usersProduct_id)
+        usersProduct[column] = value
+
+    }
     static updateUsersItem(usersItem_id, column,value){
 
-        if(column.indexOf("id") != -1 && column != "img_id")return false
+        if(!column.indexOf("id") && column != "img_id")return false
         let usersItem = UsersItem.find(usersItem_id)
         usersItem[column] = value;
 
@@ -83,6 +89,33 @@ export class Controller {
 
         User.currentUser().totalMoney -= price;
 
+    }
+    static lockUsersItem(usersItem_id){
+        let usersItem = UsersItem.find(usersItem_id)
+        Controller.updateUsersItem(usersItem_id, "isUnlocked", false)
+    }
+    //以下のアンロック処理はproductやitemの数が増えたり順番が変わったりすると対応できないのでよろしくないけど今回はしょうがないので次回の課題
+    static unlockSpecificUsersItems(product_id){
+        let user_id = User.currentUser().id
+        let abilityUsersItem;
+        let manpowerUsersItem;
+
+        switch(product_id){
+            case 1 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",4)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",7)[0]
+                break;
+            case 2 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",5)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",8)[0]
+                break;
+            case 3 :
+                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",6)[0]
+                manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",9)[0]
+                break;
+        }
+        Controller.updateUsersItem(abilityUsersItem.id, "isUnlocked", true)
+        Controller.updateUsersItem(manpowerUsersItem.id, "isUnlocked", true)
     }
 
 }

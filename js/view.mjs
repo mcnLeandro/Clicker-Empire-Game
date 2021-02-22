@@ -109,7 +109,7 @@ export class View {
         document.getElementById("itemInfoFrame").innerHTML =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${usersItems.reduce((usersItems,usersItem) => usersItems + ViewTemplate.item(usersItem),``)}
+                ${usersItems.reduce((usersItems,usersItem) => usersItem.isUnlocked ? usersItems + ViewTemplate.item(usersItem) : usersItems,``)}
                 
             </div>
         `
@@ -188,9 +188,10 @@ export class View {
                 else{
         
                     for(let i = 0; i < quantity ; i++) {
-                        let price = item.type().name != "Investiment" ? item.price : investimentPrice();
-                        Controller.userPay(price)
-                        Controller.createNewUsersItem(item.id);
+
+                        Controller.userPay(usersItem.price)
+                        usersItem.item().effection()
+
                     }
                     View.itemIndex()
                     View.userInfo()
@@ -225,7 +226,7 @@ export class View {
                         <div class="mt-2 d-flex justify-content-end ">
                             <div class="col-12 col-md-5 p-0 text-right">
                                 <p>How many would you like to purchase?</p>
-                                <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${item.stock}">
+                                <input id="itemQuantityInput" type="number" class="form-control ml-auto my-2" min="0" max="${usersItem.stock}">
                                 <p id="totalPriceP" class="border-bottom">Total : ${calculateTotalPrice().toLocaleString()}</p>
                                 <button id="purchaseBtn" class="btn btn-info w-100"> Purchase</button>
                             </div>
