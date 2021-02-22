@@ -20,7 +20,7 @@ export class Controller {
     static registration(){
 
         let userName = document.getElementById("nameInput").value
-        let newUser = new User(userName,20,0,50000)
+        let newUser = new User(userName,20,0,500000000000)
         User.add(newUser)
         
         let newTime = new Time(newUser.id,1,1000)
@@ -63,7 +63,7 @@ export class Controller {
         UsersProduct.add(newUsersProduct);
 
     }
-    static updataUser(user_id, column,value){
+    static updateUser(user_id, column,value){
 
         if(!column.indexOf("id") && column != "img_id")return false
         // let user = User.find(user_id)

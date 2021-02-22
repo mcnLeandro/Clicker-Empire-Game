@@ -190,6 +190,7 @@ export class View {
                     for(let i = 0; i < quantity ; i++) {
 
                         Controller.userPay(usersItem.price)
+                        Controller.updateUsersItem(usersItem.id,"owning", usersItem.owning + 1)
                         usersItem.item().effection()
 
                     }

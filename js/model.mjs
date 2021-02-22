@@ -158,9 +158,8 @@ export class ModelHelper{
         return function() {
 
             Controller.createNewUsersProduct(product_id)
-            console.log(this)
+
             let usersItem = UsersItem.where("user_id",User.currentUser().id, "item_id",this.id)[0];
-            console.log(usersItem)
 
             Controller.lockUsersItem(usersItem.id)
             Controller.unlockSpecificUsersItems(product_id)
@@ -221,7 +220,7 @@ export class ModelHelper{
 
             Controller.updateUsersItem(usersItem.id,"price",usersItemPrice)
 
-            let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.amount )
+            let totalPurchaseAmount = ModelHelper.dynamicSummation(ModelHelper.multiplication ,this.price, 1+itemPriceChange,1, usersItem.owning )
             let newReturn = totalPurchaseAmount*(returnPercentage/100)
             let beforeReturn = usersItem.amount == 1 ? 0 :  (totalPurchaseAmount - usersItem.price)*(returnPercentage/100)
             let additionalReturn = Math.round(newReturn - beforeReturn)
