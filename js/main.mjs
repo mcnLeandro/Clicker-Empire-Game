@@ -32,9 +32,9 @@ import { Controller } from './controller.mjs'
 ].forEach(type => Type.add(type));
 
 [
-    new Product(1,"Hamburger" , 0, 25 , 0),
-    new Product(2,"Lemonade"  , 0, 50 , 0),
-    new Product(3,"Ice Creame", 0, 150, 0),
+    new Product(1,"Hamburger" , 25 ),
+    new Product(2,"Lemonade"  , 50 ),
+    new Product(3,"Ice Creame", 150),
 ].forEach(product => Product.add(product));
 
 [

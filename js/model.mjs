@@ -75,16 +75,14 @@ export class UsersItem extends DB {
 
     constructor(user_id, item_id, owning){
 
-        let item = Item.find(item_id)
-
         super(null)
 
         this.user_id = user_id
         this.item_id = item_id
 
         this.owning  = owning == null ? 0 : owning ;
-        this.stock   = item.stock
-        this.price   = item.price
+        this.stock   = Item.find(item_id).stock
+        this.price   = Item.find(item_id).price
 
         super.belongsTo(User)
         super.belongsTo(Item)
@@ -109,17 +107,14 @@ export class Product extends DB {
 export class UsersProduct extends DB{
 
     constructor(user_id, product_id, amount, makerAmount){
-
-        let product = Product.find(product_id)
-
         super(null)
 
         this.user_id    = user_id
         this.product_id = product_id
-        this.img_id     = product.img_id
+        this.img_id     = Product.find(product_id).img_id
 
         this.amount      = amount == null ? 0 : amount ; 
-        this.earning     = product.earning
+        this.earning     = Product.find(product_id).earning
         this.makerAmount = makerAmount == null ? 0 : makerAmount ;
 
 
