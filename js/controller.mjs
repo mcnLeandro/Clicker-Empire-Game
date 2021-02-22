@@ -31,7 +31,7 @@ export class Controller {
             UsersItem.add(newUsersItem);
         });
 
-        // Controller.session(newUser.id)
+        Controller.session(newUser.id)
 
     }
     static login(){

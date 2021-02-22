@@ -111,7 +111,6 @@ export class UsersProduct extends DB{
 
         this.user_id    = user_id
         this.product_id = product_id
-        this.img_id     = Product.find(product_id).img_id
 
         this.amount      = amount == null ? 0 : amount ; 
         this.earning     = Product.find(product_id).earning
@@ -120,7 +119,6 @@ export class UsersProduct extends DB{
 
         super.belongsTo(User)
         super.belongsTo(Product)
-        super.belongsTo(Img)
     }
 
 }

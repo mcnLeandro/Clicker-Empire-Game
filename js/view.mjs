@@ -77,7 +77,7 @@ export class View {
                 </div>
             </div>
             <div class="slider-data d-none">
-                ${ User.currentUser().users_products().reduce((products,product) => products + ViewTemplate.productInfo(product),``)}
+                ${ User.currentUser().users_products().reduce((usersProducts,usersProduct) => usersProducts + ViewTemplate.productInfo(usersProduct),``)}
             </div>
             <div class="row  mx-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-11 my-2 mt-auto">
@@ -104,18 +104,20 @@ export class View {
     static itemIndex(){
 
 
+        let usersItems = User.currentUser().users_items()
+
         document.getElementById("itemInfoFrame").innerHTML =  `
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
 
-                ${Item.all().reduce((items,item) => items + ViewTemplate.item(item),``)}
+                ${usersItems.reduce((usersItems,usersItem) => usersItems + ViewTemplate.item(usersItem),``)}
                 
             </div>
         `
 
-        Item.all().forEach(item => {
-            if(document.querySelector(`#item${item.id} #itemShowBtn`)){
-                document.querySelector(`#item${item.id} #itemShowBtn`).addEventListener("click",()=>{
-                    View.itemShow(item);
+        usersItems.forEach(usersItem => {
+            if(document.querySelector(`#item${usersItem.item().id} #itemShowBtn`)){
+                document.querySelector(`#item${usersItem.item().id} #itemShowBtn`).addEventListener("click",()=>{
+                    View.itemShow(usersItem);
                 })
             };
             
@@ -123,31 +125,16 @@ export class View {
 
 
     }
-    static itemShow(item){
-        
-        let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
+    static itemShow(usersItem){
 
 
-        let investimentPrice = ()=>{
-
-            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
-
-        }
-        let owning = ()=>{
-
-            let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
-
-            if(usersItemSearchedArr.length == 0) return 0
-            else return usersItemSearchedArr[0].amount
-
-        }
         let inputControl = () =>{
 
             let input = document.querySelector("#itemQuantityInput");
             let value = input.value;
 
-            if(item.stock != null && item.stock !== Infinity){
-                let stock = item.stock - owning()
+            if(usersItem.stock !== Infinity){
+                let stock = usersItem.stock - usersItem.owning
                 if(value > stock) value = stock
                 else if(value < 0)     value = ""
             }
@@ -162,7 +149,7 @@ export class View {
             let value = document.querySelector("#itemQuantityInput").value;
 
             if(value == "" || value == null) return 0;
-            return (item.price * parseInt(value));
+            return (usersItem.price * parseInt(value));
 
         }
         let addEventListennerToControlInput = ()=>{
@@ -193,7 +180,7 @@ export class View {
                     View.alert("You don't have enough money !!!!")
 
                 }
-                else if(item.name != "Investiment" && item.stock < owning() + quantity){
+                else if(usersItem.stock !== Infinity && usersItem.stock < usersItem.owning + quantity){
 
                     View.alert("Out of stock !!")
 
@@ -204,7 +191,6 @@ export class View {
                         let price = item.type().name != "Investiment" ? item.price : investimentPrice();
                         Controller.userPay(price)
                         Controller.createNewUsersItem(item.id);
-                        console.log(!item.effection())
                     }
                     View.itemIndex()
                     View.userInfo()
@@ -225,16 +211,16 @@ export class View {
                             <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
                         </div>
                         <div class="col-12 col-lg-3 ml-lg-auto float-lg-right">
-                            <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
+                            <img src="${usersItem.item().img().url}" alt="" width="100%" height="" class="rounded">
                         </div>
                         <div class="p-2 col-7 ">
-                            <h2>${item.name}</h2>
-                            <p>Max Purchases : ${item.stock != null && item.stock !== Infinity ? item.stock.toLocaleString() : "∞"}</p>
-                            <p>Owning : ${owning().toLocaleString()}</p>
+                            <h2>${usersItem.item().name}</h2>
+                            <p>Max Purchases : ${usersItem.stock !==  Infinity ? usersItem.stock.toLocaleString() : "∞"}</p>
+                            <p>Owning : ${usersItem.owning.toLocaleString()}</p>
 
-                            <p>Price : ${item.type().name != "Investiment" ? item.price.toLocaleString() : investimentPrice().toLocaleString() }</p>
+                            <p>Price : ${usersItem.price.toLocaleString() }</p>
                             <h3>Effection</h3>
-                            <p>${item.introduction()}</p>
+                            <p>${usersItem.item().introduction()}</p>
                         </div>
                         <div class="mt-2 d-flex justify-content-end ">
                             <div class="col-12 col-md-5 p-0 text-right">
@@ -256,6 +242,7 @@ export class View {
         //showページ専用のaddEventListenner関数
         addEventListennerToControlInput()
         addEventListennerToRunPurchaseProcess()
+
 
     }
     static app(){
@@ -387,7 +374,7 @@ export class ViewTemplate {
 
 
         return `
-            <div class="text-center p-2 white">${usersProduct.amount} ${usersProduct.name.toLowerCase()}s</div>
+            <div class="text-center p-2 white">${usersProduct.amount} ${usersProduct.product().name.toLowerCase()}s</div>
             <div class="text-center p-2 white">${usersProduct.earning} yen per day </div>
         `
 
@@ -410,7 +397,7 @@ export class ViewTemplate {
 
         return `
             <div class="d-flex justify-content-center">
-                <img src="${usersProduct.img().url}" alt="" width="70%">
+                <img src="${usersProduct.product().img().url}" alt="" width="70%">
             </div>
         `
 
@@ -435,32 +422,18 @@ export class ViewTemplate {
 
 
     }
-    static item(item){
-
-        let usersItemSearchedArr = UsersItem.where("user_id",User.currentUser().id,"item_id",item.id)
-
-        let investimentPrice = ()=>{
-
-            return usersItemSearchedArr.length != 0 ? usersItemSearchedArr[0].price : item.price ;
-
-        }
-        let owning = ()=>{
-
-            if(usersItemSearchedArr.length == 0) return 0
-            else return usersItemSearchedArr[0].amount
-
-        }
+    static item(usersItem){
 
         return `
-            <section id="item${item.id}"  itemId="${item.id}" class="mt-2 p-2 rounded col-12">
+            <section id="item${usersItem.item().id}"  itemId="${usersItem.item().id}" class="mt-2 p-2 rounded col-12">
                 <div class="m-2 p-2 d-flex shadow bg-light-gray rounded">
                     <div class="col-3 p-3">
-                        <img src="${item.img().url}" alt="" width="100%" height="" class="rounded">
+                        <img src="${usersItem.item().img().url}" alt="" width="100%" height="" class="rounded">
                     </div>
                     <div class="p-3 col-6 ">
-                        <h2>${item.name}</h2>
-                        <p class="mt-3">Owning : ${owning().toLocaleString()}</p>
-                        <p>Price : ${item.type().name != "Investiment" ? item.price.toLocaleString() : investimentPrice().toLocaleString() } yen</p>
+                        <h2>${usersItem.item().name}</h2>
+                        <p class="mt-3">Owning : ${usersItem.owning.toLocaleString()}</p>
+                        <p>Price : ${usersItem.price.toLocaleString() } yen</p>
                     </div>
                     <div class="mt-auto mb-auto col-3">
                         <button id="itemShowBtn" class="btn btn-primary w-100">show</button>
