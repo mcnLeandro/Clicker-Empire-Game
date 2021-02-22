@@ -89,13 +89,8 @@ import { Controller } from './controller.mjs'
 Controller.session(1)
 
 //今からやること
-
-
-//- 最後にエラーがないかを確認する。
-//エラーとして alertを返した場合でもuserPay,createNewUsersItemが実行されしまうため修正が必要。Controllerでの条件分岐を作る必要がありそう。
-//
-
+//- productのクリックイベントの追加 
+//- time処理を追加
 ///6. ログイン機能を作る
 ///7. img探しをする
 ///showDBのリファクタリングも余裕があれば
-///5. もう一度このやることリストを作り直す。 
