@@ -20,7 +20,7 @@ export class Controller {
     static registration(){
 
         let userName = document.getElementById("nameInput").value
-        let newUser = new User(userName,20,0,500000000000)
+        let newUser = new User(userName,20,0,50000)
         User.add(newUser)
         
         let newTime = new Time(newUser.id,1,1000)

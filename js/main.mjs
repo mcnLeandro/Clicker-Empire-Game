@@ -9,13 +9,6 @@ import { Controller } from './controller.mjs'
 //DBの初期化 (initilize DB )
 //==============================================
 
-[
-    new User("Debug",20,0,50000000000000)
-].forEach(user => User.add(user));
-
-[
-    new Time(1,1,1000)
-].forEach(time => Time.add(time));
 
 [
     new Img("Hamburger" ,"https://cdn.pixabay.com/photo/2012/04/14/15/37/cheeseburger-34315_1280.png"),
@@ -59,11 +52,41 @@ import { Controller } from './controller.mjs'
 
 
 
+//-------------------------------------------
+[
+    new User("Debug",20,0,50000000000000)
+].forEach(user => User.add(user));
+
+[
+    new Time(1,1,1000)
+].forEach(time => Time.add(time));
+
+[
+    new UsersItem(1, 1),
+    new UsersItem(1, 2),
+    new UsersItem(1, 3),
+    new UsersItem(1, 4),
+    new UsersItem(1, 5),
+    new UsersItem(1, 6),
+    new UsersItem(1, 7),
+    new UsersItem(1, 8),
+    new UsersItem(1, 9),
+    new UsersItem(1, 10),
+    new UsersItem(1, 11),
+    new UsersItem(1, 12),
+    new UsersItem(1, 13),
+    new UsersItem(1, 14),
+    new UsersItem(1, 15),
+    new UsersItem(1, 16),
+    new UsersItem(1, 17)
+].forEach(usersItem => UsersItem.add(usersItem))
+
+//------------------------------------
 
 
 
-Controller.top()
-// Controller.session(1)
+// Controller.top()
+Controller.session(1)
 
 //今からやること
 
