@@ -44,13 +44,17 @@ footer{
     width:100%;
     flex-shrink: 0;
 }
+.productImg:active {
+    position: relative;
+    top: 3px;
+}
 
 
 
 .white{color: white;}
 
 .bg-light-gray {background-color: rgb(75,88,114);}
-.bg-heavy-gray  {background-color: rgb(37,46,58	);}
+.bg-heavy-gray {background-color: rgb(37,46,58 );}
 
 
 
@@ -87,9 +91,11 @@ footer{
     }
     75%{
         opacity: 0;
+        height: 100%;
     }
     100%{
         width: 0%;
+        height: 0%;
         opacity: 0;
     } 
 }

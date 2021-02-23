@@ -399,7 +399,7 @@ export class ViewTemplate {
 
         return `
             <div class="d-flex justify-content-center">
-                <img src="${usersProduct.product().img().url}" alt="" width="70%">
+                <img class="users-product-img productImg" users-product-id="${usersProduct.id}" src="${usersProduct.product().img().url}"  width="70%">
             </div>
         `
 
