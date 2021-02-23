@@ -56,7 +56,7 @@ export class View {
             <div class="row mx-1 px-2 justify-content-center bg-heavy-gray rounded">
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.name}</div>
                 <div class="col-xl col-lg-4 col-10 m-3 p-3 bg-light-gray rounded">${user.age.toLocaleString()} yrs old</div>
-                <div class="col-xl col-lg-10 col-10 m-3 p-3 bg-light-gray rounded">${user.time().day.toLocaleString()} days</div>
+                <div class="col-xl col-lg-10 col-10 m-3 p-3 bg-light-gray rounded">${user.time().getDate()}</div>
                 <div class="col-xl-11 col-10 m-3 p-3 bg-light-gray rounded">${user.totalMoney.toLocaleString()} yen</div>
             </div>
         `
@@ -188,7 +188,7 @@ export class View {
                 else{
         
                     for(let i = 0; i < quantity ; i++) {
-                        
+
                         Controller.userPay(usersItem.price)
                         Controller.updateUsersItem(usersItem.id,"owning", usersItem.owning + 1)
                         usersItem.item().effection()

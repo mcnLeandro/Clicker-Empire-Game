@@ -24,7 +24,7 @@ export class Controller {
         let newUser = new User(userName,20,0,50000)
         User.add(newUser)
         
-        let newTime = new Time(newUser.id,1,1000)
+        let newTime = new Time(newUser.id,1,1,2000,10000)
         Time.add(newTime)
 
         Item.all().forEach(item => {
@@ -63,12 +63,14 @@ export class Controller {
         let time = user.time()
 
         setInterval(function(){
-            
+
             let makersEarning = user.users_products().reduce((makersEarning,product) => makersEarning + product.makersEarning(),0)
             let userTotalMoney = user.totalMoney + user.earningPerDay + makersEarning
             Controller.updateUser(null,"totalMoney", userTotalMoney)
-            View.userInfo()
 
+            time.autoTimeupdator()
+
+            View.userInfo()
         },time.dayLongMS)
 
     }

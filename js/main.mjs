@@ -58,7 +58,7 @@ import { Controller } from './controller.mjs'
 ].forEach(user => User.add(user));
 
 [
-    new Time(1,1,1000)
+    new Time(1,1,1,2000,1000)
 ].forEach(time => Time.add(time));
 
 [

@@ -29,25 +29,35 @@ export class User extends DB {
 }
 export class Time extends DB {
 
-    constructor(user_id, day, dayLongMS){
+    constructor(user_id, day, month , year, dayLongMS){
         super(null)
 
         this.user_id  = user_id
 
         this.day = day
+        this.month = month
+        this.year = year
         this.dayLongMS = dayLongMS
 
         super.belongsTo(User)
     }
+    autoTimeupdator(){
 
-    getYear(){
+        this.day += 1
 
-    }
-    getMonth(){
+        if(this.day > 30){
+            this.month += 1
+            this.day = 0
+        }
+        if(this.month > 12){
+            this.year += 1
+            this.month = 0
+            this.user().age += 1
+        }
 
     }
     getDate(){
-
+        return `${this.day} / ${this.month} / ${this.year}`
     }
 
 }
