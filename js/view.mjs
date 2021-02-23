@@ -267,7 +267,7 @@ export class View {
                 ${message}
             <div>
         `
-        setInterval(function(){
+        setTimeout(function(){
             document.getElementById("alert").innerHTML = ""
         },10000)
 
