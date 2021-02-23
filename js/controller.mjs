@@ -42,6 +42,7 @@ export class Controller {
 
         document.getElementById("current-user-id").setAttribute("current-user-id", user_id )
         Controller.app()
+        Controller.startTime()
 
     }
     static destroySession(){
@@ -56,7 +57,21 @@ export class Controller {
 
     }
 
+    static startTime(){
 
+        let user = User.currentUser()
+        let time = user.time()
+
+        setInterval(function(){
+            
+            let makersEarning = user.users_products().reduce((makersEarning,product) => makersEarning + product.makersEarning(),0)
+            let userTotalMoney = user.totalMoney + user.earningPerDay + makersEarning
+            Controller.updateUser(null,"totalMoney", userTotalMoney)
+            View.userInfo()
+
+        },time.dayLongMS)
+
+    }
     static createNewUsersProduct(product_id){
 
         let user_id = User.currentUser().id

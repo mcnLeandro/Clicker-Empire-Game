@@ -173,7 +173,7 @@ export class View {
 
             document.getElementById("purchaseBtn").addEventListener("click",()=>{
 
-                let quantity = document.getElementById("itemQuantityInput").value
+                let quantity = parseInt(document.getElementById("itemQuantityInput").value)
 
                 if(User.currentUser().totalMoney < calculateTotalPrice()){
                     
@@ -188,7 +188,7 @@ export class View {
                 else{
         
                     for(let i = 0; i < quantity ; i++) {
-
+                        
                         Controller.userPay(usersItem.price)
                         Controller.updateUsersItem(usersItem.id,"owning", usersItem.owning + 1)
                         usersItem.item().effection()

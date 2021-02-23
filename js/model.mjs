@@ -122,7 +122,10 @@ export class UsersProduct extends DB{
         super.belongsTo(User)
         super.belongsTo(Product)
     }
-
+    makersEarning(){
+        let makersEarning = this.earning * this.makerAmount
+        return isNaN(makersEarning)? 0 : makersEarning
+    }
 }
 export class Type extends DB {
 
