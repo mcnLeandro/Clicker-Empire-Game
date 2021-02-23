@@ -1,14 +1,30 @@
 //=================================================
-//DBクラス (DB Class)
+//DBクラス
 //=================================================
 export class DB {
+
     static table = {};
     static idCounter = 1;
 
     constructor(id) {
         this.id = id;
     }
-
+    //=========================================================
+    // save関連
+    //=========================================================
+    static saveDB(){
+        return localStorage.setItem("mcnLeandro-ClickerEmpireGame-DB",JSON.stringify(DB.table))
+    }
+    static loadDB(){
+        DB.table = JSON.parse(localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB"))
+    }
+    static initializeDB(initializeFunction){
+        if(!!localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB")) DB.loadDB()
+        else initializeFunction()
+    }
+    //=========================================================
+    // メソッド
+    //=========================================================
     static initializeTable(key) {
         this.table[key] = {};
     }
@@ -42,6 +58,9 @@ export class DB {
         if(!this.table[className])return []
         return Object.keys(this.table[className]).map(key=> this.table[className][key])
     }
+    //=========================================================
+    // リレーション (Relation)
+    //=========================================================
     toKeyFormat(string) {
         let newString = string[0];
         let uppers = string.substring(1, string.length - 1).match(/[A-Z]/g)
