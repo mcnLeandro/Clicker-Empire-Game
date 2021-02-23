@@ -92,7 +92,6 @@ export class Controller {
 
     }
     static lockUsersItem(usersItem_id){
-        let usersItem = UsersItem.find(usersItem_id)
         Controller.updateUsersItem(usersItem_id, "isUnlocked", false)
     }
     //以下のアンロック処理はproductやitemの数が増えたり順番が変わったりすると対応できないのでよろしくないけど今回はしょうがないので次回の課題
@@ -103,15 +102,15 @@ export class Controller {
 
         switch(product_id){
             case 1 :
-                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",4)[0]
+                abilityUsersItem  = UsersItem.where("user_id",user_id, "item_id",4)[0]
                 manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",7)[0]
                 break;
             case 2 :
-                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",5)[0]
+                abilityUsersItem  = UsersItem.where("user_id",user_id, "item_id",5)[0]
                 manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",8)[0]
                 break;
             case 3 :
-                abilityUsersItem = UsersItem.where("user_id",user_id, "item_id",6)[0]
+                abilityUsersItem  = UsersItem.where("user_id",user_id, "item_id",6)[0]
                 manpowerUsersItem = UsersItem.where("user_id",user_id, "item_id",9)[0]
                 break;
         }
@@ -154,6 +153,7 @@ export class Render {
 
             Controller.updateUsersProduct(usersProduct_id, "amount", usersProduct.amount + 1)
             Controller.updateUser(null, "totalMoney", user.totalMoney + usersProduct.earning)
+
             View.userInfo()
             document.querySelector("#productSliderMain #productDescription").innerHTML = ViewTemplate.productDescription(usersProduct)
 
