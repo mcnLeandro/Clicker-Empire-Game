@@ -2,6 +2,7 @@ import { View } from './view.mjs'
 import { DB } from './db.mjs'
 import { User,Time,UsersItem,UsersProduct,Product,Item,Type,Img } from './model.mjs'
 import { ModelHelper } from './model.mjs'
+import { ViewTemplate } from './view.mjs'
 
 
 export class Controller {
@@ -144,12 +145,24 @@ export class Render {
     static clickToLoadItemIndex(elementId){
         document.getElementById(elementId).addEventListener("click",()=> View.itemIndex())
     }
+    static clickToMakeAProduct(){
+        let user = User.currentUser()
+        let usersProduct_id = parseInt(document.querySelector("#productSliderMain .sliderProduct").getAttribute("users-product-id"))
+        let usersProduct = UsersProduct.find(usersProduct_id);
 
+        document.querySelector("#productSliderMain img").addEventListener("click",() => {
+
+            Controller.updateUsersProduct(usersProduct_id, "amount", usersProduct.amount + 1)
+            Controller.updateUser(null, "totalMoney", user.totalMoney + usersProduct.earning)
+            View.userInfo()
+            document.querySelector("#productSliderMain #productDescription").innerHTML = ViewTemplate.productDescription(usersProduct)
+
+        })
+    }
 
     static clickToShowDBInConsole(elementId){
         document.getElementById(elementId).addEventListener("click",()=> console.log(DB.showDB()))
     }
-    
 
     static navLinks(){
         Render.clickToLogin("navLogin")

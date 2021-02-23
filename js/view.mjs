@@ -399,7 +399,7 @@ export class ViewTemplate {
 
         return `
             <div class="d-flex justify-content-center">
-                <img class="users-product-img productImg" users-product-id="${usersProduct.id}" src="${usersProduct.product().img().url}"  width="70%">
+                <img class="productImg" src="${usersProduct.product().img().url}"  width="70%">
             </div>
         `
 
@@ -409,7 +409,7 @@ export class ViewTemplate {
 
 
         return `
-            <div class="sliderProduct">
+            <div class="sliderProduct"　 users-product-id="${usersProduct.id}">
                 <div id="productDescription" class="col-11 my-3 bg-light-gray rounded">
                     ${ViewTemplate.productDescription(usersProduct)}
                 </div>

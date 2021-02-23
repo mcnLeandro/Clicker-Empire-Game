@@ -1,3 +1,4 @@
+import { Render } from "./controller.mjs";
 
 export class Slider {
 
@@ -30,6 +31,7 @@ export class Slider {
             this.main.append(this.sliderItems[0]);
             this.main.setAttribute("data-index", "0");
             this.extra.classList.add("deplete-animation")
+            Render.clickToMakeAProduct()
         }
         else {
 
@@ -39,10 +41,12 @@ export class Slider {
 
             this.leftBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(-1, "left");
+                Render.clickToMakeAProduct()
             });
             
             this.rightBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(+1, "right");
+                Render.clickToMakeAProduct()
             });
         }
     }
