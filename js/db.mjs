@@ -14,24 +14,24 @@ export class DB {
     //=========================================================
     //引用　https://qiita.com/suetake/items/52ec9d22e978ceb3111c
     
-    // static replacer(k, v) {
-    //     if (typeof v === 'function') return v.toString()
-    //     return v;
-    // }
-    // static reviver(k, v) {
-    //     if (typeof v === 'string' && (v.match(/^function/) || v.match(/^()=>/) || v.match(/^() =>/))) {
-    //         return Function.call(this, 'return ' + v)();
-    //     }
+    static replacer(k, v) {
+        // if (typeof v === 'function') return v.toString()
+        // return v;
+    }
+    static reviver(k, v) {
+        // if (typeof v === 'string' && (v.match(/^function/) || v.match(/^()=>/) || v.match(/^() =>/))) {
+        //     return Function.call(this, 'return ' + v)();
+        // }
     
-    //     return v;
-    // }
-    // static saveDB(){
-    //     localStorage.setItem("mcnLeandro-ClickerEmpireGame-DB",JSON.stringify(DB.table,this.replacer))
-    // }
-    // static loadDB(){
-    //     DB.table = JSON.parse(localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB"),DB.reviver)
-    // }
-    // static initializeDB(initializeFunction){
+        // return v;
+    }
+    static saveDB(){
+        // localStorage.setItem("mcnLeandro-ClickerEmpireGame-DB",JSON.stringify(DB.table,this.replacer))
+    }
+    static loadDB(){
+        // DB.table = JSON.parse(localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB"),DB.reviver)
+    }
+    static initializeDB(initializeFunction){
     //     if(!!localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB")) {
     //         DB.loadDB()
     //     }
@@ -40,7 +40,7 @@ export class DB {
     //         DB.saveDB()
     //     }
     //    // localStorage.removeItem("mcnLeandro-ClickerEmpireGame-DB")
-    // }
+    }
     //=========================================================
     // メソッド
     //=========================================================

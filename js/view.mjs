@@ -48,6 +48,9 @@ export class View {
     static login(){
         document.getElementById("body").innerHTML = ViewTemplate.base(`
             <div class="container h-90vh  shadow rounded overflow-auto p-5">
+                <div>
+                    <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
+                </div>
                 ${User.all().reduce((users,user) => users + `
                 <section id="${user.id}" class="bg-heavy-gray shadow rounded p-3 mb-3">
                     <h3>${user.name}</h3>
@@ -67,6 +70,7 @@ export class View {
             </div>
         `)
         Render.navLinks()
+        Render.clickToTop("goBackIcon")
 
     }
     static userInfo(){

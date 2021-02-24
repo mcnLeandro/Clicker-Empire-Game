@@ -151,6 +151,9 @@ export class Controller {
 
 
 export class Render {
+    static clickToTop(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> Controller.top())
+    }
     static clickToSignUp(elementId){
         document.getElementById(elementId).addEventListener("click",()=> Controller.signUp())
     }
