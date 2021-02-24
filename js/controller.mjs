@@ -21,7 +21,7 @@ export class Controller {
     static registration(){
 
         let userName = document.getElementById("nameInput").value
-        let newUser = new User(userName,20,0,50000)
+        let newUser = new User(userName,20,0,5000000)
         User.add(newUser)
         
         let newTime = new Time(newUser.id,1,1,2000,1000)
@@ -67,17 +67,35 @@ export class Controller {
 
         let user = User.currentUser()
         let time = user.time()
+        
 
         time.timer = setInterval(function(){
-            let makersEarning = user.users_products().reduce((makersEarning,product) => makersEarning + product.makersEarning(),0)
+
+            user.users_products().forEach(usersProduct => {
+                Controller.updateUsersProduct(usersProduct.id, "amount", usersProduct.amount + usersProduct.makerAmount);
+            });
+
+            let makersEarning = user.users_products().reduce((makersEarning,usersProduct) => makersEarning += usersProduct.makersEarning(),0)
+
+            console.log(makersEarning)//
+
             let userTotalMoney = user.totalMoney + user.earningPerDay + makersEarning
             Controller.updateUser(null,"totalMoney", userTotalMoney)
 
             time.autoTimeupdator()
 
+
+            if(document.querySelector("#productSliderMain .sliderProduct")){
+                let usersProduct_id = parseInt(document.querySelector("#productSliderMain .sliderProduct").getAttribute("users-product-id"))
+                let usersProduct = UsersProduct.find(usersProduct_id);
+                document.querySelector("#productSliderMain #productDescription").innerHTML = ViewTemplate.productDescription(usersProduct)
+            }
+
             View.userInfo()
 
             DB.saveDB()
+
+
         },time.dayLongMS)
 
     }

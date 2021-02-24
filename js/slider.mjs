@@ -38,6 +38,7 @@ export class Slider {
             this.main.append(this.sliderItems[1]);
             this.main.setAttribute("data-index", "1");
             this.slideJump(-1, "left");
+            Render.clickToMakeAProduct()
 
             this.leftBtn.addEventListener("click", function(){
                 this.sliderObj.slideJump(-1, "left");
