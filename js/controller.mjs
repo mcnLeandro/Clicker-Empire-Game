@@ -53,8 +53,8 @@ export class Controller {
         Controller.top()
         document.getElementById("current-user-id").setAttribute("current-user-id", "" )
 
-        DB.saveDB()
-        View.alert("success","saved Data")
+        // DB.saveDB()
+        // View.alert("success","saved Data")
 
     }
     static app(){
@@ -199,7 +199,7 @@ export class Render {
     }
 
     static navLinks(){
-        Render.clickToLogin("navLogin")
+        // Render.clickToLogin("navLogin")
         Render.clickToDestroySession("navLogout")
         Render.clickToShowDBInConsole("navDB")
         // Render.clickToShowLocalStrage("navLocal")

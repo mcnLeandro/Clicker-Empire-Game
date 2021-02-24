@@ -48,11 +48,11 @@ export class View {
     static login(){
         document.getElementById("body").innerHTML = ViewTemplate.base(`
             <div class="container h-90vh  shadow rounded overflow-auto p-5">
-                <div>
+                <div class="my-2">
                     <i id="goBackIcon" class="fas fa-arrow-circle-left fa-3x click-object"></i>
                 </div>
                 ${User.all().reduce((users,user) => users + `
-                <section id="${user.id}" class="bg-heavy-gray shadow rounded p-3 mb-3">
+                <section  class="bg-heavy-gray shadow rounded p-3 mb-3">
                     <h3>${user.name}</h3>
                     <div class="d-flex">
                         <div class="col-8">
@@ -61,8 +61,10 @@ export class View {
                             <li>Money &nbsp; : &nbsp; ${user.totalMoney.toLocaleString()}</li>
                         </div>
                         <div class="col-4 ">
-                            <button class="btn btn-info w-100 mb-2">Login</button>
+                            <button id="user${user.id}-login-btn" class="btn btn-info w-100 mb-2">Login</button>
+                            <!--
                             <button class="btn btn-danger w-100">Delete</button>
+                            -->
                         </div>
                     </div>
                 </section>
@@ -71,6 +73,12 @@ export class View {
         `)
         Render.navLinks()
         Render.clickToTop("goBackIcon")
+
+        User.all().forEach(user => {
+            if(document.getElementById(`user${user.id}-login-btn`)){
+                Render.clickToSession(`user${user.id}-login-btn`,user.id)
+            }
+        })
 
     }
     static userInfo(){
@@ -336,12 +344,14 @@ export class ViewTemplate {
 
         return `
         <ul class="nav">
+            <!--
             <li class="nav-item">
                 <a id="navLogin" class="nav-link active white text-2vw click-object" href="#">
                     <i class="fas fa-sign-in-alt text-2vw"></i>
                     Login
                 </a>
             </li>
+            -->
             <li class="nav-item ${!User.currentUser()? "d-none":""}">
                 <a id="navLogout" class="nav-link active white text-2vw click-object" href="#">
                     <i class="fas fa-sign-out-alt text-2vw"></i>
