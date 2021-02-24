@@ -21,10 +21,13 @@ export class Controller {
     static registration(){
 
         let userName = document.getElementById("nameInput").value
-        let newUser = new User(userName,20,0,5000000)
+        userName = userName == "" ? "unknown" : userName ;
+        let newUser = new User(userName,20,0,50000)
         User.add(newUser)
         
-        let newTime = new Time(newUser.id,1,1,2000,1000)
+        let dayLongMS = document.getElementById("timeInput").value
+        dayLongMS = dayLongMS != "" && dayLongMS.indexOf("-") == -1 && dayLongMS != "0" ? parseInt(dayLongMS)*1000 : 1000 ; 
+        let newTime = new Time(newUser.id,1,1,2000,dayLongMS)
         Time.add(newTime)
 
         Item.all().forEach(item => {
@@ -72,14 +75,14 @@ export class Controller {
         time.timer = setInterval(function(){
 
             user.users_products().forEach(usersProduct => {
+
                 Controller.updateUsersProduct(usersProduct.id, "amount", usersProduct.amount + usersProduct.makerAmount);
+
             });
 
             let makersEarning = user.users_products().reduce((makersEarning,usersProduct) => makersEarning += usersProduct.makersEarning(),0)
-
-            console.log(makersEarning)//
-
             let userTotalMoney = user.totalMoney + user.earningPerDay + makersEarning
+
             Controller.updateUser(null,"totalMoney", userTotalMoney)
 
             time.autoTimeupdator()

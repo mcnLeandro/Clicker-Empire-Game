@@ -34,6 +34,8 @@ export class View {
                     <div class="col-6 mt-auto mb-auto">
                         <h2>What's your Name ?</h2>
                         <input id="nameInput" type="text" class="form-control m-3">
+                        <h2>How long is a day ? (Second)</h2>
+                        <input id="timeInput" type="number" class="form-control m-3">
                         <button id="startGameBtn" class="btn btn-primary w-100 m-3">Start Game</button>
                     </div>
                 </div>
