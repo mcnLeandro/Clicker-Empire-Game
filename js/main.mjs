@@ -32,23 +32,23 @@ function initializeFunction(){
     ].forEach(product => Product.add(product));
 
     [
-        new Item( 1 , 1 , "Hamburger"               , 1   , 0             , true ,[1]          ),
-        new Item( 1 , 2 , "Lemonade"                , 1   , 60000         , true ,[2]          ),
-        new Item( 1 , 3 , "Ice Cream"               , 1   , 90000         , true ,[3]          ),
+        new Item( 1 , 1 , "Hamburger"               , 1   , 0             , true  ,[1]          ),
+        new Item( 1 , 2 , "Lemonade"                , 1   , 60000         , true  ,[2]          ),
+        new Item( 1 , 3 , "Ice Cream"               , 1   , 90000         , true  ,[3]          ),
         new Item( 2 , 1 , "Flip machine"            , 500 , 15000         , false ,[1,25]       ),
         new Item( 2 , 1 , "Lemonade Stand"          , 1000, 30000         , false ,[2,50]       ),
         new Item( 2 , 1 , "Ice Cream Truck"         , 500 , 100000        , false ,[3,150]      ),
         new Item( 3 , 1 , "Hamburger Coworker"      , 10  , 15000         , false ,[1]          ),
         new Item( 3 , 1 , "Lemonade Coworker"       , 10  , 20000         , false ,[2]          ),
         new Item( 3 , 1 , "Ice Cream Coworker"      , 10  , 30000         , false ,[3]          ),
-        new Item( 4 , 1 , "ETF Stock"               , null, 300000        , true ,[0.1,10]     ),
-        new Item( 4 , 1 , "ETF Bonds"               , null, 300000        , true ,[0.07,0]     ),
-        new Item( 5 , 1 , "House"                   , 100 , 20000000      , true ,[32000]      ),
-        new Item( 5 , 1 , "TownHouse"               , 100 , 40000000      , true ,[64000]      ),
-        new Item( 5 , 1 , "Mansion"                 , 20  , 250000000     , true ,[500000]     ),
-        new Item( 5 , 1 , "Industrial Space"        , 10  , 1000000000    , true ,[2200000]    ),
-        new Item( 5 , 1 , "Hotel Skyscraper"        , 5   , 10000000000   , true ,[25000000]   ),
-        new Item( 5 , 1 , "Bullet-Speed Sky Railway", 1   , 10000000000000, true ,[30000000000])
+        new Item( 4 , 1 , "ETF Stock"               , null, 300000        , true  ,[0.1,10]     ),
+        new Item( 4 , 1 , "ETF Bonds"               , null, 300000        , true  ,[0.07,0]     ),
+        new Item( 5 , 1 , "House"                   , 100 , 20000000      , true  ,[32000]      ),
+        new Item( 5 , 1 , "TownHouse"               , 100 , 40000000      , true  ,[64000]      ),
+        new Item( 5 , 1 , "Mansion"                 , 20  , 250000000     , true  ,[500000]     ),
+        new Item( 5 , 1 , "Industrial Space"        , 10  , 1000000000    , true  ,[2200000]    ),
+        new Item( 5 , 1 , "Hotel Skyscraper"        , 5   , 10000000000   , true  ,[25000000]   ),
+        new Item( 5 , 1 , "Bullet-Speed Sky Railway", 1   , 10000000000000, true  ,[30000000000])
     ].forEach(item => Item.add(item));
 }
 
@@ -86,13 +86,19 @@ function initializeFunction(){
 // //------------------------------------
 
 
-DB.initializeDB(initializeFunction)
+// DB.initializeDB(initializeFunction)
+initializeFunction()
 Controller.top()
-// Controller.session(1)
 
 //今からやること
-//- productのクリックイベントの追加 
-//- time処理を追加
 ///6. ログイン機能を作る
+
+//-ログインページのバックアイコンを追加する
+//- ログインページのクリックイベントを追加する。
+//- ヘッダーが物足りないのでnavを追加する。
+
+//- productクリックの時のburgurs買うとの挙動がおかしい気がする。
+//- workerが作った分のburgerとかを追加できてない
+
 ///7. img探しをする
 ///showDBのリファクタリングも余裕があれば

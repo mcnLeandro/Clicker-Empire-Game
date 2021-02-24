@@ -39,6 +39,8 @@ export class Time extends DB {
         this.year = year
         this.dayLongMS = dayLongMS
 
+        this.timer = 0;
+
         super.belongsTo(User)
     }
     autoTimeupdator(){

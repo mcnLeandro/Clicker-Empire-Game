@@ -24,7 +24,7 @@ export class Controller {
         let newUser = new User(userName,20,0,50000)
         User.add(newUser)
         
-        let newTime = new Time(newUser.id,1,1,2000,10000)
+        let newTime = new Time(newUser.id,1,1,2000,1000)
         Time.add(newTime)
 
         Item.all().forEach(item => {
@@ -36,19 +36,25 @@ export class Controller {
 
     }
     static login(){
-        //ログインページを表示
+
+        View.login()
+
     }
     static session(user_id){
 
         document.getElementById("current-user-id").setAttribute("current-user-id", user_id )
         Controller.app()
-        Controller.startTime()
+        Controller.startTimer()
 
     }
     static destroySession(){
 
-        document.getElementById("current-user-id").setAttribute("current-user-id", "" )
+        Controller.stopTimer()
         Controller.top()
+        document.getElementById("current-user-id").setAttribute("current-user-id", "" )
+
+        DB.saveDB()
+        View.alert("success","saved Data")
 
     }
     static app(){
@@ -57,13 +63,12 @@ export class Controller {
 
     }
 
-    static startTime(){
+    static startTimer(){
 
         let user = User.currentUser()
         let time = user.time()
 
-        setInterval(function(){
-
+        time.timer = setInterval(function(){
             let makersEarning = user.users_products().reduce((makersEarning,product) => makersEarning + product.makersEarning(),0)
             let userTotalMoney = user.totalMoney + user.earningPerDay + makersEarning
             Controller.updateUser(null,"totalMoney", userTotalMoney)
@@ -71,8 +76,14 @@ export class Controller {
             time.autoTimeupdator()
 
             View.userInfo()
+
+            DB.saveDB()
         },time.dayLongMS)
 
+    }
+    static stopTimer(){
+        let time = User.currentUser().time()
+        clearInterval(time.timer)
     }
     static createNewUsersProduct(product_id){
 
@@ -180,11 +191,15 @@ export class Render {
     static clickToShowDBInConsole(elementId){
         document.getElementById(elementId).addEventListener("click",()=> console.log(DB.showDB()))
     }
+    static clickToShowLocalStrage(elementId){
+        document.getElementById(elementId).addEventListener("click",()=> console.log(JSON.parse(localStorage.getItem("mcnLeandro-ClickerEmpireGame-DB"),DB.reviver)))
+    }
 
     static navLinks(){
         Render.clickToLogin("navLogin")
         Render.clickToDestroySession("navLogout")
         Render.clickToShowDBInConsole("navDB")
+        // Render.clickToShowLocalStrage("navLocal")
     }
 
 }

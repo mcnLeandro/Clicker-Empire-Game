@@ -13,7 +13,7 @@ export class View {
                 <div class="d-flex justify-content-center h-90vh">
                     <div class="col-6 mt-auto mb-auto">
                         <button id="newGameBtn" class="btn btn-primary w-100 m-3">NewGame</button>
-                        <button id="loginBtn" class="btn btn-primary w-100 m-3">Log in</button>
+                        <button id="loginBtn" class="btn btn-info w-100 m-3">Log in</button>
                     </div>
                 </div>
             `
@@ -46,7 +46,28 @@ export class View {
 
     }
     static login(){
-        //ログイン画面
+        document.getElementById("body").innerHTML = ViewTemplate.base(`
+            <div class="container h-90vh  shadow rounded overflow-auto p-5">
+                ${User.all().reduce((users,user) => users + `
+                <section id="${user.id}" class="bg-heavy-gray shadow rounded p-3 mb-3">
+                    <h3>${user.name}</h3>
+                    <div class="d-flex">
+                        <div class="col-8">
+                            <li>Age &nbsp;&nbsp;&nbsp : &nbsp; ${user.age}</li>
+                            <li>Date &nbsp;&nbsp; : &nbsp; ${user.time().getDate()}</li>
+                            <li>Money &nbsp; : &nbsp; ${user.totalMoney.toLocaleString()}</li>
+                        </div>
+                        <div class="col-4 ">
+                            <button class="btn btn-info w-100 mb-2">Login</button>
+                            <button class="btn btn-danger w-100">Delete</button>
+                        </div>
+                    </div>
+                </section>
+                `,``)}
+            </div>
+        `)
+        Render.navLinks()
+
     }
     static userInfo(){
 
@@ -177,12 +198,12 @@ export class View {
 
                 if(User.currentUser().totalMoney < calculateTotalPrice()){
                     
-                    View.alert("You don't have enough money !!!!")
+                    View.alert("danger","You don't have enough money !!!!")
 
                 }
                 else if(usersItem.stock !== Infinity && usersItem.stock < usersItem.owning + quantity){
 
-                    View.alert("Out of stock !!")
+                    View.alert("danger","Out of stock !!")
 
                 }
                 else{
@@ -259,17 +280,17 @@ export class View {
 
 
     }
-    static alert(message){
+    static alert(type,message){
 
 
         document.getElementById("alert").innerHTML = `
-            <div id="alert" class="alert alert-danger alert-fade-out" role="alert">
+            <div id="alert" class="alert alert-${type} alert-fade-out" role="alert">
                 ${message}
             <div>
         `
         setTimeout(function(){
             document.getElementById("alert").innerHTML = ""
-        },10000)
+        },6000)
 
     }
 
@@ -328,6 +349,13 @@ export class ViewTemplate {
                     showDB
                 </button>
             </li>
+            <!--
+            <li class="nav-item ">
+                <button id="navLocal" class="btn btn-info nav-link active white text-2vw click-object" href="#">
+                    showLocal
+                </button>
+            </li>
+            -->
         </ul>
         `
 
