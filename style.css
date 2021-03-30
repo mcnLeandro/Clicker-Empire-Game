@@ -115,9 +115,9 @@ footer{
 }
 
 @media screen and (min-width:990px) {
-    *{
+    /* *{
         font-size: 25px;
-    }
+    } */
     .product-info-section{
         height: calc(100vh - 10rem);
     }
