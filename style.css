@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     color: white;
-    font-size: 20px;
+    /* font-size: 20px; */
 }
 
 
@@ -27,12 +27,12 @@ footer{
 .ultra-lg{
     font-size: 10vw;
 }
-.text-2vw{
+/* .text-2vw{
     font-size: 2vw;
 }
 .text-3vw{
     font-size: 3vw;
-}
+} */
 .click-object:hover{
     color: #aaa;
 }
